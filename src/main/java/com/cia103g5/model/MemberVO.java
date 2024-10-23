@@ -1,4 +1,4 @@
-package com.cia103.model;
+package com.cia103g5.model;
 
 public class MemberVO {
 	private Integer mem_id;
