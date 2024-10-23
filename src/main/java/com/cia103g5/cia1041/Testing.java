@@ -1,4 +1,4 @@
-package com.cia103.cia1041;
+package com.cia103g5.cia1041;
 
 public class Testing {
 	private Integer memId;
