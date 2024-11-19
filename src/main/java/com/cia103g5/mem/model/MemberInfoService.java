@@ -31,7 +31,7 @@ public class MemberInfoService {
         }
     }
 
-	// 更新會員
+	// 更新會員資料
 	public void updateMember(MemberInfo memberInfo) {
 		repository.save(memberInfo);
 	}
