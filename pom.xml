@@ -8,11 +8,10 @@
     <groupId>com.fixlife</groupId>
     <artifactId>CIA103G5</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
-    <name>CIA103G5 Maven Webapp</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
+    <name>CIA103G5 占卜平台專案</name>
+    <url>https://github.com/POJUCHEN001/CIA103G5.git</url>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -30,10 +29,11 @@
     <dependencies>
 
         <!-- Spring Boot Starter -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
+        <!--    66行     -->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter</artifactId>-->
+        <!--        </dependency>-->
 
         <!-- Spring Boot Web Starter for web applications -->
         <dependency>
@@ -174,7 +174,7 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
-            <version>4.2.1</version>
+            <version>5.0.0</version>
         </dependency>
 
 
@@ -196,17 +196,12 @@
             <version>0.11.5</version>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
 
     </dependencies>
 
     <build>
         <finalName>CIA103G5</finalName>
-        <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+        <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
