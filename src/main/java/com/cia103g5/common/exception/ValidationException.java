@@ -19,4 +19,8 @@ public class ValidationException extends RuntimeException {
         this.code = code;
     }
 
+    public Integer getCode() {
+        return code;
+    }
+
 }
