@@ -1,4 +1,4 @@
-package com.cia103g5.common.exception;
+package com.cia103g5.aop.exception;
 
 import com.cia103g5.common.ApiResponse;
 import jakarta.persistence.EntityNotFoundException;
