@@ -1,10 +1,10 @@
 #\u8CC7\u6599\u5EAB\u9023\u63A5\u8A2D\u5B9A
-#spring.datasource.url=jdbc:mysql://localhost:3306/fixlife01?serverTimezone=Asia/Taipei
-#spring.datasource.username=root
-#spring.datasource.password=666666
+spring.datasource.url=jdbc:mysql://localhost:3306/FixLife_CIA103?serverTimezone=Asia/Taipei
+spring.datasource.username=root
+spring.datasource.password=666666
 
 # Server port
-server.port=8081
+server.port=8080
 
 # JPA configuration
 spring.jpa.hibernate.ddl-auto=update
