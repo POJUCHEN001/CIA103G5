@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,6 +43,7 @@ public class AdminVo {
     private Date registeredAt;
     private Integer status;
 
+    @NotNull(message = "dddddd")
     private String phone;
 
     @Transient
