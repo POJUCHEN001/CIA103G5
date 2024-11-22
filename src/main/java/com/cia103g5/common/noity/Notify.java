@@ -1,4 +1,4 @@
-package com.cia103g5.common.utils;
+package com.cia103g5.common.noity;
 
 import com.cia103g5.user.member.model.MemberVo;
 import com.cia103g5.user.memberNotify.model.MemberNotifyService;
