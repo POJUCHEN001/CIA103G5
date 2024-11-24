@@ -1,6 +1,6 @@
-package com.cia103g5.common.noity;
+package com.cia103g5.common.noitfy;
 
-import com.cia103g5.user.member.model.MemberVo;
+import com.cia103g5.user.member.model.MemberVO;
 import com.cia103g5.user.memberNotify.model.MemberNotifyService;
 import com.cia103g5.user.memberNotify.model.MemberNotifyVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class Notify {
      * @param title      通知標題
      * @param msg        通知內容
      */
-    public static void notifyByMember(NotifyType notifyType, MemberVo member, String title, String msg) {
+    public static void notifyByMember(NotifyType notifyType, MemberVO member, String title, String msg) {
         notifyByMember(notifyType, member, title, msg, false);
     }
 
@@ -50,7 +50,7 @@ public class Notify {
      * @param msg        通知內容
      * @param mail       是否發送郵件
      */
-    public static void notifyByMember(NotifyType notifyType, MemberVo member, String title, String msg, Boolean mail) {
+    public static void notifyByMember(NotifyType notifyType, MemberVO member, String title, String msg, Boolean mail) {
         // 創建通知實例
         MemberNotifyVo notify = new MemberNotifyVo();
         notify.setNotifyType(notifyType.name());
