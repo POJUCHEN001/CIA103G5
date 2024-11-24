@@ -14,9 +14,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+
 
 /**##########################
  #                          #
@@ -24,9 +22,7 @@ import lombok.ToString;
  #                          #
  ##########################*/
 
-@Getter
-@Setter
-@ToString
+
 @Entity
 @Table(name = "member_info")
 public class MemberVO implements Serializable {
@@ -38,11 +34,8 @@ public class MemberVO implements Serializable {
     @Column(name = "mem_id")
     private Integer memId;
 
-//    @Column(name = "ft_id")
-//    private Integer ftId;
-
     @Column(name = "name", nullable = false) // 名稱必填
-	@jakarta.validation.constraints.NotEmpty(message = "姓名請勿空白")
+	@NotEmpty(message = "姓名請勿空白")
 	@Pattern(regexp = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{2,10}$", message = "姓名: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間")
     private String name;
 

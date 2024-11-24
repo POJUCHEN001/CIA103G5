@@ -30,8 +30,7 @@ public class FtViolationRecord implements Serializable {
 	
 	@OneToOne
 	@JoinColumn(name = "violation_type_no", referencedColumnName = "violation_type_no", nullable = false)
-	@Column(name = "violation_type_no")
-	private String vioType;
+	private ViolationIndex vioType;
 	
 	@Column(name = "violated_time", insertable = false, updatable = false)
 	private Date violatedTime;
@@ -52,7 +51,7 @@ public class FtViolationRecord implements Serializable {
 	}
 
 
-	public FtViolationRecord(Integer ftVioRecordNo, Integer ftId, String vioType, Date violatedTime,
+	public FtViolationRecord(Integer ftVioRecordNo, Integer ftId, ViolationIndex vioType, Date violatedTime,
 			String violatedDesc, String punishment, Integer status) {
 		super();
 		this.ftVioRecordNo = ftVioRecordNo;
@@ -83,14 +82,14 @@ public class FtViolationRecord implements Serializable {
 	public void setFtId(Integer ftId) {
 		this.ftId = ftId;
 	}
+	
 
-
-	public String getVioType() {
+	public ViolationIndex getVioType() {
 		return vioType;
 	}
 
 
-	public void setVioType(String vioType) {
+	public void setVioType(ViolationIndex vioType) {
 		this.vioType = vioType;
 	}
 
@@ -141,9 +140,6 @@ public class FtViolationRecord implements Serializable {
 				+ ", violatedTime=" + violatedTime + ", violatedDesc=" + violatedDesc + ", punishment=" + punishment
 				+ ", status=" + status + "]";
 	}
-	
-	
-	
-	
+
 
 }

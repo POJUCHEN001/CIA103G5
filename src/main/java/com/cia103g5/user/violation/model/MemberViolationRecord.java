@@ -32,7 +32,6 @@ public class MemberViolationRecord implements Serializable {
 	
 	@OneToOne
 	@JoinColumn(name = "violation_type_no", referencedColumnName = "violation_type_no", nullable = false)
-	@Column(name = "violation_type_no")
 	private ViolationIndex vioType;
 	
 	@Column(name = "violated_time", insertable = false, updatable = false)
