@@ -1,4 +1,4 @@
-package com.cia103g5.common.utils;
+package com.cia103g5.common.noitfy;
 
 
 import lombok.Getter;

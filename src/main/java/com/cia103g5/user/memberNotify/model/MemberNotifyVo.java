@@ -1,6 +1,6 @@
 package com.cia103g5.user.memberNotify.model;
 
-import com.cia103g5.user.member.model.MemberVo;
+import com.cia103g5.user.member.model.MemberVO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +23,7 @@ public class MemberNotifyVo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mem_id", referencedColumnName = "mem_id")
-    private MemberVo member;
+    private MemberVO member;
 
     @Column(name = "title", length = 100)
     private String title;
@@ -44,7 +44,7 @@ public class MemberNotifyVo {
     // 無參構造函數
     public MemberNotifyVo() {}
 
-    public MemberNotifyVo(String notifyType, MemberVo member, String title, String content,
+    public MemberNotifyVo(String notifyType, MemberVO member, String title, String content,
                           Date notifiedTime, Integer status, Boolean seedMail) {
         this.notifyType = notifyType;
         this.member = member;
