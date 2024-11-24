@@ -3,6 +3,9 @@ package com.cia103g5.user.ftservice.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.cia103g5.user.ft.model.FtVO;
+import com.cia103g5.user.ftskill.model.FtSkillVO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
@@ -11,9 +14,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
-
-import com.cia103g5.user.ftinfo.model.FtInfo;
-import com.cia103g5.user.ftskill.model.FtSkillVO;
 
 // (ft_service) VO
 
@@ -25,7 +25,7 @@ public class FtServiceVO implements Serializable {
 	private FtServicePK pk; // 複合主鍵
 	private String skillDesc;
 	private byte[] photo;
-	private FtInfo ftInfo;		// 外來鍵關聯到 ft_info
+	private FtVO ftInfo;		// 外來鍵關聯到 ft_info
 	private FtSkillVO ftSkill;	// 外來鍵關聯到 ft_skill
 
 	public FtServiceVO() {
@@ -61,11 +61,11 @@ public class FtServiceVO implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "ft_id", insertable = false, updatable = false) // 外來鍵 ft_id
-	public FtInfo getFtInfo() {
+	public FtVO getFtInfo() {
 		return ftInfo;
 	}
 
-	public void setFtInfo(FtInfo ftInfo) {
+	public void setFtInfo(FtVO ftInfo) {
 		this.ftInfo = ftInfo;
 	}
 

@@ -11,8 +11,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import com.cia103g5.user.memberinfo.model.MemberInfo;
-import com.cia103g5.user.ftinfo.model.FtInfo;
+
+import com.cia103g5.user.ft.model.FtVO;
+import com.cia103g5.user.member.model.MemberVO;
 
 @Entity
 @Table(name = "fav_ft") // 表格名稱
@@ -20,8 +21,8 @@ public class FavFtVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private FavFtPK pk; // 複合主鍵
-    private MemberInfo memberInfo; // 外來鍵關聯到 member_info
-    private FtInfo ftInfo;         // 外來鍵關聯到 ft_info
+    private MemberVO memberInfo; // 外來鍵關聯到 member_info
+    private FtVO ftInfo;         // 外來鍵關聯到 ft_info
 
     public FavFtVO() {
     }
@@ -37,21 +38,21 @@ public class FavFtVO implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "mem_id", insertable = false, updatable = false) // 外來鍵 mem_id
-    public MemberInfoVO getMemberInfo() {
+    public MemberVO getMemberInfo() {
         return memberInfo;
     }
 
-    public void setMemberInfo(MemberInfoVO memberInfo) {
+    public void setMemberInfo(MemberVO memberInfo) {
         this.memberInfo = memberInfo;
     }
 
     @ManyToOne
     @JoinColumn(name = "ft_id", insertable = false, updatable = false) // 外來鍵 ft_id
-    public FtInfoVO getFtInfo() {
+    public FtVO getFtInfo() {
         return ftInfo;
     }
 
-    public void setFtInfo(FtInfoVO ftInfo) {
+    public void setFtInfo(FtVO ftInfo) {
         this.ftInfo = ftInfo;
     }
 }
