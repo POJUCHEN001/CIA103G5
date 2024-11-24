@@ -1,7 +1,9 @@
 package com.cia103g5.user.member.model;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface MemberRepository extends JpaRepository<MemberVO, Long> {
+@Repository
+public interface MemberRepository extends JpaRepository<MemberVO, Integer> {
 
 }

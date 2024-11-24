@@ -27,13 +27,11 @@ public class FtVO implements Serializable {
 	@Column(name = "ft_id")
 	private Integer ftId;
 
-	@OneToOne // 與 MemberInfo 的一對一關係
+	@OneToOne // 與 MemberVO 的一對一關係
 	@JoinColumn(name = "mem_id", referencedColumnName = "mem_id", nullable = false)
-	@Column(name = "mem_id")
 	private MemberVO member;
 
-//	@OneToOne
-	@Column(name = "ft_rank")
+	@Column(name = "ft_rank", nullable = false) // 直接映射資料庫欄位
 	private Integer ftRank;
 
 	@Column(name = "company_name", nullable = false)
@@ -88,7 +86,6 @@ public class FtVO implements Serializable {
 		return ftId;
 	}
 
-	
 	// 建構子
 	public FtVO() {
 		super();
@@ -120,7 +117,6 @@ public class FtVO implements Serializable {
 		this.price = price;
 	}
 
-	
 	// getter & setter
 	public void setFtId(Integer ftId) {
 		this.ftId = ftId;
