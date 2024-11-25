@@ -27,7 +27,6 @@ public class MemberViolationRecord implements Serializable {
 	
 	@OneToOne
 	@JoinColumn(name = "mem_id", referencedColumnName = "mem_id", nullable = false)
-	@Column(name = "mem_id")
 	private MemberVO memId;
 	
 	@OneToOne

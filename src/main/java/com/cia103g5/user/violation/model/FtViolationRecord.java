@@ -25,7 +25,6 @@ public class FtViolationRecord implements Serializable {
 	
 	@OneToOne
 	@JoinColumn(name = "ft_id", referencedColumnName = "ft_id", nullable = false)
-	@Column(name = "ft_id")
 	private Integer ftId;
 	
 	@OneToOne
