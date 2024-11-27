@@ -20,7 +20,7 @@ public class AvaliableTimeVO implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer avaliableTimeNo;
-    private FtVO ftVO;
+    private FtVO ftId;
     private Timestamp startTime;
     private Timestamp endTime;
     private String status;
@@ -42,12 +42,12 @@ public class AvaliableTimeVO implements java.io.Serializable {
     @ManyToOne
     @JoinColumn(name = "ft_id", nullable = false)
     @NotNull(message = "占卜師編號: 請勿空白")
-    public FtVO getFtVO() {
-        return ftVO;
+    public FtVO getFtId() {
+        return ftId;
     }
 
-    public void setFtVO(FtVO ftVO) {
-        this.ftVO = ftVO;
+    public void setFtId(FtVO ftId) {
+        this.ftId = ftId;
     }
 
     @Column(name = "start_time")
