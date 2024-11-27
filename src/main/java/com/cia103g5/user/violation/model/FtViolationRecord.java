@@ -3,6 +3,8 @@ package com.cia103g5.user.violation.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.cia103g5.user.ft.model.FtVO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +15,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "ft_violation_record")
+@Table(name = "violation_record_ft")
 public class FtViolationRecord implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -25,11 +27,11 @@ public class FtViolationRecord implements Serializable {
 	
 	@OneToOne
 	@JoinColumn(name = "ft_id", referencedColumnName = "ft_id", nullable = false)
-	private Integer ftId;
+	private FtVO ftId;
 	
 	@OneToOne
 	@JoinColumn(name = "violation_type_no", referencedColumnName = "violation_type_no", nullable = false)
-	private ViolationIndex vioType;
+	private ViolationVO vioTypeNo;
 	
 	@Column(name = "violated_time", insertable = false, updatable = false)
 	private Date violatedTime;
@@ -50,12 +52,12 @@ public class FtViolationRecord implements Serializable {
 	}
 
 
-	public FtViolationRecord(Integer ftVioRecordNo, Integer ftId, ViolationIndex vioType, Date violatedTime,
+	public FtViolationRecord(Integer ftVioRecordNo, FtVO ftId, ViolationVO vioTypeNo, Date violatedTime,
 			String violatedDesc, String punishment, Integer status) {
 		super();
 		this.ftVioRecordNo = ftVioRecordNo;
 		this.ftId = ftId;
-		this.vioType = vioType;
+		this.vioTypeNo = vioTypeNo;
 		this.violatedTime = violatedTime;
 		this.violatedDesc = violatedDesc;
 		this.punishment = punishment;
@@ -73,23 +75,23 @@ public class FtViolationRecord implements Serializable {
 	}
 
 
-	public Integer getFtId() {
+	public FtVO getFtId() {
 		return ftId;
 	}
 
 
-	public void setFtId(Integer ftId) {
+	public void setFtId(FtVO ftId) {
 		this.ftId = ftId;
 	}
-	
 
-	public ViolationIndex getVioType() {
-		return vioType;
+
+	public ViolationVO getVioTypeNo() {
+		return vioTypeNo;
 	}
 
 
-	public void setVioType(ViolationIndex vioType) {
-		this.vioType = vioType;
+	public void setVioTypeNo(ViolationVO vioTypeNo) {
+		this.vioTypeNo = vioTypeNo;
 	}
 
 
@@ -135,10 +137,10 @@ public class FtViolationRecord implements Serializable {
 
 	@Override
 	public String toString() {
-		return "FtViolationRecord [ftVioRecordNo=" + ftVioRecordNo + ", ftId=" + ftId + ", vioType=" + vioType
+		return "FtViolationRecord [ftVioRecordNo=" + ftVioRecordNo + ", ftId=" + ftId + ", vioTypeNo=" + vioTypeNo
 				+ ", violatedTime=" + violatedTime + ", violatedDesc=" + violatedDesc + ", punishment=" + punishment
 				+ ", status=" + status + "]";
 	}
-
+	
 
 }
