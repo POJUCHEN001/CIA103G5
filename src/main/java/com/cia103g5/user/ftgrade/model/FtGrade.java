@@ -1,4 +1,5 @@
-package com.cia103g5.user.ft.model;
+package com.cia103g5.user.ftgrade.model;
+
 
 import java.io.Serializable;
 
