@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Date;
 
+import com.cia103g5.user.ftgrade.model.FtGrade;
 import com.cia103g5.user.member.model.MemberVO;
 
 import jakarta.persistence.Column;
