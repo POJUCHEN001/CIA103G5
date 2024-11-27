@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "skill")
+@Table(name = "ft_skill")
 public class SkillVO implements java.io.Serializable {
 
     private static final long serialVersionUID = 1L;
