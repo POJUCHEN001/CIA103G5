@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "ft_skill")
+@Table(name = "ft_service")
 @IdClass(FtSkillVO.FtSkillId.class) // 使用內部類作為組合鍵
 public class FtSkillVO implements java.io.Serializable {
     private static final long serialVersionUID = 1L;

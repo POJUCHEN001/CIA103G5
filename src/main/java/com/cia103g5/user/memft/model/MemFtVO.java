@@ -15,7 +15,7 @@ import com.cia103g5.user.ft.model.FtVO;
 import com.cia103g5.user.member.model.MemberVO;
 
 @Entity
-@Table(name = "mem_ft")
+@Table(name = "fav_ft")
 @IdClass(MemFtVO.MemFtId.class) // 使用內部類作為組合鍵
 public class MemFtVO implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
