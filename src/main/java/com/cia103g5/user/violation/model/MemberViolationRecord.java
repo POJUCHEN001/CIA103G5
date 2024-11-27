@@ -69,6 +69,7 @@ public class MemberViolationRecord implements Serializable {
 	}
 
 
+
 	// getter & setter
 	public Integer getVioRecordNo() {
 		return vioRecordNo;
@@ -156,6 +157,8 @@ public class MemberViolationRecord implements Serializable {
 				+ ", violatedTime=" + violatedTime + ", violatedDesc=" + violatedDesc + ", punishment=" + punishment
 				+ ", punishDate=" + punishDate + ", status=" + status + "]";
 	}
+	
+	
 	
 
 }

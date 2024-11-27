@@ -32,7 +32,7 @@ public class FtVO implements Serializable {
 	private MemberVO member;
 
 	@Column(name = "ft_rank", nullable = false) // 直接映射資料庫欄位
-	private Integer ftRank;
+	private FtGrade ftRank;
 
 	@Column(name = "company_name", nullable = false)
 	private String company_name;
@@ -90,8 +90,8 @@ public class FtVO implements Serializable {
 	public FtVO() {
 		super();
 	}
-
-	public FtVO(Integer ftId, MemberVO member, Integer ftRank, String company_name, byte[] profile_photo,
+	
+	public FtVO(Integer ftId, MemberVO member, FtGrade ftRank, String company_name, byte[] profile_photo,
 			Date registeredTime, Date approvedTime, Integer status, byte[] businessPhoto, String businessNo,
 			String nickname, Integer canPost, Integer canRev, Integer canSell, Timestamp actionStartedDay,
 			Timestamp actionEndedDay, Integer bankAccount, String intro, Integer price) {
@@ -130,11 +130,11 @@ public class FtVO implements Serializable {
 		this.member = member;
 	}
 
-	public Integer getFtRank() {
+	public FtGrade getFtRank() {
 		return ftRank;
 	}
 
-	public void setFtRank(Integer ftRank) {
+	public void setFtRank(FtGrade ftRank) {
 		this.ftRank = ftRank;
 	}
 
@@ -276,5 +276,7 @@ public class FtVO implements Serializable {
 				+ actionStartedDay + ", actionEndedDay=" + actionEndedDay + ", bankAccount=" + bankAccount + ", intro="
 				+ intro + ", price=" + price + "]";
 	}
+
+	
 
 }

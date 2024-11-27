@@ -3,6 +3,8 @@ package com.cia103g5.user.violation.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.cia103g5.user.ft.model.FtVO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +27,7 @@ public class FtViolationRecord implements Serializable {
 	
 	@OneToOne
 	@JoinColumn(name = "ft_id", referencedColumnName = "ft_id", nullable = false)
-	private Integer ftId;
+	private FtVO ftId;
 	
 	@OneToOne
 	@JoinColumn(name = "violation_type_no", referencedColumnName = "violation_type_no", nullable = false)
@@ -50,7 +52,7 @@ public class FtViolationRecord implements Serializable {
 	}
 
 
-	public FtViolationRecord(Integer ftVioRecordNo, Integer ftId, ViolationIndex vioType, Date violatedTime,
+	public FtViolationRecord(Integer ftVioRecordNo, FtVO ftId, ViolationIndex vioType, Date violatedTime,
 			String violatedDesc, String punishment, Integer status) {
 		super();
 		this.ftVioRecordNo = ftVioRecordNo;
@@ -73,15 +75,15 @@ public class FtViolationRecord implements Serializable {
 	}
 
 
-	public Integer getFtId() {
+	public FtVO getFtId() {
 		return ftId;
 	}
 
 
-	public void setFtId(Integer ftId) {
+	public void setFtId(FtVO ftId) {
 		this.ftId = ftId;
 	}
-	
+
 
 	public ViolationIndex getVioType() {
 		return vioType;
