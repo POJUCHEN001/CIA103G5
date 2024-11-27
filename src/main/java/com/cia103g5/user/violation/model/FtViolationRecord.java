@@ -15,7 +15,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "ft_violation_record")
+@Table(name = "violation_record_ft")
 public class FtViolationRecord implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -31,7 +31,7 @@ public class FtViolationRecord implements Serializable {
 	
 	@OneToOne
 	@JoinColumn(name = "violation_type_no", referencedColumnName = "violation_type_no", nullable = false)
-	private ViolationIndex vioType;
+	private ViolationVO vioTypeNo;
 	
 	@Column(name = "violated_time", insertable = false, updatable = false)
 	private Date violatedTime;
@@ -52,12 +52,12 @@ public class FtViolationRecord implements Serializable {
 	}
 
 
-	public FtViolationRecord(Integer ftVioRecordNo, FtVO ftId, ViolationIndex vioType, Date violatedTime,
+	public FtViolationRecord(Integer ftVioRecordNo, FtVO ftId, ViolationVO vioTypeNo, Date violatedTime,
 			String violatedDesc, String punishment, Integer status) {
 		super();
 		this.ftVioRecordNo = ftVioRecordNo;
 		this.ftId = ftId;
-		this.vioType = vioType;
+		this.vioTypeNo = vioTypeNo;
 		this.violatedTime = violatedTime;
 		this.violatedDesc = violatedDesc;
 		this.punishment = punishment;
@@ -85,13 +85,13 @@ public class FtViolationRecord implements Serializable {
 	}
 
 
-	public ViolationIndex getVioType() {
-		return vioType;
+	public ViolationVO getVioTypeNo() {
+		return vioTypeNo;
 	}
 
 
-	public void setVioType(ViolationIndex vioType) {
-		this.vioType = vioType;
+	public void setVioTypeNo(ViolationVO vioTypeNo) {
+		this.vioTypeNo = vioTypeNo;
 	}
 
 
@@ -137,10 +137,10 @@ public class FtViolationRecord implements Serializable {
 
 	@Override
 	public String toString() {
-		return "FtViolationRecord [ftVioRecordNo=" + ftVioRecordNo + ", ftId=" + ftId + ", vioType=" + vioType
+		return "FtViolationRecord [ftVioRecordNo=" + ftVioRecordNo + ", ftId=" + ftId + ", vioTypeNo=" + vioTypeNo
 				+ ", violatedTime=" + violatedTime + ", violatedDesc=" + violatedDesc + ", punishment=" + punishment
 				+ ", status=" + status + "]";
 	}
-
+	
 
 }

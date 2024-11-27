@@ -51,21 +51,18 @@ public class MemberVO implements Serializable {
 	@NotEmpty(message = "E-mail請勿空白")
 	@Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "請輸入有效的 Email 格式")
     private String email;
-
-    @Column(name = "email_state")
-    private Integer emailState;
     
     @Column(name ="key")
     private String key;
+
+    @Column(name = "email_state")
+    private Integer emailState;
 
     @Column(name = "registered_time")
     private Date registeredTime;
     
     @Column(name = "photo")
     private byte[] photo;
-
-    @Column(name= "phone")
-    private String phonenumber;
 
     @Column(name = "gender")
 	@Min(value = 0, message = "性別只能為 0（不公開）、1（男）或 2（女）")
@@ -75,14 +72,17 @@ public class MemberVO implements Serializable {
 	@Column(name = "nickname", length = 50)
     private String nickname;
 
+	@Column(name = "status")
+	private Integer status;
+	
+	@Column(name= "phone")
+	private String phone;
+	
 	@Column(name = "points")
 	private Integer points;
 	
 	@Column(name = "bank_account", length = 50)
 	private String bankAccount;
-	
-	@Column(name = "status")
-    private Integer status;
 	
 	// 建構子
 	public MemberVO() {
@@ -94,9 +94,9 @@ public class MemberVO implements Serializable {
 			String account,
 			@NotEmpty(message = "密碼請勿空白") @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d@$!%*?&]{6,20}$", message = "密碼必須包含大小寫字母及數字，且長度需在6到20字元之間") String password,
 			@NotEmpty(message = "E-mail請勿空白") @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "請輸入有效的 Email 格式") String email,
-			String key, Integer emailState, Date registeredTime, byte[] photo, String phonenumber,
+			String key, Integer emailState, Date registeredTime, byte[] photo,
 			@Min(value = 0, message = "性別只能為 0（不公開）、1（男）或 2（女）") @Max(value = 2, message = "性別只能為 0（不公開）、1（男）或 2（女）") Integer gender,
-			String nickname, Integer points, String bankAccount, Integer status) {
+			String nickname, Integer status, String phone, Integer points, String bankAccount) {
 		super();
 		this.memId = memId;
 		this.name = name;
@@ -107,16 +107,14 @@ public class MemberVO implements Serializable {
 		this.emailState = emailState;
 		this.registeredTime = registeredTime;
 		this.photo = photo;
-		this.phonenumber = phonenumber;
 		this.gender = gender;
 		this.nickname = nickname;
+		this.status = status;
+		this.phone = phone;
 		this.points = points;
 		this.bankAccount = bankAccount;
-		this.status = status;
 	}
-	
 
-	// getter & setter
 	public Integer getMemId() {
 		return memId;
 	}
@@ -189,14 +187,6 @@ public class MemberVO implements Serializable {
 		this.photo = photo;
 	}
 
-	public String getPhonenumber() {
-		return phonenumber;
-	}
-
-	public void setPhonenumber(String phonenumber) {
-		this.phonenumber = phonenumber;
-	}
-
 	public Integer getGender() {
 		return gender;
 	}
@@ -211,6 +201,22 @@ public class MemberVO implements Serializable {
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public Integer getPoints() {
@@ -229,23 +235,15 @@ public class MemberVO implements Serializable {
 		this.bankAccount = bankAccount;
 	}
 
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
-	
 	@Override
 	public String toString() {
 		return "MemberVO [memId=" + memId + ", name=" + name + ", account=" + account + ", password=" + password
 				+ ", email=" + email + ", key=" + key + ", emailState=" + emailState + ", registeredTime="
-				+ registeredTime + ", photo=" + Arrays.toString(photo) + ", phonenumber=" + phonenumber + ", gender="
-				+ gender + ", nickname=" + nickname + ", points=" + points + ", bankAccount=" + bankAccount
-				+ ", status=" + status + "]";
+				+ registeredTime + ", photo=" + Arrays.toString(photo) + ", gender=" + gender + ", nickname=" + nickname
+				+ ", status=" + status + ", phone=" + phone + ", points=" + points + ", bankAccount=" + bankAccount
+				+ "]";
 	}
+
 	
 	
 }

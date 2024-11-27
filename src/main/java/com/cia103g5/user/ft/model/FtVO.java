@@ -29,16 +29,17 @@ public class FtVO implements Serializable {
 
 	@OneToOne // 與 MemberVO 的一對一關係
 	@JoinColumn(name = "mem_id", referencedColumnName = "mem_id", nullable = false)
-	private MemberVO member;
+	private MemberVO memberId;
 
-	@Column(name = "ft_rank", nullable = false) // 直接映射資料庫欄位
+	@OneToOne
+	@JoinColumn(name = "ft_rank", referencedColumnName = "ft_rank", nullable = false) // 直接映射資料庫欄位
 	private FtGrade ftRank;
 
 	@Column(name = "company_name", nullable = false)
-	private String company_name;
+	private String companyName;
 
-	@Column(name = "profile_photo")
-	private byte[] profile_photo;
+	@Column(name = "photo")
+	private byte[] photo;
 
 	@Column(name = "registered_time", insertable = false, updatable = false)
 	private Date registeredTime;
@@ -67,10 +68,10 @@ public class FtVO implements Serializable {
 	@Column(name = "can_sell")
 	private Integer canSell; // 0停用/未啟用 1啟用
 
-	@Column(name = "action_started_day")
+	@Column(name = "action_start_day")
 	private Timestamp actionStartedDay; // 用Timestamp 可支持到年月日時分秒比較精準 對於停權與否的操作較為嚴謹
 
-	@Column(name = "action_ended_day")
+	@Column(name = "action_end_day")
 	private Timestamp actionEndedDay; // 用Timestamp 理由同上
 
 	@Column(name = "bank_account")
@@ -90,17 +91,17 @@ public class FtVO implements Serializable {
 	public FtVO() {
 		super();
 	}
-	
-	public FtVO(Integer ftId, MemberVO member, FtGrade ftRank, String company_name, byte[] profile_photo,
-			Date registeredTime, Date approvedTime, Integer status, byte[] businessPhoto, String businessNo,
-			String nickname, Integer canPost, Integer canRev, Integer canSell, Timestamp actionStartedDay,
-			Timestamp actionEndedDay, Integer bankAccount, String intro, Integer price) {
+
+	public FtVO(Integer ftId, MemberVO memberId, FtGrade ftRank, String companyName, byte[] photo, Date registeredTime,
+			Date approvedTime, Integer status, byte[] businessPhoto, String businessNo, String nickname,
+			Integer canPost, Integer canRev, Integer canSell, Timestamp actionStartedDay, Timestamp actionEndedDay,
+			Integer bankAccount, String intro, Integer price) {
 		super();
 		this.ftId = ftId;
-		this.member = member;
+		this.memberId = memberId;
 		this.ftRank = ftRank;
-		this.company_name = company_name;
-		this.profile_photo = profile_photo;
+		this.companyName = companyName;
+		this.photo = photo;
 		this.registeredTime = registeredTime;
 		this.approvedTime = approvedTime;
 		this.status = status;
@@ -117,17 +118,12 @@ public class FtVO implements Serializable {
 		this.price = price;
 	}
 
-	// getter & setter
-	public void setFtId(Integer ftId) {
-		this.ftId = ftId;
+	public MemberVO getMemberId() {
+		return memberId;
 	}
 
-	public MemberVO getMember() {
-		return member;
-	}
-
-	public void setMember(MemberVO member) {
-		this.member = member;
+	public void setMemberId(MemberVO memberId) {
+		this.memberId = memberId;
 	}
 
 	public FtGrade getFtRank() {
@@ -138,20 +134,20 @@ public class FtVO implements Serializable {
 		this.ftRank = ftRank;
 	}
 
-	public String getCompany_name() {
-		return company_name;
+	public String getCompanyName() {
+		return companyName;
 	}
 
-	public void setCompany_name(String company_name) {
-		this.company_name = company_name;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
-	public byte[] getProfile_photo() {
-		return profile_photo;
+	public byte[] getPhoto() {
+		return photo;
 	}
 
-	public void setProfile_photo(byte[] profile_photo) {
-		this.profile_photo = profile_photo;
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
 	}
 
 	public Date getRegisteredTime() {
@@ -266,17 +262,20 @@ public class FtVO implements Serializable {
 		this.price = price;
 	}
 
-	@Override
-	public String toString() {
-		return "FtVO [ftId=" + ftId + ", member=" + member + ", ftRank=" + ftRank + ", company_name=" + company_name
-				+ ", profile_photo=" + Arrays.toString(profile_photo) + ", registeredTime=" + registeredTime
-				+ ", approvedTime=" + approvedTime + ", status=" + status + ", businessPhoto="
-				+ Arrays.toString(businessPhoto) + ", businessNo=" + businessNo + ", nickname=" + nickname
-				+ ", canPost=" + canPost + ", canRev=" + canRev + ", canSell=" + canSell + ", actionStartedDay="
-				+ actionStartedDay + ", actionEndedDay=" + actionEndedDay + ", bankAccount=" + bankAccount + ", intro="
-				+ intro + ", price=" + price + "]";
+	public void setFtId(Integer ftId) {
+		this.ftId = ftId;
 	}
 
+	@Override
+	public String toString() {
+		return "FtVO [ftId=" + ftId + ", memberId=" + memberId + ", ftRank=" + ftRank + ", companyName=" + companyName
+				+ ", photo=" + Arrays.toString(photo) + ", registeredTime=" + registeredTime + ", approvedTime="
+				+ approvedTime + ", status=" + status + ", businessPhoto=" + Arrays.toString(businessPhoto)
+				+ ", businessNo=" + businessNo + ", nickname=" + nickname + ", canPost=" + canPost + ", canRev="
+				+ canRev + ", canSell=" + canSell + ", actionStartedDay=" + actionStartedDay + ", actionEndedDay="
+				+ actionEndedDay + ", bankAccount=" + bankAccount + ", intro=" + intro + ", price=" + price + "]";
+	}
+	
 	
 
 }

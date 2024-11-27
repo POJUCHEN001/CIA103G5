@@ -8,13 +8,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "violation_index")
-public class ViolationIndex implements Serializable{
-
+public class ViolationVO implements Serializable{
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 自動生成主鍵
 	@Column(name = "violation_type_no")
@@ -23,20 +29,18 @@ public class ViolationIndex implements Serializable{
 	@Column(name = "violation_type")
 	private String vioType;
 	
-	// 建構子
-	public ViolationIndex() {
+
+	public ViolationVO() {
 		super();
 	}
-
 	
-	public ViolationIndex(Integer vioTypeNo, String vioType) {
+	public ViolationVO(Integer vioTypeNo, String vioType) {
 		super();
 		this.vioTypeNo = vioTypeNo;
 		this.vioType = vioType;
 	}
 
-
-	// getter & setter
+	// Getter & Setter
 	public Integer getVioTypeNo() {
 		return vioTypeNo;
 	}
@@ -53,11 +57,10 @@ public class ViolationIndex implements Serializable{
 		this.vioType = vioType;
 	}
 
-
 	@Override
 	public String toString() {
 		return "ViolationIndex [vioTypeNo=" + vioTypeNo + ", vioType=" + vioType + "]";
 	}
-	
+
 
 }
