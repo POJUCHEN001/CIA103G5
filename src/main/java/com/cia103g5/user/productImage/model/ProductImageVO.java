@@ -21,7 +21,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="product_image")
+@Table(name="prod_image")
 public class ProductImageVO {
 	
 	@Id

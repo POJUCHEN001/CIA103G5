@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Set;
+
+import com.cia103g5.user.ft.model.FtVO;
 import com.cia103g5.user.productImage.model.ProductImageVO;
 
 import jakarta.persistence.CascadeType;
@@ -15,6 +17,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
@@ -31,40 +35,24 @@ public class ProductVO {
 	@Column(name="prod_no")
 	@GeneratedValue(strategy =GenerationType.IDENTITY)//自增
 	private Integer prodNo;
-	
-	//fk-之後要用關聯表(manyToOne)
-	@Column(name="ft_id") 
-	private Integer ftId;
-	
-//	@ManyToOne
-//	@JoinColumn(name="ftId",referencedColumnName = "ftId")
-//  private FtInfo ftinfo;
+		
+	@ManyToOne
+	@JoinColumn(name="ft_id",referencedColumnName = "ft_id",nullable = false)
+	private FtVO ftId;
 	
 	
-	//html->text
-	@NotNull(message="商品名稱請勿空白")
-	@Pattern(regexp = "^[(\u4e00-\u9fa5)(a-zA-Z)]{1,15}$", message = "商品名稱僅可輸入文字訊息，長度15個字以內")
 	@Column(name="prod_name")
 	private String prodName;
 	
-	
-	//html->textArea
-	@NotNull(message="商品資訊請勿空白")
-	@Size(min=1,max=250,message="字數不可超過250個字")
+
 	@Column(name="prod_desc")
 	private String prodDesc;
 	
-	
-	//html->text:需禁止用文字
-	@Min(value=1,message="商品金額需大於0元")
-	@NotNull(message="商品價格請勿空白")
+
 	@Column(name="price")
 	private Integer price;
 	
-	
-	//html->number:只可選數字
-	@Min(value=0,message="商品庫存不可為負數")
-	@NotNull(message="商品庫存請勿空白")
+
 	@Column(name="available_quantity")
 	private Integer availableQuantity;
 	
@@ -89,8 +77,6 @@ public class ProductVO {
 	private Timestamp listedTime;
 	
 	
-	//下拉選單
-	@NotNull(message="商品狀態請勿空白")
 	@Column(name="status",nullable=false)
 	private Byte status;
 	
@@ -104,7 +90,7 @@ public class ProductVO {
 	}
 
 //	一格有參數建構子
-	public ProductVO(Integer prodNo, Integer ftId,String prodName,String prodDesc,Integer price,Integer availableQuantity,
+	public ProductVO(Integer prodNo, FtVO ftId,String prodName,String prodDesc,Integer price,Integer availableQuantity,
 	Integer soldQuantity, Integer rating, Integer ratingCount, Integer viewCount, Timestamp listedTime,Byte status) {
 	this.prodNo = prodNo;
 	this.ftId = ftId;
@@ -128,11 +114,11 @@ public class ProductVO {
 		this.prodNo = prodNo;
 	}
 
-	public Integer getFtId() {
+	public FtVO getFtId() {
 		return ftId;
 	}
 
-	public void setFtId(Integer ftId) {
+	public void setFtId(FtVO ftId) {
 		this.ftId = ftId;
 	}
 
@@ -211,6 +197,7 @@ public class ProductVO {
 	public Byte getStatus() {
 		return status;
 	}
+	
 
 	public void setStatus(Byte status) {
 		this.status = status;

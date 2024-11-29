@@ -1,6 +1,10 @@
 package com.cia103g5.user.orderDetails.model;
 
 import java.io.Serializable;
+import java.util.Set;
+
+
+import com.cia103g5.user.order.model.OrdersVO;
 import com.cia103g5.user.product.model.ProductVO;
 
 import jakarta.persistence.Column;
@@ -30,22 +34,38 @@ public class OrderDetailVO {
 	
 	@Column(name="rate_score")
 	private Integer rateScore;
-
-	//constructor
-	public OrderDetailVO(CompositeDetail compositekey,Integer price,Integer quantity,String rateContent,Integer rateScore) {
-		super();
-		this.compositekey=compositekey;
-		this.price =price;
-		this.quantity =quantity;
-		this.rateContent = rateContent;
-		this.rateScore =rateScore;
-	}
-
+	
+	
+	//新增退貨狀態
+	@Column(name="is_return",nullable = false)
+	private Byte isReturn;
+	
+	//新增退貨資訊
+	@Column(name="return_info")
+	private String returnInfo;
+	
+	//新增退貨資訊
+	@Column(name="return_photo",columnDefinition = "longblob")
+	private byte[] returnPhoto;
+	
 	//constructor
 	public  OrderDetailVO() {
 		
 	}
 	
+	public OrderDetailVO(CompositeDetail compositekey, Integer price, Integer quantity, String rateContent,
+			Integer rateScore, Byte isReturn, String returnInfo, byte[] returnPhoto) {
+		super();
+		this.compositekey = compositekey;
+		this.price = price;
+		this.quantity = quantity;
+		this.rateContent = rateContent;
+		this.rateScore = rateScore;
+		this.isReturn = isReturn;
+		this.returnInfo = returnInfo;
+		this.returnPhoto = returnPhoto;
+	}
+
 	public CompositeDetail getCompositekey() {
 		return compositekey;
 	}
@@ -86,6 +106,31 @@ public class OrderDetailVO {
 		this.rateScore = rateScore;
 	}
 
+	
+	public Byte getIsReturn() {
+		return isReturn;
+	}
+
+	public void setIsReturn(Byte isReturn) {
+		this.isReturn = isReturn;
+	}
+
+	public String getReturnInfo() {
+		return returnInfo;
+	}
+
+	public void setReturnInfo(String returnInfo) {
+		this.returnInfo = returnInfo;
+	}
+
+	public byte[] getReturnPhoto() {
+		return returnPhoto;
+	}
+
+	public void setReturnPhoto(byte[] returnPhoto) {
+		this.returnPhoto = returnPhoto;
+	}
+
 
 
 	//配置複合主鍵，實作serializable
@@ -94,10 +139,12 @@ public class OrderDetailVO {
 		
 		private static final long serialVersionUID = 1L;
 	
-		@Column(name="order_no")
-		private Integer orderNo;
+		//order_no本身也為FK
+		@ManyToOne
+		@JoinColumn(name="order_no",referencedColumnName="order_no")
+		private OrdersVO ordersVO;
 		
-		//prod_no本身也為fk
+		//prod_no本身也為FK
 		@ManyToOne
 		@JoinColumn(name="prod_no",referencedColumnName = "prod_no")
 		private ProductVO productVO;
@@ -106,18 +153,18 @@ public class OrderDetailVO {
 			super();
 		}
 
-		public CompositeDetail(Integer orderNo, ProductVO productVO) {
+		public CompositeDetail(OrdersVO orderNo, ProductVO productVO) {
 			super();
-			this.orderNo = orderNo;
+			this.ordersVO = orderNo;
 			this.productVO = productVO;
 		}
 
-		public Integer getOrderNo() {
-			return orderNo;
+		public OrdersVO getOrdersVO() {
+			return ordersVO;
 		}
 
-		public void setOrderNo(Integer orderNo) {
-			this.orderNo = orderNo;
+		public void setOrdersVO(OrdersVO orderNo) {
+			this.ordersVO = orderNo;
 		}
 
 		public ProductVO getProductVO() {
@@ -132,7 +179,7 @@ public class OrderDetailVO {
 		public int hashCode() {
 			final int prime =31;
 			int result =1;
-			result =prime*result +((orderNo == null) ? 0 : orderNo.hashCode());
+			result =prime*result +((ordersVO == null) ? 0 : ordersVO.hashCode());
 			result =prime*result +((productVO ==null) ? 0 : productVO.hashCode());		
 			return result;
 		}
@@ -146,7 +193,7 @@ public class OrderDetailVO {
 			if(obj!=null && getClass()==obj.getClass()) {
 				CompositeDetail compositekey =(CompositeDetail)obj;
 				
-				if(orderNo.equals(compositekey.orderNo)&& productVO.equals(compositekey.productVO)) {
+				if(ordersVO.equals(compositekey.ordersVO)&& productVO.equals(compositekey.productVO)) {
 					return true;
 				}
 			}
@@ -158,6 +205,10 @@ public class OrderDetailVO {
 		
 		
 	}
+	
+
+	
+	
 	
 	
 }
