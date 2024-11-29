@@ -2,11 +2,16 @@ package com.cia103g5.user.order.model;
 
 import java.sql.Timestamp;
 
+import com.cia103g5.user.ft.model.FtVO;
+import com.cia103g5.user.member.model.MemberVO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 
@@ -19,21 +24,15 @@ public class OrdersVO {
 	@GeneratedValue(strategy =GenerationType.IDENTITY)//自增
 	private Integer orderNo;
 	
-	//為fk，型別為會員，先設定為Integer
-	@Column(name="mem_id",nullable=false)
-	private Integer memId;
 	
-//	@ManyToOne
-//	@JoinColumn(name="memId",referencedColumnName = "memId")
-//	private MemberInfo memberinfo;
+	@ManyToOne
+	@JoinColumn(name="mem_id",referencedColumnName = "mem_id",nullable = false)
+	private MemberVO memId;
 	
-//	@ManyToOne
-//	@JoinColumn(name="ftId",referencedColumnName = "ftId")
-//  private FtInfo ftinfo;
+	@ManyToOne
+	@JoinColumn(name="ft_Id",referencedColumnName = "ft_id",nullable = false)
+	private FtVO ftId;
 	
-	//加到DB(groupfive裡面)fk，先設為Integer
-	@Column(name="ft_id",nullable=false)
-	private Integer ftId;
 		
 	@Column(name="order_amount")
 	private Integer orderAmount;
@@ -50,7 +49,7 @@ public class OrdersVO {
 	@Column(name="created_time",updatable = false)
 	private Timestamp createdTime;
 	
-	//0:待處理 1:以處理
+	//0:已成立 1:已取消 2:申請退貨 3:已結案
 	@Column(name="order_state",nullable=false)
 	private Byte orderState;
 	
@@ -59,7 +58,7 @@ public class OrdersVO {
 	@Column(name="payment",nullable=false)
 	private Byte payment;
 	
-	//0:待出貨 1:運送中 2:已送達
+	//0:待出貨 1:運送中 2:已送達 (3:待出貨->被取消) (4:已送達->申請退貨) (5:已送達->送出完成)
 	@Column(name="ship_status",nullable=false)
 	private Byte shipStatus;
 	
@@ -72,7 +71,7 @@ public class OrdersVO {
 
 	
 	
-	public OrdersVO(Integer orderNo, Integer memId, Integer ftId, Integer orderAmount, Integer realAmount,
+	public OrdersVO(Integer orderNo, MemberVO memId, FtVO ftId, Integer orderAmount, Integer realAmount,
 			Integer pointUse, String note, Timestamp createdTime, Byte orderState, Byte payment, Byte shipStatus,
 			Timestamp endedTime) {
 		super();
@@ -100,19 +99,19 @@ public class OrdersVO {
 		this.orderNo = orderNo;
 	}
 
-	public Integer getMemId() {
+	public MemberVO getMemId() {
 		return memId;
 	}
 
-	public void setMemId(Integer memId) {
+	public void setMemId(MemberVO memId) {
 		this.memId = memId;
 	}
 
-	public Integer getFtId() {
+	public FtVO getFtId() {
 		return ftId;
 	}
 
-	public void setFtId(Integer ftId) {
+	public void setFtId(FtVO ftId) {
 		this.ftId = ftId;
 	}
 
