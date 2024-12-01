@@ -39,7 +39,7 @@ public class ProductImageVO {
 	
 	
 	@Column(name="is_primary",nullable=false)
-	private Byte isPrimary;
+	private Boolean isPrimary;
 	
 	@Column(name="created_time",updatable=false)
 	private Timestamp createdTime;
@@ -52,7 +52,7 @@ public class ProductImageVO {
 
 
 	
-public ProductImageVO(Integer imageNo, ProductVO productVO, byte[] prodPic, Byte isPrimary, Timestamp createdTime) {
+public ProductImageVO(Integer imageNo, ProductVO productVO, byte[] prodPic, Boolean isPrimary, Timestamp createdTime) {
 		super();
 		this.imageNo = imageNo;
 		this.productVO = productVO;
@@ -86,11 +86,11 @@ public Integer getImageNo() {
 		this.prodPic = prodPic;
 	}
 
-	public Byte getIsPrimary() {
+	public Boolean getIsPrimary() {
 		return isPrimary;
 	}
 
-	public void setIsPrimary(Byte isPrimary) {
+	public void setIsPrimary(Boolean isPrimary) {
 		this.isPrimary = isPrimary;
 	}
 
