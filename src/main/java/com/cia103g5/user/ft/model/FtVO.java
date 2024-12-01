@@ -39,7 +39,7 @@ public class FtVO implements Serializable {
 	@Column(name = "company_name", nullable = false)
 	private String companyName;
 
-	@Column(name = "photo")
+	@Column(name = "photo", columnDefinition = "LONGBLOB")
 	private byte[] photo;
 
 	@Column(name = "registered_time", insertable = false, updatable = false)
@@ -51,10 +51,10 @@ public class FtVO implements Serializable {
 	@Column(name = "status") // 0待審核或停用 1啟用占卜師 2永久停權
 	private Integer status;
 
-	@Column(name = "business_photo", nullable = false)
+	@Column(name = "business_photo", columnDefinition = "LONGBLOB")
 	private byte[] businessPhoto;
 
-	@Column(name = "business_no", nullable = false)
+	@Column(name = "business_no")
 	private String businessNo;
 
 	@Column(name = "nickname")
@@ -70,10 +70,10 @@ public class FtVO implements Serializable {
 	private Integer canSell; // 0停用/未啟用 1啟用
 
 	@Column(name = "action_start_day")
-	private Timestamp actionStartedDay; // 用Timestamp 可支持到年月日時分秒比較精準 對於停權與否的操作較為嚴謹
+	private Date actionStartedDay; // 用Timestamp 可支持到年月日時分秒比較精準 對於停權與否的操作較為嚴謹
 
 	@Column(name = "action_end_day")
-	private Timestamp actionEndedDay; // 用Timestamp 理由同上
+	private Date actionEndedDay; // 用Timestamp 理由同上
 
 	@Column(name = "bank_account")
 	private Integer bankAccount;
@@ -223,15 +223,15 @@ public class FtVO implements Serializable {
 		this.canSell = canSell;
 	}
 
-	public Timestamp getActionStartedDay() {
+	public Date getActionStartedDay() {
 		return actionStartedDay;
 	}
 
-	public void setActionStartedDay(Timestamp actionStartedDay) {
+	public void setActionStartedDay(Date actionStartedDay) {
 		this.actionStartedDay = actionStartedDay;
 	}
 
-	public Timestamp getActionEndedDay() {
+	public Date getActionEndedDay() {
 		return actionEndedDay;
 	}
 
