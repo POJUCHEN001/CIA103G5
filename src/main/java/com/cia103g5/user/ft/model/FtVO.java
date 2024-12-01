@@ -272,6 +272,4 @@ public class FtVO implements Serializable {
 				+ actionEndedDay + ", bankAccount=" + bankAccount + ", intro=" + intro + ", price=" + price + "]";
 	}
 
-
-
 }
