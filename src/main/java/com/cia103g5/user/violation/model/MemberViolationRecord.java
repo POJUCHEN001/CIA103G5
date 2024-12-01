@@ -32,17 +32,17 @@ public class MemberViolationRecord implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "violation_type_no", referencedColumnName = "violation_type_no", nullable = false)
 	private ViolationVO vioTypeNo;
+
+	@Column(name = "violation_desc")
+	private String violatedDesc;
 	
 	@Column(name = "violated_time", insertable = false, updatable = false)
 	private Date violatedTime;
 	
-	@Column(name = "violation_desc")
-	private String violatedDesc;
-	
 	@Column(name = "punishment")
 	private String punishment;
 	
-	@Column(name = "punish_date")
+	@Column(name = "punishment_time")
 	private Date punishDate;
 	
 	@Column(name = "status")	// 未審核:0 已審核:1
@@ -50,22 +50,26 @@ public class MemberViolationRecord implements Serializable {
 
 	
 	// 建構子
+	
 	public MemberViolationRecord() {
 		super();
 	}
-
-	public MemberViolationRecord(Integer vioRecordNo, MemberVO memberId, ViolationVO vioTypeNo, Date violatedTime,
-			String violatedDesc, String punishment, Date punishDate, Integer status) {
+	
+	public MemberViolationRecord(Integer vioRecordNo, MemberVO memberId, ViolationVO vioTypeNo, String violatedDesc,
+			Date violatedTime, String punishment, Date punishDate, Integer status) {
 		super();
 		this.vioRecordNo = vioRecordNo;
 		this.memberId = memberId;
 		this.vioTypeNo = vioTypeNo;
-		this.violatedTime = violatedTime;
 		this.violatedDesc = violatedDesc;
+		this.violatedTime = violatedTime;
 		this.punishment = punishment;
 		this.punishDate = punishDate;
 		this.status = status;
 	}
+
+
+	// Getter & Setter
 
 	public Integer getVioRecordNo() {
 		return vioRecordNo;
@@ -91,20 +95,20 @@ public class MemberViolationRecord implements Serializable {
 		this.vioTypeNo = vioTypeNo;
 	}
 
-	public Date getViolatedTime() {
-		return violatedTime;
-	}
-
-	public void setViolatedTime(Date violatedTime) {
-		this.violatedTime = violatedTime;
-	}
-
 	public String getViolatedDesc() {
 		return violatedDesc;
 	}
 
 	public void setViolatedDesc(String violatedDesc) {
 		this.violatedDesc = violatedDesc;
+	}
+
+	public Date getViolatedTime() {
+		return violatedTime;
+	}
+
+	public void setViolatedTime(Date violatedTime) {
+		this.violatedTime = violatedTime;
 	}
 
 	public String getPunishment() {
@@ -130,7 +134,8 @@ public class MemberViolationRecord implements Serializable {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-
+	
+	
 	@Override
 	public String toString() {
 		return "MemberViolationRecord [vioRecordNo=" + vioRecordNo + ", memberId=" + memberId + ", vioTypeNo="
