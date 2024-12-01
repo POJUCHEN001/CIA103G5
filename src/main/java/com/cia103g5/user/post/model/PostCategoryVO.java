@@ -1,4 +1,4 @@
-package com.cia103g5.user.article.model;
+package com.cia103g5.user.post.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -6,10 +6,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ *
+ * ＶＯ對不上，這是錯誤的
+ * 註解請加上，要正確映射到資料庫
+ *
+ */
+
 // 將此類別標記為一個 JPA 實體（Entity），這樣它可以映射到資料庫的表格
 @Entity
 @Table(name = "post_category") // 指定對應的資料表名稱為 "post_category"
-public class PostCategory {
+public class PostCategoryVO {
 
     // 指定 categoryNo 欄位為主鍵
     @Id
@@ -19,22 +26,6 @@ public class PostCategory {
     // 定義資料庫的欄位，用來存放類別名稱
     private String categoryName; // 類別名稱，例如 "塔羅板" 或 "星座板"
 
-    // Getter 和 Setter 方法用於訪問和設置類別的屬性
-    public int getCategoryNo() {
-        return categoryNo;
-    }
-
-    public void setCategoryNo(int categoryNo) {
-        this.categoryNo = categoryNo;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
 }
 
 

@@ -3,7 +3,7 @@ package com.cia103g5.common.permissions;
 import com.cia103g5.aop.exception.ValidationException;
 import com.cia103g5.common.jwt.JwtUtil;
 import com.cia103g5.user.admin.model.AdminService;
-import com.cia103g5.user.admin.model.AdminVo;
+import com.cia103g5.user.admin.model.AdminVO;
 import com.cia103g5.user.adminPermission.model.AdminPermissionService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,7 +57,7 @@ public class PermissionsAspect {
 
             // 管理員 ID
             String userId = claims.get("userId", String.class);
-            AdminVo adminVo = adminService.findById(Integer.valueOf(userId));
+            AdminVO adminVo = adminService.findById(Integer.valueOf(userId));
             if (adminVo == null) {
                 throw new ValidationException(401, "管理員不存在");
             }

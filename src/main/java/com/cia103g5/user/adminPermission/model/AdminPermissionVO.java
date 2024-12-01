@@ -1,6 +1,6 @@
 package com.cia103g5.user.adminPermission.model;
 
-import com.cia103g5.user.admin.model.AdminVo;
+import com.cia103g5.user.admin.model.AdminVO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +20,7 @@ import java.util.Date;
 @Entity
 @Table(name = "admin_permission")
 @IdClass(AdminPermissionId.class)
-public class AdminPermissionVo {
+public class AdminPermissionVO {
 
     @Id
     @Column(name = "admin_id")
@@ -32,7 +32,7 @@ public class AdminPermissionVo {
 
     @ManyToOne
     @JoinColumn(name = "admin_id", insertable = false, updatable = false)
-    private AdminVo adminVo;
+    private AdminVO adminVo;
 
     @ManyToOne
     @JoinColumn(name = "perm_node", insertable = false, updatable = false)

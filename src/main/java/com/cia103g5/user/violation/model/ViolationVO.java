@@ -18,22 +18,22 @@ import lombok.ToString;
 @Entity
 @Table(name = "violation_index")
 public class ViolationVO implements Serializable{
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 自動生成主鍵
 	@Column(name = "violation_type_no")
 	private Integer vioTypeNo;
-	
+
 	@Column(name = "violation_type")
 	private String vioType;
-	
+
 
 	public ViolationVO() {
 		super();
 	}
-	
+
 	public ViolationVO(Integer vioTypeNo, String vioType) {
 		super();
 		this.vioTypeNo = vioTypeNo;
@@ -55,11 +55,6 @@ public class ViolationVO implements Serializable{
 
 	public void setVioType(String vioType) {
 		this.vioType = vioType;
-	}
-
-	@Override
-	public String toString() {
-		return "ViolationIndex [vioTypeNo=" + vioTypeNo + ", vioType=" + vioType + "]";
 	}
 
 

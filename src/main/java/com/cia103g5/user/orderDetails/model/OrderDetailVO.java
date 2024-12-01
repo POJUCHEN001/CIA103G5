@@ -22,37 +22,37 @@ public class OrderDetailVO {
 	@EmbeddedId
 	//配置複合主鍵
 	private CompositeDetail compositekey;
-			
+
 	@Column(name="price")
 	private Integer price;
-	
+
 	@Column(name="quantity")
 	private Integer quantity;
-	
+
 	@Column(name="rate_content")
 	private String rateContent;
-	
+
 	@Column(name="rate_score")
 	private Integer rateScore;
-	
-	
+
+
 	//新增退貨狀態
 	@Column(name="is_return",nullable = false)
 	private Byte isReturn;
-	
+
 	//新增退貨資訊
 	@Column(name="return_info")
 	private String returnInfo;
-	
+
 	//新增退貨資訊
 	@Column(name="return_photo",columnDefinition = "longblob")
 	private byte[] returnPhoto;
-	
+
 	//constructor
 	public  OrderDetailVO() {
-		
+
 	}
-	
+
 	public OrderDetailVO(CompositeDetail compositekey, Integer price, Integer quantity, String rateContent,
 			Integer rateScore, Byte isReturn, String returnInfo, byte[] returnPhoto) {
 		super();
@@ -106,7 +106,7 @@ public class OrderDetailVO {
 		this.rateScore = rateScore;
 	}
 
-	
+
 	public Byte getIsReturn() {
 		return isReturn;
 	}
@@ -136,14 +136,14 @@ public class OrderDetailVO {
 	//配置複合主鍵，實作serializable
 	@Embeddable
 	public static class CompositeDetail implements Serializable{
-		
+
 		private static final long serialVersionUID = 1L;
-	
+
 		//order_no本身也為FK
 		@ManyToOne
 		@JoinColumn(name="order_no",referencedColumnName="order_no")
 		private OrdersVO ordersVO;
-		
+
 		//prod_no本身也為FK
 		@ManyToOne
 		@JoinColumn(name="prod_no",referencedColumnName = "prod_no")
@@ -180,7 +180,7 @@ public class OrderDetailVO {
 			final int prime =31;
 			int result =1;
 			result =prime*result +((ordersVO == null) ? 0 : ordersVO.hashCode());
-			result =prime*result +((productVO ==null) ? 0 : productVO.hashCode());		
+			result =prime*result +((productVO ==null) ? 0 : productVO.hashCode());
 			return result;
 		}
 
@@ -189,26 +189,26 @@ public class OrderDetailVO {
 			if(this ==obj) {
 				return true;
 			}
-			
+
 			if(obj!=null && getClass()==obj.getClass()) {
-				CompositeDetail compositekey =(CompositeDetail)obj;
-				
-				if(ordersVO.equals(compositekey.ordersVO)&& productVO.equals(compositekey.productVO)) {
+				CompositeDetail compositeKey =(CompositeDetail)obj;
+
+				if(ordersVO.equals(compositeKey.ordersVO)&& productVO.equals(compositeKey.productVO)) {
 					return true;
 				}
 			}
-			
-			
+
+
 			return false;
 		}
-		
-		
-		
-	}
-	
 
-	
-	
-	
-	
+
+
+	}
+
+
+
+
+
+
 }

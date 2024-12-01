@@ -59,7 +59,7 @@ public class Notify {
         notify.setContent(msg);
         notify.setNotifiedTime(new Date());
         notify.setStatus(0); // 未讀
-        notify.setSeedMail(mail != null && mail);
+        notify.setSendMail(mail != null && mail);
 
         // 保存到數據庫
         memberNotifyService.save(notify);

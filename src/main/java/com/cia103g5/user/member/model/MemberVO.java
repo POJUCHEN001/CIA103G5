@@ -4,12 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -28,7 +23,7 @@ import jakarta.validation.constraints.Pattern;
 public class MemberVO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mem_id")
@@ -51,39 +46,40 @@ public class MemberVO implements Serializable {
 	@NotEmpty(message = "E-mail請勿空白")
 	@Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "請輸入有效的 Email 格式")
     private String email;
-    
+
     @Column(name ="key")
     private String key;
 
-    @Column(name = "email_state")
+    @Column(name = "email_state", columnDefinition = "TINYINT")
     private Integer emailState;
 
     @Column(name = "registered_time")
     private Date registeredTime;
-    
+
+	@Lob
     @Column(name = "photo", columnDefinition = "LONGBLOB")
     private byte[] photo;
 
-    @Column(name = "gender")
+    @Column(name = "gender", columnDefinition = "TINYINT")
 	@Min(value = 0, message = "性別只能為 0（不公開）、1（男）或 2（女）")
 	@Max(value = 2, message = "性別只能為 0（不公開）、1（男）或 2（女）")
     private Integer gender;
-    
+
 	@Column(name = "nickname", length = 50)
     private String nickname;
 
-	@Column(name = "status")
+	@Column(name = "status", columnDefinition = "TINYINT")
 	private Integer status;
-	
+
 	@Column(name= "phone")
 	private String phone;
-	
+
 	@Column(name = "points")
 	private Integer points;
-	
+
 	@Column(name = "bank_account", length = 50)
 	private String bankAccount;
-	
+
 	// 建構子
 	public MemberVO() {
 		super();
@@ -244,8 +240,4 @@ public class MemberVO implements Serializable {
 				+ "]";
 	}
 
-	
-
-	
-	
 }

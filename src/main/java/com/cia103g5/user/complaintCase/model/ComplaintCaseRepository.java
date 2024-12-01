@@ -17,21 +17,21 @@ public interface ComplaintCaseRepository extends JpaRepository<ComplaintCase, In
     Integer totoCount();
 
 
-    @Query("SELECT new org.cia103.dto.ComplaintCaseDto(" +
+    @Query("SELECT new com.cia103g5.user.complaintCase.model.ComplaintCaseDto(" +
             "c.caseNo, m.memId, m.nickname, a.adminId, a.name, ct.caseTypeNo, ct.caseTypeName, " +
             "c.status,c.caseTitle, c.caseContent, c.caseResult, c.filedAt, c.completedAt) " +
             "FROM ComplaintCase c " +
-            "JOIN MemberVo m ON c.memId = m.memId " +
-            "LEFT JOIN AdminVo a ON c.adminId = a.adminId " +
+            "JOIN MemberVO m ON c.memId = m.memId " +
+            "LEFT JOIN AdminVO a ON c.adminId = a.adminId " +
             "JOIN CaseType ct ON c.caseTypeNo = ct.caseTypeNo")
     List<ComplaintCaseDto> findAllComplaintCases();
 
-    @Query("SELECT new org.cia103.dto.ComplaintCaseDto(" +
+    @Query("SELECT new com.cia103g5.user.complaintCase.model.ComplaintCaseDto(" +
             "c.caseNo, m.memId, m.nickname, a.adminId, a.name, ct.caseTypeNo, ct.caseTypeName, " +
             "c.status, c.caseTitle, c.caseContent, c.caseResult, c.filedAt, c.completedAt) " +
             "FROM ComplaintCase c " +
-            "JOIN MemberVo m ON c.memId = m.memId " +
-            "LEFT JOIN AdminVo a ON c.adminId = a.adminId " +
+            "JOIN MemberVO m ON c.memId = m.memId " +
+            "LEFT JOIN AdminVO a ON c.adminId = a.adminId " +
             "JOIN CaseType ct ON c.caseTypeNo = ct.caseTypeNo " +
             "WHERE (:caseNo IS NULL OR c.caseNo = :caseNo) " +
             "AND (:memId IS NULL OR m.memId = :memId) " +

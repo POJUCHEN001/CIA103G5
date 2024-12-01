@@ -1,7 +1,7 @@
 package com.cia103g5.user.adminPermission.model;
 
 import com.cia103g5.aop.exception.ValidationException;
-import com.cia103g5.user.admin.model.AdminVo;
+import com.cia103g5.user.admin.model.AdminVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +35,7 @@ public class AdminPermissionService {
 
 
     //獲取管理員 權限表
-    public Set<String> getAdminPermissionsList(AdminVo adminVo) {
+    public Set<String> getAdminPermissionsList(AdminVO adminVo) {
         String hashKey = String.valueOf(adminVo.getAdminId());
         String permissionsJson;
 
@@ -71,7 +71,7 @@ public class AdminPermissionService {
     }
 
     // 獲取所有權限，並根據管理員擁有權限設定布林值
-    public Map<String, List<AdminPermissionType>> getPermissionsAll(AdminVo adminVo) {
+    public Map<String, List<AdminPermissionType>> getPermissionsAll(AdminVO adminVo) {
 
         Set<String> adminPermissionsList = getAdminPermissionsList(adminVo);
 
@@ -99,7 +99,7 @@ public class AdminPermissionService {
      * @param adminVo 目標管理員
      * @param permissions 送回來的表單
      */
-    public void savePermissions(AdminVo adminVo, Map<String, List<AdminPermissionType>> permissions) {
+    public void savePermissions(AdminVO adminVo, Map<String, List<AdminPermissionType>> permissions) {
         // 獲取管理員權限表
         Set<String> adminPermissionsSet = getAdminPermissionsList(adminVo);
         permissions.forEach((key, value) -> {
@@ -109,7 +109,7 @@ public class AdminPermissionService {
                     adminPermissionRepository.deleteByAdminIdAndPermNode(adminVo.getAdminId(), adminPermissionType.getPermNode());
                 }
                 if (!adminPermissionsSet.contains(adminPermissionType.getPermNode()) && adminPermissionType.getHasPermission()) {
-                    AdminPermissionVo adminPermissionVo = new AdminPermissionVo();
+                    AdminPermissionVO adminPermissionVo = new AdminPermissionVO();
                     adminPermissionVo.setAdminVo(adminVo);
                     adminPermissionVo.setPermissionType(adminPermissionType);
                     adminPermissionVo.setPermEffect(new Date());
