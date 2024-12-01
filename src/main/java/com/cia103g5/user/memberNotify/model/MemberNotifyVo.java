@@ -32,26 +32,26 @@ public class MemberNotifyVo {
     private String content;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "notified_time", nullable = false)
+    @Column(name = "notify_time", nullable = false)
     private Date notifiedTime;
 
-    @Column(name = "status", nullable = false, columnDefinition = "TINYINT DEFAULT 0")
+    @Column(name = "status", nullable = false, columnDefinition = "TINYINT")
     private Integer status;
 
-    @Column(name = "seed_mail", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
-    private Boolean seedMail;
+    @Column(name = "send_mail", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
+    private Boolean sendMail;
 
     // 無參構造函數
     public MemberNotifyVo() {}
 
     public MemberNotifyVo(String notifyType, MemberVO member, String title, String content,
-                          Date notifiedTime, Integer status, Boolean seedMail) {
+                          Date notifiedTime, Integer status, Boolean sendMail) {
         this.notifyType = notifyType;
         this.member = member;
         this.title = title;
         this.content = content;
         this.notifiedTime = notifiedTime;
         this.status = status;
-        this.seedMail = seedMail;
+        this.sendMail = sendMail;
     }
 }

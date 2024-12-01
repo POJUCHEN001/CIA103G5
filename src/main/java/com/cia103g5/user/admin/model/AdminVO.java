@@ -21,7 +21,7 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "admin_info")
-public class AdminVo {
+public class AdminVO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

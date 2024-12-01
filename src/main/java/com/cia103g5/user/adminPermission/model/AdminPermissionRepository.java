@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface AdminPermissionRepository extends JpaRepository<AdminPermissionVo, Integer> {
+public interface AdminPermissionRepository extends JpaRepository<AdminPermissionVO, Integer> {
 
 
     @Query("SELECT p.permissionType.permNode " +
-            "FROM AdminPermissionVo p " +
+            "FROM AdminPermissionVO p " +
             "WHERE p.adminVo.adminId = :adminId")
     Set<String> findPermissionNodesByAdminId(@Param("adminId") Integer adminId);
 
@@ -25,7 +25,7 @@ public interface AdminPermissionRepository extends JpaRepository<AdminPermission
 
 
     @Modifying
-    @Query("DELETE FROM AdminPermissionVo ap WHERE ap.adminVo.adminId = :adminId AND ap.permissionType.permNode = :permNode")
+    @Query("DELETE FROM AdminPermissionVO ap WHERE ap.adminVo.adminId = :adminId AND ap.permissionType.permNode = :permNode")
     void deleteByAdminIdAndPermNode(@Param("adminId") Integer adminId, @Param("permNode") String permNode);
 
 

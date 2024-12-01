@@ -17,15 +17,15 @@ public class AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
-    public AdminVo findById(Integer id) {
+    public AdminVO findById(Integer id) {
         return adminRepository.findById(id).orElse(null);
     }
 
-    public List<AdminVo> findAll() {
+    public List<AdminVO> findAll() {
         return adminRepository.findAll();
     }
 
-    public void save(AdminVo admin) {
+    public void save(AdminVO admin) {
         adminRepository.save(admin);
     }
 }

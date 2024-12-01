@@ -1,13 +1,22 @@
-package com.cia103g5.user.article.model;
+package com.cia103g5.user.post.model;
 
 import jakarta.persistence.*;
 
+/**
+ *
+ * ＶＯ對不上，這是錯誤的
+ * 註解請加上，要正確映射到資料庫
+ *
+ */
+
+
 @Entity
 @Table(name = "post_pic") // 對應資料庫中的 post_pic 表格
-public class PostPic {
+public class PostPicVO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 主鍵自動生成
+    @Column(name = "pic_no") // 指定對應的資料表欄位名稱
     private int picNo; // 圖片編號 (主鍵)
 
     @Column(name = "post_no", nullable = false) // 關聯到文章編號

@@ -7,7 +7,7 @@ spring.datasource.password=666666
 server.port=8080
 
 # JPA configuration
-spring.jpa.hibernate.ddl-auto=update
+spring.jpa.hibernate.ddl-auto=validate
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 

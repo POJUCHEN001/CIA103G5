@@ -8,14 +8,7 @@ import java.util.Date;
 import com.cia103g5.user.ftgrade.model.FtGrade;
 import com.cia103g5.user.member.model.MemberVO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ft_info")
@@ -24,7 +17,7 @@ public class FtVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO) // 資料庫自增
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // 資料庫自增
 	@Column(name = "ft_id")
 	private Integer ftId;
 
@@ -39,7 +32,8 @@ public class FtVO implements Serializable {
 	@Column(name = "company_name", nullable = false)
 	private String companyName;
 
-	@Column(name = "photo")
+	@Lob
+	@Column(name = "photo", nullable = false, columnDefinition = "LONGBLOB")
 	private byte[] photo;
 
 	@Column(name = "registered_time", insertable = false, updatable = false)
@@ -48,10 +42,11 @@ public class FtVO implements Serializable {
 	@Column(name = "approved_time", insertable = false, updatable = false)
 	private Date approvedTime;
 
-	@Column(name = "status") // 0待審核或停用 1啟用占卜師 2永久停權
+	@Column(name = "status", columnDefinition = "TINYINT") // 0待審核或停用 1啟用占卜師 2永久停權
 	private Integer status;
 
-	@Column(name = "business_photo", nullable = false)
+	@Lob
+	@Column(name = "business_photo", nullable = false, columnDefinition = "LONGBLOB")
 	private byte[] businessPhoto;
 
 	@Column(name = "business_no", nullable = false)
@@ -60,13 +55,13 @@ public class FtVO implements Serializable {
 	@Column(name = "nickname")
 	private String nickname;
 
-	@Column(name = "can_post")
+	@Column(name = "can_post", columnDefinition = "TINYINT")
 	private Integer canPost; // 0停用/未啟用 1啟用
 
-	@Column(name = "can_rev")
+	@Column(name = "can_rev", columnDefinition = "TINYINT")
 	private Integer canRev; // 0停用/未啟用 1啟用
 
-	@Column(name = "can_sell")
+	@Column(name = "can_sell", columnDefinition = "TINYINT")
 	private Integer canSell; // 0停用/未啟用 1啟用
 
 	@Column(name = "action_start_day")
@@ -76,7 +71,7 @@ public class FtVO implements Serializable {
 	private Timestamp actionEndedDay; // 用Timestamp 理由同上
 
 	@Column(name = "bank_account")
-	private Integer bankAccount;
+	private String bankAccount;
 
 	@Column(name = "intro")
 	private String intro;
@@ -96,7 +91,7 @@ public class FtVO implements Serializable {
 	public FtVO(Integer ftId, MemberVO memberId, FtGrade ftRank, String companyName, byte[] photo, Date registeredTime,
 			Date approvedTime, Integer status, byte[] businessPhoto, String businessNo, String nickname,
 			Integer canPost, Integer canRev, Integer canSell, Timestamp actionStartedDay, Timestamp actionEndedDay,
-			Integer bankAccount, String intro, Integer price) {
+			String bankAccount, String intro, Integer price) {
 		super();
 		this.ftId = ftId;
 		this.memberId = memberId;
@@ -239,11 +234,11 @@ public class FtVO implements Serializable {
 		this.actionEndedDay = actionEndedDay;
 	}
 
-	public Integer getBankAccount() {
+	public String getBankAccount() {
 		return bankAccount;
 	}
 
-	public void setBankAccount(Integer bankAccount) {
+	public void setBankAccount(String bankAccount) {
 		this.bankAccount = bankAccount;
 	}
 
@@ -276,7 +271,7 @@ public class FtVO implements Serializable {
 				+ canRev + ", canSell=" + canSell + ", actionStartedDay=" + actionStartedDay + ", actionEndedDay="
 				+ actionEndedDay + ", bankAccount=" + bankAccount + ", intro=" + intro + ", price=" + price + "]";
 	}
-	
-	
+
+
 
 }
