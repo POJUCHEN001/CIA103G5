@@ -32,7 +32,7 @@ public class MemberVO implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mem_id")
-    private Integer memId;
+    private Integer memberId;
 
     @Column(name = "name", nullable = false) // 名稱必填
 	@NotEmpty(message = "姓名請勿空白")
@@ -61,7 +61,7 @@ public class MemberVO implements Serializable {
     @Column(name = "registered_time")
     private Date registeredTime;
     
-    @Column(name = "photo")
+    @Column(name = "photo", columnDefinition = "LONGBLOB")
     private byte[] photo;
 
     @Column(name = "gender")
@@ -89,7 +89,7 @@ public class MemberVO implements Serializable {
 		super();
 	}
 
-	public MemberVO(Integer memId,
+	public MemberVO(Integer memberId,
 			@NotEmpty(message = "姓名請勿空白") @Pattern(regexp = "^[(一-龥)(a-zA-Z0-9_)]{2,10}$", message = "姓名: 只能是中、英文字母、數字和_ , 且長度必需在2到10之間") String name,
 			String account,
 			@NotEmpty(message = "密碼請勿空白") @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d@$!%*?&]{6,20}$", message = "密碼必須包含大小寫字母及數字，且長度需在6到20字元之間") String password,
@@ -98,7 +98,7 @@ public class MemberVO implements Serializable {
 			@Min(value = 0, message = "性別只能為 0（不公開）、1（男）或 2（女）") @Max(value = 2, message = "性別只能為 0（不公開）、1（男）或 2（女）") Integer gender,
 			String nickname, Integer status, String phone, Integer points, String bankAccount) {
 		super();
-		this.memId = memId;
+		this.memberId = memberId;
 		this.name = name;
 		this.account = account;
 		this.password = password;
@@ -115,12 +115,12 @@ public class MemberVO implements Serializable {
 		this.bankAccount = bankAccount;
 	}
 
-	public Integer getMemId() {
-		return memId;
+	public Integer getMemberId() {
+		return memberId;
 	}
 
-	public void setMemId(Integer memId) {
-		this.memId = memId;
+	public void setMemberId(Integer memberId) {
+		this.memberId = memberId;
 	}
 
 	public String getName() {
@@ -237,12 +237,14 @@ public class MemberVO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "MemberVO [memId=" + memId + ", name=" + name + ", account=" + account + ", password=" + password
+		return "MemberVO [memberId=" + memberId + ", name=" + name + ", account=" + account + ", password=" + password
 				+ ", email=" + email + ", key=" + key + ", emailState=" + emailState + ", registeredTime="
 				+ registeredTime + ", photo=" + Arrays.toString(photo) + ", gender=" + gender + ", nickname=" + nickname
 				+ ", status=" + status + ", phone=" + phone + ", points=" + points + ", bankAccount=" + bankAccount
 				+ "]";
 	}
+
+	
 
 	
 	
