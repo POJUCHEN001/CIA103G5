@@ -24,7 +24,7 @@ public class FtVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO) // 資料庫自增
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // 資料庫自增
 	@Column(name = "ft_id")
 	private Integer ftId;
 
@@ -76,7 +76,7 @@ public class FtVO implements Serializable {
 	private Date actionEndedDay; // 用Timestamp 理由同上
 
 	@Column(name = "bank_account")
-	private Integer bankAccount;
+	private String bankAccount;
 
 	@Column(name = "intro")
 	private String intro;
@@ -96,7 +96,7 @@ public class FtVO implements Serializable {
 	public FtVO(Integer ftId, MemberVO memberId, FtGrade ftRank, String companyName, byte[] photo, Date registeredTime,
 			Date approvedTime, Integer status, byte[] businessPhoto, String businessNo, String nickname,
 			Integer canPost, Integer canRev, Integer canSell, Timestamp actionStartedDay, Timestamp actionEndedDay,
-			Integer bankAccount, String intro, Integer price) {
+			String bankAccount, String intro, Integer price) {
 		super();
 		this.ftId = ftId;
 		this.memberId = memberId;
@@ -239,11 +239,11 @@ public class FtVO implements Serializable {
 		this.actionEndedDay = actionEndedDay;
 	}
 
-	public Integer getBankAccount() {
+	public String getBankAccount() {
 		return bankAccount;
 	}
 
-	public void setBankAccount(Integer bankAccount) {
+	public void setBankAccount(String bankAccount) {
 		this.bankAccount = bankAccount;
 	}
 
@@ -276,7 +276,6 @@ public class FtVO implements Serializable {
 				+ canRev + ", canSell=" + canSell + ", actionStartedDay=" + actionStartedDay + ", actionEndedDay="
 				+ actionEndedDay + ", bankAccount=" + bankAccount + ", intro=" + intro + ", price=" + price + "]";
 	}
-	
-	
+
 
 }
