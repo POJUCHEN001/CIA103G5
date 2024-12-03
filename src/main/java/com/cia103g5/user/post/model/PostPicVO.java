@@ -23,7 +23,7 @@ public class PostPicVO {
     private int postNo; // 發文編號
 
     @Lob
-    @Column(nullable = false) // 將圖片資料儲存為二進制大物件
+    @Column(nullable = false, columnDefinition = "LONGBLOB") // 將圖片資料儲存為二進制大物件
     private byte[] pic; // 圖片資料
 
     // Getters 和 Setters

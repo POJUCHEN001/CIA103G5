@@ -5,55 +5,50 @@ import java.util.Date;
 
 import com.cia103g5.user.ft.model.FtVO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "violation_record_ft")
 public class FtViolationRecord implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 自動生成主鍵
 	@Column(name = "ft_violation_no")
 	private Integer ftVioRecordNo;
-	
+
 	@OneToOne
 	@JoinColumn(name = "ft_id", referencedColumnName = "ft_id", nullable = false)
 	private FtVO ftId;
-	
+
 	@OneToOne
 	@JoinColumn(name = "violation_type_no", referencedColumnName = "violation_type_no", nullable = false)
 	private ViolationVO vioTypeNo;
-	
+
 	@Column(name = "violation_desc")
 	private String violatedDesc;
-	
+
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "violated_time", insertable = false, updatable = false)
 	private Date violatedTime;
-	
+
 	@Column(name = "punishment")	// 尚未懲處:0 已警告:1 已停權:2
 	private String punishment;
-	
+
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "punishment_time")
 	private Date punishDate;
-	
+
 	@Column(name = "status")	// 待處理:0 申訴中:1 已處理:2
 	private Integer status;
 
-	
+
 	// 建構子
 	public FtViolationRecord() {
 		super();
 	}
-	
+
 	public FtViolationRecord(Integer ftVioRecordNo, FtVO ftId, ViolationVO vioTypeNo, String violatedDesc,
 			Date violatedTime, String punishment, Date punishDate, Integer status) {
 		super();
@@ -69,7 +64,7 @@ public class FtViolationRecord implements Serializable {
 
 
 	// Getter & Setter
-	
+
 	public Integer getFtVioRecordNo() {
 		return ftVioRecordNo;
 	}
@@ -134,7 +129,7 @@ public class FtViolationRecord implements Serializable {
 		this.status = status;
 	}
 
-	
+
 	@Override
 	public String toString() {
 		return "FtViolationRecord [ftVioRecordNo=" + ftVioRecordNo + ", ftId=" + ftId + ", vioTypeNo=" + vioTypeNo
@@ -142,5 +137,5 @@ public class FtViolationRecord implements Serializable {
 				+ ", status=" + status + "]";
 	}
 
-	
+
 }
