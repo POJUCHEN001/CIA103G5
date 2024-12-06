@@ -211,6 +211,8 @@ public class ReservationVO {
 			return "Unknown";
 		}
 	}
+	
+	
 
 	public String getRsvStatusInfo() {
 		if (this.rsvStatus == null) {
