@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fixlife 占卜師中心</title>
+
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.1/examples/headers/">
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
+
+<!-- Custom styles for this template -->
+<link href="/css/headers.css" rel="stylesheet">
+
+<!-- Bootstrap core CSS -->
+<link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for sidevar -->
+<link href="/css/sidebars.css" rel="stylesheet">
+
+<link href="/css/ftcenter.css" rel="stylesheet">
+
+
+<style>
+</style>
+</head>
+<body>
+
+	<header class="p-3 mb-3 border-bottom">
+		<div class="container">
+			<div
+				class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+				<a href="/"
+					class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+					<h1>修卜人生</h1>
+				</a>
+
+				<ul
+					class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+					<li><a href="#" class="nav-link px-2 link-secondary">想找占卜師</a></li>
+					<li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li>
+					<li><a href="#" class="nav-link px-2 link-dark">占卜論壇</a></li>
+					<li><a href="#" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li>
+					<li><a href="register" class="nav-link px-2 link-dark">會員註冊</a></li>
+					<li><a href="login" class="nav-link px-2 link-dark">會員登入</a></li>
+				</ul>
+
+				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+					<input type="search" class="form-control" placeholder="Search..."
+						aria-label="Search">
+				</form>
+
+				<div class="dropdown text-end">
+					<a href="#"
+						class="d-block link-dark text-decoration-none dropdown-toggle"
+						id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+						<img id="photo-icon" src="/svg/user-solid.svg" alt="mdo"
+						width="32" height="32" class="rounded-circle">
+					</a>
+					<ul class="dropdown-menu text-small"
+						aria-labelledby="dropdownUser1">
+						<li><a class="dropdown-item" href="membercenter">會員中心</a></li>
+						<li><a class="dropdown-item" href="ftcenter">占卜師中心</a></li>
+						<li><a class="dropdown-item" href="#">購物車</a></li>
+						<li><a class="dropdown-item" href="#">客服中心</a></li>
+						<li><hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item logout-link" href="" id="logout"
+							name="logout">登出 </a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- <div class="b-example-divider"></div> -->
+	<div class="container-all">
+		<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
+			<a href="ftcenter"
+				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+				<svg class="bi me-2" width="30" height="24">
+					<use xlink:href="#bootstrap" /></svg> <span class="fs-5 fw-semibold">占卜師中心</span>
+			</a>
+			<ul class="list-unstyled ps-0">
+				<li class="mb-1">
+					<button class="btn btn-toggle align-items-center rounded collapsed"
+						data-bs-toggle="collapse" data-bs-target="#home-collapse"
+						aria-expanded="true">占卜師中心</button>
+					<div class="collapse show" id="home-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="ftcenter" class="link-dark rounded">基本資料</a></li>
+							<li><a href="#" class="link-dark rounded">占卜服務設置</a></li>
+							<!-- <li><a href="#" class="link-dark rounded">預約查詢</a></li> -->
+						</ul>
+					</div>
+				</li>
+				<li class="mb-1">
+					<button class="btn btn-toggle align-items-center rounded collapsed"
+						data-bs-toggle="collapse" data-bs-target="#dashboard-collapse"
+						aria-expanded="false">預約查詢</button>
+					<div class="collapse" id="dashboard-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="#" class="link-dark rounded">預約查詢</a></li>
+							<li><a href="#" class="link-dark rounded">歷史預約查詢</a></li>
+							<!-- <li><a href="#" class="link-dark rounded">Monthly</a></li> -->
+							<!-- <li><a href="#" class="link-dark rounded">Annually</a></li> -->
+						</ul>
+					</div>
+				</li>
+				<li class="mb-1">
+					<button class="btn btn-toggle align-items-center rounded collapsed"
+						data-bs-toggle="collapse" data-bs-target="#orders-collapse"
+						aria-expanded="false">商品訂單查詢</button>
+					<div class="collapse" id="orders-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="#" class="link-dark rounded">訂單查詢</a></li>
+							<li><a href="#" class="link-dark rounded">訂單狀態查詢</a></li>
+							<li><a href="#" class="link-dark rounded">歷史訂單查詢</a></li>
+						</ul>
+					</div>
+				</li>
+
+				<li class="border-top my-3"></li>
+				<li class="mb-1">
+					<button class="btn btn-toggle align-items-center rounded collapsed"
+						data-bs-toggle="collapse" data-bs-target="#account-collapse"
+						aria-expanded="false">Account</button>
+					<div class="collapse" id="account-collapse">
+						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+							<li><a href="resetpassword" class="link-dark rounded">變更密碼</a></li>
+							<li><a href="#" class="link-dark rounded">刪除帳號</a></li>
+							<li><a href="#" class="link-dark rounded">客服中心</a></li>
+							<li><a href="#" class="link-dark rounded logout-link"
+								id="logout" name="logout">登出</a></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<main class="main">
+			<div class="main_container">
+				<ul class="main_title">占卜師資料
+				</ul>
+				<hr>
+				<div class="ft_center">
+					<div class="ft_photo_container">
+						<div class="ft_photo">
+							<img id="profile-photo" src="./img/default-profile.png" alt="大頭照"
+								name="photo"> <br>
+							<button id="update-photo-btn">更換照片</button>
+						</div>
+						<div class="ft_photo">
+							<img id="profile-photo" src="./img/default-profile.png"
+								alt="營業登記照片" name="businessPhoto"> <br>
+							<!-- 							<button id="update-photo-btn">更換照片</button> -->
+						</div>
+					</div>
+					<div class="mem_info" id="info-view">
+						<ul id="ftVO">
+							<li>占卜師ID：<span id="ftId" name="ftId"></span></li>
+							<li>占卜師等級：<span id="ftRank" name="ftRank"></span></li>
+							<li>占卜師用名：<span id="nickname" name="nickname"></span></li>
+							<li>公司名稱：<span id="companyName" name="companyName"></span></li>
+							<li>營登編號：<span id="businessNo" name="businessNo"></span></li>
+							<li>申請時間：<span id="registeredTime" name="registeredTime"></span></li>
+							<li>審核通過時間：<span id="approvedTime" name="approvedTime"></span></li>
+							<li>占卜服務價格：<span id="price" name="price"></span></li>
+							<li>占卜師簡介：<span id="intro" name="intro"></span></li>
+						</ul>
+						<br>
+						<button class="edit-info-btn" id="edit-info-btn">修改占卜師資料</button>
+					</div>
+					<div class="mem_info" id="edit-section" style="display: none;">
+						<ul>
+							<li><label for="edit-nickname">占卜師用名：</label> <input
+								type="text" id="edit-nickname" placeholder="請輸入占卜師暱稱"></li>
+							<!--<li><label for="edit-bankAccount">轉帳帳號：</label> <input
+								type="text" id="edit-bankAccount" placeholder="請輸入轉帳帳號">
+							</li> -->
+							<li><label for="edit-price">占卜服務價格：</label> <input
+								type="text" id="edit-price" placeholder="請輸入服務價格"></li>
+							<li><label for="edit-intro">占卜師簡介：</label>
+<!--								<input type="text" id="edit-intro" placeholder="請輸入占卜師簡介">-->
+								<textarea id="edit-intro" placeholder="請輸入占卜師簡介" rows="4" cols="30"></textarea>
+							</li>
+						</ul>
+						<div style="text-align: center; margin-top: 20px;">
+							<button id="cancel-edit-btn">取消修改</button>
+							<button id="save-edit-btn">送出修改</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+	<script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="/js/sidebars.js"></script>
+	<script src="/js/ftcenter.js"></script>
+	<script>
+		
+	</script>
+</body>
+</html>
