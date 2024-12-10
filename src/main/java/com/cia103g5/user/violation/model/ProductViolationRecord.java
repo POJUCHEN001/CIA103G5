@@ -3,6 +3,7 @@ package com.cia103g5.user.violation.model;
 import java.io.Serializable;
 import java.sql.Date;
 
+<<<<<<< HEAD
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
@@ -10,6 +11,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+=======
+import org.springframework.data.annotation.Id;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+>>>>>>> branch 'Elio' of https://github.com/POJUCHEN001/CIA103G5.git
 import jakarta.persistence.Table;
 
 @Entity
