@@ -1,16 +1,23 @@
 package com.cia103g5.user.availabletime.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotNull;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.cia103g5.user.ft.model.FtVO;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "available_time", uniqueConstraints = {
@@ -100,7 +107,7 @@ public class AvailableTimeVO implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(availableTimeNo, startTime, endTime, status);
+		return java.util.Objects.hash(availableTimeNo, endTime, startTime, status);
 	}
 
 	@Override
@@ -112,8 +119,10 @@ public class AvailableTimeVO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		AvailableTimeVO other = (AvailableTimeVO) obj;
-		return Objects.equals(availableTimeNo, other.availableTimeNo) && Objects.equals(startTime, other.startTime)
-				&& Objects.equals(endTime, other.endTime) && Objects.equals(status, other.status);
+		return java.util.Objects.equals(availableTimeNo, other.availableTimeNo)
+				&& java.util.Objects.equals(endTime, other.endTime)
+				&& java.util.Objects.equals(startTime, other.startTime)
+				&& java.util.Objects.equals(status, other.status);
 	}
 
 	@Override
