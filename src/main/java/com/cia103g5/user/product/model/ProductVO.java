@@ -31,9 +31,9 @@ import jakarta.validation.constraints.Size;
 
 public class ProductVO {
 
-	@Id //PK
+	@Id 
 	@Column(name="prod_no")
-	@GeneratedValue(strategy =GenerationType.IDENTITY)//自增
+	@GeneratedValue(strategy =GenerationType.IDENTITY)
 	private Integer prodNo;
 		
 	@ManyToOne
@@ -80,16 +80,16 @@ public class ProductVO {
 	@Column(name="status",nullable=false)
 	private Byte status;
 	
-	//一對多的主表格作設定，mappedBy寫上product_image對應的屬性名
+	
 	@OneToMany(mappedBy ="productVO" ,cascade =CascadeType.ALL)	
 	private Set <ProductImageVO> productImageVO;
 
-//	一個無參數建構子
+
 	public ProductVO() {
 		super();
 	}
 
-//	一格有參數建構子
+
 	public ProductVO(Integer prodNo, FtVO ftId,String prodName,String prodDesc,Integer price,Integer availableQuantity,
 	Integer soldQuantity, Integer rating, Integer ratingCount, Integer viewCount, Timestamp listedTime,Byte status) {
 	this.prodNo = prodNo;
@@ -218,7 +218,7 @@ public class ProductVO {
 				+ status + "]";
 	}
 	
-//	將資料庫取出的照片寫到指定資料夾中
+
 	public void writePic(byte[] buf,Integer prod_no) throws IOException {
 		File file =new File("src\\main\\webapp\\backend\\getpictest\\prod_no_"+ prod_no+".jpg");
 		try {
