@@ -66,10 +66,10 @@ public class FtVO implements Serializable {
 	@Column(name = "can_sell")
 	private Byte canSell;	//	0停用/未啟用 1啟用
 
-	@Column(name = "action_started_day")
+	@Column(name = "action_start_day")
 	private Date actionStartedDay;	//	用Timestamp 可支持到年月日時分秒比較精準 對於停權與否的操作較為嚴謹
 
-	@Column(name = "action_ended_day")
+	@Column(name = "action_end_day")
 	private Date actionEndedDay;	//	用Timestamp 理由同上
 
 	@Column(name = "bank_account")
