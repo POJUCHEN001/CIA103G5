@@ -1,0 +1,179 @@
+@charset "UTF-8";
+
+* {
+	box-sizing: border-box;
+}
+
+img {
+	max-width: 100%;
+}
+
+body {
+	margin: 0;
+}
+
+ul {
+	list-style: none; /* 移除項目符號 */
+	padding: 0; /* 移除內邊距 */
+	margin: 0; /* 移除外邊距 */
+}
+
+li {
+	margin: 0; /* 移除項目間的外邊距 */
+	padding: 0; /* 移除內邊距 */
+}
+
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+@media ( min-width : 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+
+div.container-all {
+	/* 	border: 1px solid black; */
+	/* display: block; */
+	font-size: 0;
+	height: 100%;
+}
+
+div.flex-shrink-0 {
+	/* border: 1px solid blue; */
+	display: inline-block;
+	vertical-align: top;
+	margin-right: 20px;
+	font-size: 1rem;
+}
+
+main.main {
+	/* 	border: 2px solid red; */
+	font-size: 1rem;
+	display: inline-block;
+	vertical-align: top;
+	width: calc(100% - 280px - 20px);
+	padding: 20px;
+}
+
+div.main_container {
+	position: relative;
+	top: var(--header-height);
+	font-size: 16px;
+	width: 90%;
+	max-width: 800px;
+	margin: 20px auto;
+	padding: 20px;
+	background-color: #f9f9f9;
+	z-index: 1;
+	border: 1px solid #ddd;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	overflow: hidden; /* 避免多餘的滾動條 */
+}
+
+.main_container img {
+	width: 150px;
+	height: 150px;
+	border-radius: 10px;
+}
+
+ul.main_title {
+	/* border: 1px solid red; */
+	font-size: 1.8rem;
+	font-weight: bold;
+	color: #333;
+	margin-bottom: 10px;
+	list-style: none;
+	padding: 0;
+}
+
+/* ul.mem_info { */
+/* 	list-style: none; */
+/* } */
+
+div.ft_center {
+	vertical-align: top;
+	margin-top: 10px;
+	/* 	border: 1px black solid; */
+}
+
+div.mem_info {
+	/* 	border: 2px solid green; */
+	display: inline-block;
+	vertical-align: top;
+	gap: 15px; /* 調整每個欄位的間距 */
+}
+
+@media ( max-width : 768px) {
+	div.mem_info {
+		display: block;
+	}
+}
+
+div.ft_photo_container {
+	display: inline-block;
+	/* 	border: 2px solid orange; */
+	vertical-align: top;
+	width: 200px;
+}
+
+@media ( max-width : 768px) {
+	div.ft_photo_container {
+		width: 100%;
+		padding-left: 28px;
+	}
+}
+
+div.ft_photo {
+	/* 	border: 1px blue solid; */
+	margin-top: 10px;
+}
+
+@media ( max-width : 768px) {
+	div.ft_photo {
+		display: inline-block;
+	}
+}
+
+/* 表單樣式 */
+.mem_info li {
+    display: flex; /* 將文字和輸入框水平排列 */
+    align-items: center; /* 垂直置中 */
+    gap: 10px; /* 文字與輸入框之間的間距 */
+}
+.mem_info label {
+    display: inline-block; /* 確保文字有固定寬度 */
+    width: 120px; /* 固定文字寬度 */
+    font-weight: bold;
+    text-align: left; /* 文字靠右對齊 */
+    margin: 0;
+}
+
+.mem_info input {
+    flex: 1; /* 輸入框自適應填滿剩餘空間 */
+    max-width: 300px; /* 最大寬度限制 */
+    padding: 5px; /* 增加內邊距 */
+    border: 1px solid #ccc; /* 加入邊框 */
+    border-radius: 5px; /* 圓角 */
+    box-sizing: border-box; /* 確保寬度包含內邊距和邊框 */
+}
+
+button {
+    padding: 8px 16px;
+    margin-right: 5px; /* 調整按鈕間的距離 */
+    border: none;
+    background-color:  #8469a8;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+button:hover {
+	background-color: rgb(139, 17, 155);
+}

@@ -14,7 +14,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
     show-sql: true
 
   data:
@@ -23,6 +23,20 @@ spring:
       port: 6379
 #      password: xxxx //沒有設定密碼
       timeout: 60000
+
+  mail:
+      host: smtp.gmail.com
+      port: 587
+      username: cia103.g5@gmail.com
+      password: zvmt liuu ryxi tvxe
+      properties:
+        mail:
+          transport:
+            protocol: smtp
+          smtp:
+            auth: true
+            starttls:
+              enable: true
 
 #  security:
 #    user:
@@ -52,4 +66,5 @@ server:
 #logging:
 #  level:
 #    org.springframework: DEBUG
+
 
