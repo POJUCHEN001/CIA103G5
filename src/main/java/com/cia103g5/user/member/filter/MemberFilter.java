@@ -1,15 +1,17 @@
 package com.cia103g5.user.member.filter;
 
-import com.cia103g5.user.member.dto.SessionMemberDTO;
-import com.cia103g5.user.member.model.MemberVO;
-
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpFilter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+
+import com.cia103g5.user.member.dto.SessionMemberDTO;
+
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebFilter(urlPatterns = {"/membersAPI/*", "reservations"}) // 攔截所有請求
 public class MemberFilter extends HttpFilter implements Filter {
