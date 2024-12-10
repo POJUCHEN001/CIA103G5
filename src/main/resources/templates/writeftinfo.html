@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FixLife 占卜師註冊</title>
+
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.1/examples/headers/">
+
+<!-- Custom styles for this template -->
+<link href="/css/headers.css" rel="stylesheet">
+
+<!-- Bootstrap core CSS -->
+<link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="/css/regist_main.css">
+<style>
+
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+@media ( min-width : 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+</style>
+</head>
+<body>
+
+	<header class="p-3 mb-3 border-bottom">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+          <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+            <h1>修卜人生</h1>
+          </a>
+  
+          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" class="nav-link px-2 link-secondary">想找占卜師</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">占卜論壇</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li>
+            <li><a href="register" class="nav-link px-2 link-dark">會員註冊</a></li>
+            <li><a href="login" class="nav-link px-2 link-dark">會員登入</a></li>
+          </ul>
+  
+          <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+            <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+          </form>
+  
+          <div class="dropdown text-end">
+            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+              <img id="photo-icon" src="/svg/user-solid.svg" alt="mdo" width="32" height="32" class="rounded-circle">
+            </a>
+            <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+              <li><a class="dropdown-item" href="membercenter">會員中心</a></li>
+              <li><a class="dropdown-item" href="#">購物車</a></li>
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item logout-link" href="#" id="logout" name="logout">登出 </a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+	<main>
+
+		<div class="regist_container">
+
+			<div class="regist_title">
+				<h2>填寫占卜師註冊資料</h2>
+			</div>
+
+			<form action="/complete" method="post" enctype="multipart/form-data">
+				<!-- 隱藏欄位，會員編號由後端生成 -->
+<!-- 				<input type="hidden" name="memberId" value="{{ memberId }}"> -->
+
+				<label for="companyname" class="cntn_text">公司名稱</label> <input
+					type="text" id="companyname" name="companyname" required> <label
+					for="businessno" class="cntn_text">營業登記編號</label> <input
+					type="text" id="businessno" name="businessno" required> <label
+					for="nickname" class="cntn_text">占卜師暱稱</label> <input type="text"
+					id="nickname" name="nickname"> <label for="image"
+					class="cntn_text">上傳占卜師個人照</label> <input type="file" id="image"
+					name="image" accept="image/*" required> <label for="image"
+					class="cntn_text">上傳營業登記證</label> <input type="file" id="image"
+					name="image" accept="image/*" required> <br>
+				<button type="submit" class="submit">送出</button>
+			</form>
+			
+		</div>
+	</main>
+	<script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+
+      // window.addEventListener('DOMContentLoaded', () => {
+      //   const memberId = sessionStorage.getItem('memberId'); // 從 Session Storage 中獲取會員編號
+        // console.log(memberId);
+
+        // if (!memberId) {
+        //   alert('會員編號缺失，請重新註冊');
+        //   window.location.href = '/regist_ftmember_first.html'; // 返回第一份表單
+        //   return;
+        // }
+
+        // 將會員編號填入隱藏欄位
+      //   document.querySelector('input[name="memberId"]').value = memberId;
+      // });
+
+      // 提交第二份表單
+      document.querySelector('form').addEventListener('submit', async (event) => {
+        event.preventDefault(); // 防止默認表單提交行為
+
+        const form = event.target;
+        const formData = new FormData(form);
+
+        try {
+          // 提交第二份表單
+          const response = await fetch('/ft/ft-register', {
+            method: 'POST',
+            body: formData,
+          });
+
+          if (response.ok) {
+            alert('註冊成功！請等待審核');
+            // window.location.href = '/success.html'; // 跳轉到成功頁面
+          } else {
+            console.error('提交第二份表單失敗');
+            alert('提交失敗，請重試');
+          }
+        } catch (error) {
+          console.error('提交過程中發生錯誤', error);
+          alert('提交過程中發生錯誤，請重試');
+        }
+      });
+    </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>註冊會員</title>
+
+    <!-- <link rel="stylesheet" href="./css/frame_home.css"> -->
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/headers/">
+    <!-- Custom styles for this template -->
+    <link href="/css/headers.css" rel="stylesheet">
+    
+    <!-- Bootstrap core CSS -->
+    <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+      
+       .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      main{
+        /* border: 2px solid red; */
+        padding: 120px;
+      }
+
+      div.regist_container{
+        /* border: 1px solid blue; */
+        border-radius: 40px;
+        width: 360px;
+        margin: 0 auto;
+        /* background-color: rgb(225, 213, 231); */
+        background-color: #D7CDD5;
+        padding: 20px;
+        box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
+      }
+
+      div.regist_title{
+        /* border: 1px solid red; */
+        justify-content: center;
+        align-items: center;
+        color: #7d2da3;
+        margin-bottom: auto;
+      }
+
+      .cntn_text{
+        display: block;
+        color: #290738;
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 1.5em;
+        margin-bottom: 14px;
+        /* unicode-bidi: isolate; */
+      }
+
+      div.send_regist{
+        /* border: 1px solid green; */
+        /* display: flex; */
+        justify-items: center;
+      }
+      div#search-btn{
+        border: 1px solid red;
+      }
+       button.regist{
+         /* padding: 10px 24px; */
+         color: #7d2da3;
+        border-radius: 10px;
+        margin-top: 20px;
+        padding: 10px 30px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        font-weight: bold;
+        width: 250px;
+        background-color:rgb(212, 177, 207);
+        border: 0;
+        cursor: pointer;
+       }
+
+    </style>
+  </head>
+  <body>
+
+    <header class="p-3 mb-3 border-bottom">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+          <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+            <h2>修卜人生</h2>
+          </a>
+  
+          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" class="nav-link px-2 link-secondary">想找占卜師</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">占卜論壇</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li>
+            <li><a href="register" class="nav-link px-2 link-dark">會員註冊</a></li>
+            <li><a href="login" class="nav-link px-2 link-dark">會員登入</a></li>
+          </ul>
+  
+          <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+            <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+          </form>
+  
+          <div class="dropdown text-end">
+            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="/svg/user-solid.svg" alt="mdo" width="32" height="32" class="rounded-circle">
+            </a>
+            <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+              <li><a class="dropdown-item" href="membercenter">會員中心</a></li>
+              <li><a class="dropdown-item" href="#">購物車</a></li>
+              <li><a class="dropdown-item" href="#">客服中心</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">登出 </a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+  
+    <main>
+      
+      <div class="regist_container">
+
+        <div class="regist_title">
+          <h2>註冊會員</h2>
+        </div>
+
+        <div class="send_regist">
+          <div class="reg_member">
+            <a href="registermember">
+              <button class="regist" >註冊一般會員</button>
+            </a>
+          </div>
+  
+          <div class="reg_ft">
+            <a href="registerftmember">
+            <button class="regist">註冊占卜師會員</button>
+            </a>
+          </div>
+
+        </div>
+        
+      </div>
+    </main>
+    <script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

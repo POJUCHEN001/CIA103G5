@@ -47,7 +47,7 @@ public class MemberVO implements Serializable {
 	@Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "請輸入有效的 Email 格式")
     private String email;
 
-    @Column(name ="key")
+    @Column(name ="`key`")
     private String key;
 
     @Column(name = "email_state", columnDefinition = "TINYINT")
