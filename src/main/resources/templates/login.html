@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixLife</title>
+    <!-- <link rel="stylesheet" href="./css/frame_home.css"> -->
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/headers/">
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sign-in/">
+    <!-- Custom styles for this template -->
+    <link href="/css/headers.css" rel="stylesheet">
+    
+    <!-- Bootstrap core CSS -->
+    <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+
+        .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      main{
+        /* border: 2px solid red; */
+        padding: 120px;
+      }
+      /* .nav_btn_container{ */
+        /* display: flex; */
+        /* overflow-x: auto; 當內容超出寬度時出現橫向捲軸 */
+        /* white-space: nowrap; 防止換行 */
+      /* } */
+
+      div.login_container{
+        /* border: 1px solid blue; */
+        border-radius: 40px;
+        width: 360px;
+        margin: 0 auto;
+        background-color: #D7CDD5;
+        padding: 20px;
+        box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.15);
+      }
+
+      button.btn-primary{
+        background-color:  #7d2da3;
+      }
+
+    </style>
+  </head>
+  <body>
+
+    <header class="p-3 mb-3 border-bottom">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+          <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+            <h1>修卜人生</h1>
+          </a>
+  
+          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" class="nav-link px-2 link-secondary">想找占卜師</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">占卜論壇</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li>
+            <li><a href="register" class="nav-link px-2 link-dark">會員註冊</a></li>
+            <li><a href="login" class="nav-link px-2 link-dark">會員登入</a></li>
+          </ul>
+  
+          <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+            <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+          </form>
+  
+          <div class="dropdown text-end">
+            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="/svg/user-solid.svg" alt="mdo" width="32" height="32" class="rounded-circle">
+            </a>
+            <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+              <li><a class="dropdown-item" href="membercenter">會員中心</a></li>
+              <li><a class="dropdown-item" href="#">購物車</a></li>
+              <li><a class="dropdown-item" href="#">客服中心</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">登出 </a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="form-signin">
+        <form id="loginForm">
+          <img class="mb-4" src="/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57" style="display: none;">
+          <h1 class="h3 mb-3 fw-normal">會員登入</h1>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Account" name="account" required>
+            <label for="floatingInput">Account</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" required>
+            <label for="floatingPassword">Password</label>
+          </div>
+          <div class="checkbox mb-3">
+            <label>
+              <input type="checkbox" value="remember-me"> Remember me
+            </label>
+          </div>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+          <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+        </form>
+    </main>
+<!--    <script src="/assets/dist/js/bootstrap.bundle.min.js"></script>-->
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        // 從 sessionStorage 取得註冊後的帳號
+        const registeredAccount = sessionStorage.getItem("registeredAccount");
+        if (registeredAccount) {
+          // 將帳號填入輸入框
+          document.getElementById("floatingInput").value = registeredAccount;
+        }
+      });
+
+      document.getElementById("loginForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+        
+        try {
+	          const response = await fetch("/user/login", {
+	        	  method: "POST",
+	              headers: { "Content-Type": "application/json" },
+	              body: JSON.stringify(data)
+	          });
+
+         
+	        if (response.ok) {
+	        	const result = await response.json();
+	            alert(result.message);
+	
+              // 更新 sessionStorage
+              sessionStorage.setItem("loggedInAccount", result.member.account); // 儲存帳號
+              sessionStorage.setItem("memberInfo", JSON.stringify(result.member)); // 儲存完整會員資訊
+
+	            // 跳轉到會員中心
+	            window.location.href = "/membercenter";
+	         } else {
+	           const error = await response.json();
+	           alert(`登入失敗：${error.error}`);
+	         }
+         } catch (error) {
+           console.error("登入失敗", error);
+           alert("系統發生錯誤，請稍後再試！");
+         }
+      });
+    </script>
+  </body>
+</html>
