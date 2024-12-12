@@ -11,6 +11,7 @@ import com.cia103g5.user.ftskill.model.FtSkillVO;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+
 @Entity
 @Table(name = "reservation")
 public class ReservationVO {
