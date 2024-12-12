@@ -1,15 +1,13 @@
 package com.cia103g5.user.product.model;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
 
 import com.cia103g5.user.ft.model.FtVO;
 import com.cia103g5.user.productImage.model.ProductImageVO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -21,16 +19,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+
 
 @Entity
 @Table(name="product")
 
-public class ProductVO {
+public class ProductVO  implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	@Id //PK
 	@Column(name="prod_no")
 	@GeneratedValue(strategy =GenerationType.IDENTITY)//自增
@@ -81,6 +77,7 @@ public class ProductVO {
 	private Byte status;
 	
 	//一對多的主表格作設定，mappedBy寫上product_image對應的屬性名
+	@JsonIgnore
 	@OneToMany(mappedBy ="productVO" ,cascade =CascadeType.ALL)	
 	private Set <ProductImageVO> productImageVO;
 
@@ -210,36 +207,6 @@ public class ProductVO {
 	public void setProductImageVO(Set<ProductImageVO> productImageVO) {
 		this.productImageVO = productImageVO;
 	}
-
-	@Override
-	public String toString() {
-		return "ProductVO [prod_no=" + prodNo + ", prodName=" + prodName + ", prodDesc=" + prodDesc + ", price="
-				+ price + ", availableQuantity=" + availableQuantity + ", listedTime=" + listedTime + ", status="
-				+ status + "]";
-	}
-	
-//	將資料庫取出的照片寫到指定資料夾中
-	public void writePic(byte[] buf,Integer prod_no) throws IOException {
-		File file =new File("src\\main\\webapp\\backend\\getpictest\\prod_no_"+ prod_no+".jpg");
-		try {
-			
-			FileOutputStream fos =new FileOutputStream(file);
-			BufferedOutputStream bos =new BufferedOutputStream(fos);
-			
-			bos.write(buf,0,buf.length);
-			
-			
-			bos.close();
-			fos.close();
-			
-			System.out.println("已成功取出資料庫圖片，請到getpictest資料夾查看!");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
-	
 	
 	
 }

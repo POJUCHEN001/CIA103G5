@@ -1,0 +1,31 @@
+@charset "UTF-8";
+
+form.query-part{
+	display:flex;
+	padding:10px;
+	flex-wrap:wrap;
+}
+
+div.date-block{
+	margin-right:20px;
+}
+
+div.year{
+	margin-right:15px;
+}
+
+div.month{
+	margin-right:40px;
+}
+
+select.year,select.month{
+	width:80px;
+	align-items:center;
+	height:32px;
+	border-radius:3px;
+}
+
+div.top-container{
+	width:50% !important;
+	float:right;
+}

@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+#myTable_length{
+	margin-bottom:35px;
+}
+
+#myTable_length select{
+	background-color:white;
+	border-radius:5px;
+}
+
+div#myTable_filter input{
+	background-color:white;
+	border-radius:7px;
+}
+
+
+
+#myTable {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+}
+
+
+table.dataTable {
+    border-collapse: separate;
+    border-radius: 10px;
+    overflow: hidden;
+    border-spacing: 0;
+}
+
+
+ table.dataTable thead th {
+     text-align: center !important; /* 強制置中 */
+     vertical-align: middle !important; /* 垂直置中 */
+ }
+ 
+/* 移除所有分頁按鈕的外框、背景色和陰影 */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    border: none; /* 移除外框 */
+    background: none; /* 移除背景色 */
+    box-shadow: none; /* 移除陰影 */
+    color: purple; /* 預設按鈕文字為紫色 */
+    transition: color 0.3s ease; /* 平滑過渡效果 */
+}
+
+/* 當前頁面按鈕樣式 (current) */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    color: black; /* 當前頁按鈕文字為黑色 */
+    pointer-events: none; /* 禁止點擊 */
+    border: none; /* 確保無外框 */
+    background: none; /* 確保無背景 */
+    box-shadow: none; /* 確保無陰影 */
+}
+
+/* 點擊(active)時的狀態 */
+.dataTables_wrapper .dataTables_paginate .paginate_button:active {
+    outline: none; /* 移除點擊時的外框 */
+}
+
+/* 滑鼠懸停在其他按鈕上時 */
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    color: white; /* 懸停時文字變白 */
+    background: none; /* 確保無背景色 */
+    border: none; /* 確保無外框 */
+}
+
+ 
+
+
+
