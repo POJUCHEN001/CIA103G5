@@ -2,8 +2,9 @@ package com.cia103g5.user.reservation.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.cia103g5.user.avaliabletime.model.AvailableTimeVO;
 import com.cia103g5.user.member.model.MemberVO;
+import com.cia103g5.user.skill.model.SkillVO;
+import com.cia103g5.user.availabletime.model.AvailableTimeVO;
 import com.cia103g5.user.ft.model.FtVO;
 import com.cia103g5.user.ftskill.model.FtSkillVO;
 
@@ -32,16 +33,14 @@ public class ReservationVO {
 	private AvailableTimeVO availableTimeNo;
 
 	@ManyToOne
-	@JoinColumn(name = "skill_no")
-	private FtSkillVO skillNo;
-
+	@JoinColumn(name = "skill_no", nullable = false)
+	private SkillVO skillNo;
 
 	@Column(name = "rsv_status", nullable = false)
 	private Byte rsvStatus;
 
 	@Column(name = "price")
 	private Integer price;
-
 
 	@Column(name = "created_time", updatable = false, nullable = false)
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -83,7 +82,6 @@ public class ReservationVO {
 		this.memberId = memberId;
 	}
 
-
 	public FtVO getFtId() {
 		return ftId;
 	}
@@ -100,11 +98,13 @@ public class ReservationVO {
 		this.availableTimeNo = availableTimeNo;
 	}
 
-	public FtSkillVO getSkillNo() {
+	
+
+	public SkillVO getSkillNo() {
 		return skillNo;
 	}
 
-	public void setSkillNo(FtSkillVO skillNo) {
+	public void setSkillNo(SkillVO skillNo) {
 		this.skillNo = skillNo;
 	}
 
@@ -211,8 +211,6 @@ public class ReservationVO {
 			return "Unknown";
 		}
 	}
-	
-	
 
 	public String getRsvStatusInfo() {
 		if (this.rsvStatus == null) {
@@ -228,5 +226,6 @@ public class ReservationVO {
 			return "Unknown";
 		}
 	}
+	
 
 }
