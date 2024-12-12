@@ -27,7 +27,7 @@ public class MemberFilter extends HttpFilter implements Filter {
         if(isLogin != null) {
             chain.doFilter(request,response);
         } else {
-            response.sendRedirect("request.getContextPath() + /login");
+            response.sendRedirect(request.getContextPath() + "/login");
         }
 
     }

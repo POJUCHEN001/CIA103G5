@@ -42,16 +42,19 @@ public class FtController {
     // 占卜師中心資料
     @GetMapping("/info")
     public ResponseEntity<Map<String, Object>> getFtInformation(HttpSession session){
-//        if(session.getAttribute("isLogin")!=null){
-//
-//        }
-        SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
-        if (sessionMember == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "未登入請前往登入"));
+        if(session.getAttribute("isLogin") == null){
+        	return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "未登入請前往登入"));
         }
+//        SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
+//        if (sessionMember == null) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "未登入請前往登入"));
+//        }
+        
         // 根據 memberId 查詢 ftId
-        Integer memberId = sessionMember.getMemberId();
-        Integer ftId = ftService.findFtIdByMemberId(memberId);
+//        Integer memberId = (Integer) session.getAttribute("memberId");
+//        Integer ftId = ftService.findFtIdByMemberId(memberId);
+        
+        Integer ftId = (Integer) session.getAttribute("ftId");
         if (ftId == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "您不是占卜師或是無訪問權限，請洽平台管理員"));
         }
@@ -125,9 +128,9 @@ public class FtController {
     }
 
     // 照片處理
-    private String encodePhoto(byte[] photo) {
-        return photo != null ? Base64.getEncoder().encodeToString(photo) : null;
-    }
+//    private String encodePhoto(byte[] photo) {
+//        return photo != null ? Base64.getEncoder().encodeToString(photo) : null;
+//    }
 
 }
 
