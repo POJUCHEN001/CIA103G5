@@ -39,10 +39,12 @@ public class FtVO implements Serializable {
 	@Column(name = "photo", columnDefinition = "LONGBLOB")
 	private byte[] photo;
 
-	@Column(name = "registered_time", insertable = false, updatable = false)
+	@Column(name = "registered_time")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date registeredTime;
 
-	@Column(name = "approved_time", insertable = false, updatable = false)
+	@Column(name = "approved_time")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date approvedTime;
 
 	@Column(name = "status") // 0待審核或停用 1啟用占卜師 2永久停權
@@ -67,9 +69,11 @@ public class FtVO implements Serializable {
 	private Byte canSell;	//	0停用/未啟用 1啟用
 
 	@Column(name = "action_start_day")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date actionStartedDay;	//	用Timestamp 可支持到年月日時分秒比較精準 對於停權與否的操作較為嚴謹
 
 	@Column(name = "action_end_day")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date actionEndedDay;	//	用Timestamp 理由同上
 
 	@Column(name = "bank_account")
