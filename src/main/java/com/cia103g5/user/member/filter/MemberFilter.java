@@ -13,15 +13,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = {"/membersAPI/*"}) // 攔截所有請求
+@WebFilter(urlPatterns = "/membersAPI/*") // 攔截所有請求
 public class MemberFilter extends HttpFilter implements Filter {
+	
     @Override
     public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpSession session = request.getSession();
         SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
         Object isLogin = request.getSession().getAttribute("isLogin");
+        String URL = (String)session.getAttribute("redirectURL");
         // 是否登入
-        if(isLogin != null && sessionMember != null) {
+//        if(isLogin != null && sessionMember != null) {
+        if(isLogin != null) {
             chain.doFilter(request,response);
         } else {
             response.sendRedirect("request.getContextPath() + /login");

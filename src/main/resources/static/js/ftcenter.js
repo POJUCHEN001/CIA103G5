@@ -1,14 +1,11 @@
 /**
  * 
  */
-// 載入占卜師基本資料
-// 當 DOM 完全加載後執行
-document.addEventListener('DOMContentLoaded', function () {
-    // 假設占卜師 ID 固定為 1，實際可以通過其他方式動態獲取
-    // var ftId = 1;
 
+// 載入占卜師基本資料
+async function loadMemberProfile() {
     // 使用 fetch API 從後端獲取占卜師資料
-    fetch('/ft/info')
+    await fetch('/ftAPI/info')
         .then(function (response) {
             // 檢查是否成功獲取資料，否則拋出錯誤
             if (!response.ok) {
@@ -19,12 +16,12 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(function (data) {
             // 更新 HTML 中的占卜師資料
             document.getElementById('ftId').textContent = data.ftId;
-            document.getElementById('nickname').textContent = data.nickname || '未提供';
+            document.getElementById('nickname').textContent = data.nickname;
             document.getElementById('companyName').textContent = data.companyName || '未提供';
             document.getElementById('businessNo').textContent = data.businessNo || '未提供';
 
             // 假設 ftRank 包含 rankName，顯示等級名稱
-            document.getElementById('ftRank').textContent = data.ftRank.rankName || '未提供';
+            document.getElementById('ftRank').textContent = data.ftRank.rankName;
 
             // 格式化日期並更新到頁面
             document.getElementById('registeredTime').textContent = data.registeredTime
@@ -46,24 +43,31 @@ document.addEventListener('DOMContentLoaded', function () {
             if (data.photo) {
                 profilePhoto.src = 'data:image/' + data.photoFormat + ';base64,' + data.photo;
             } else {
-                profilePhoto.src = './img/default-profile.png'; // 預設照片
+                profilePhoto.src = '/img/default-photo.png'; // 預設照片
             }
 
             // 處理營業執照照片
             if (data.businessPhoto) {
                 businessPhoto.src = 'data:image/' + data.photoFormat + ';base64,' + data.businessPhoto;
             } else {
-                businessPhoto.src = './img/default-profile.png'; // 預設照片
+                businessPhoto.src= '/img/businessphoto01.jpg'; // 預設照片
             }
         })
         .catch(function (error) {
             // 錯誤處理，顯示錯誤訊息
             console.error(error);
-            alert('無法獲取占卜師資料，請稍後重試！');
+            alert('請重新登入！');
+            window.location.href = "/login";
         });
-});
+}
 
 
+// 當 DOM 完全加載後執行
+// document.addEventListener('DOMContentLoaded', function () {
+//     loadMemberProfile();
+// });
+// 頁面載入時自動執行
+window.addEventListener("DOMContentLoaded", loadMemberProfile);
 
 // 修改資料的樣式 (點擊修改占卜師資料)
 document.getElementById("edit-info-btn").addEventListener("click", function () {
@@ -72,12 +76,17 @@ document.getElementById("edit-info-btn").addEventListener("click", function () {
     document.getElementById("edit-section").style.display = "inline-block";
 
     // 將原有資料填入輸入框
+
     document.getElementById("edit-nickname").value = document.getElementById("nickname").textContent;
-    document.getElementById("edit-companyName").value = document.getElementById("companyName").textContent;
-    document.getElementById("edit-businessNo").value = document.getElementById("businessNo").textContent;
-    document.getElementById("edit-bankAccount").value = document.getElementById("bankAccount").textContent;
-    document.getElementById("edit-intro").value = document.getElementById("intro").textContent;
-    document.getElementById("edit-price").value = document.getElementById("price").textContent;
+    // document.getElementById("edit-companyName").value = document.getElementById("companyName").textContent;
+    // document.getElementById("edit-businessNo").value = document.getElementById("businessNo").textContent;
+    // document.getElementById("edit-bankAccount").value = document.getElementById("bankAccount").textContent;
+    if(!document.getElementById("price").textContent == "尚未設置價格"){
+        document.getElementById("edit-price").value = document.getElementById("price").textContent;
+    }
+    if(!document.getElementById("intro").textContent == "暫無簡介"){
+        document.getElementById("edit-intro").value = document.getElementById("intro").textContent;
+    }
 
 });
 
@@ -88,9 +97,11 @@ document.getElementById("cancel-edit-btn").addEventListener("click", function ()
 });
 
 
-// 點擊送出修改
+// 點擊送出 修改服務價格與簡介
 document.getElementById("save-edit-btn").addEventListener("click", function () {
+
     // 保存修改，將輸入框的值更新到顯示區域
+
     document.getElementById("nickname").textContent = document.getElementById("edit-nickname").value;
     document.getElementById("intro").textContent = document.getElementById("edit-intro").value;
     document.getElementById("price").textContent = document.getElementById("edit-price").value;
@@ -111,7 +122,7 @@ document.getElementById("save-edit-btn").addEventListener("click", function () {
         intro: intro,
         price: parseInt(price, 10)
     }
-    fetch('/ft/updateinfo',{
+    fetch('/ftAPI/updateinfo',{
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
@@ -141,6 +152,47 @@ document.getElementById("save-edit-btn").addEventListener("click", function () {
             alert(`錯誤：${error.message}`)
         })
 });
+
+// 更換占卜師形象照
+document.getElementById('update-photo-btn').addEventListener('click', async () => {
+    const photoInput = document.createElement('input');
+    photoInput.type = 'file';
+    photoInput.accept = 'image/*';
+
+    photoInput.addEventListener('change', async () => {
+        const file = photoInput.files[0];
+        if (file.size > 5 * 1024 * 1024) {
+            alert('檔案過大，請選擇小於 5MB 的圖片。');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('photo', file);
+
+        try {
+            const response = await fetch(`/ftAPI/updatephoto`, {
+                method: 'PATCH',
+                credentials: 'include',  // 確保附帶 Cookie
+                body: formData,
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                // alert(result.message);
+                // 照片更新後重新載入占卜師資料
+                loadMemberProfile();
+            } else {
+                throw new Error('照片更新失敗');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('更換照片失敗，請稍後再試。');
+        }
+    });
+    photoInput.click();
+});
+
+// 會員登入頭像
 
 
 
