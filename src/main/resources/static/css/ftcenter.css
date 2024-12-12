@@ -51,6 +51,18 @@ div.flex-shrink-0 {
 	margin-right: 20px;
 	font-size: 1rem;
 }
+/* 行動版排版 */
+@media ( max-width : 767.98px) {
+	div.flex-shrink-0 {
+		top: 0;
+		height: 100%;
+		transform: translateX(-100%);
+		transition: all 1s;
+	}
+	aside.aside.-on {
+		transform: translateX(0%);
+	}
+}
 
 main.main {
 	/* 	border: 2px solid red; */
@@ -60,6 +72,16 @@ main.main {
 	width: calc(100% - 280px - 20px);
 	padding: 20px;
 }
+/* 行動版排版 */
+/*@media ( max-width : 767.98px) {*/
+/*	main.main {*/
+/*		font-size: 1rem;*/
+/*		vertical-align: top;*/
+/*		padding: 20px;*/
+/*		margin-left: 0;*/
+/*	}*/
+/*}*/
+
 
 div.main_container {
 	position: relative;
@@ -144,7 +166,7 @@ div.ft_photo {
 /* 表單樣式 */
 .mem_info li {
     display: flex; /* 將文字和輸入框水平排列 */
-    align-items: center; /* 垂直置中 */
+    align-items: top; /* 垂直置中 */
     gap: 10px; /* 文字與輸入框之間的間距 */
 }
 .mem_info label {
