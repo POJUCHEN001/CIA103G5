@@ -10,6 +10,10 @@ spring:
       idle-timeout: 30000
       max-lifetime: 1800000
       connection-timeout: 30000
+  servlet:
+      multipart:
+        max-file-size: 10MB
+        max-request-size: 10MB
 
   jpa:
     open-in-view: false
@@ -53,8 +57,8 @@ spring:
 
   thymeleaf:
     enabled: true
-    cache: true
-    prefix: classpath:/templates
+    cache: false
+    prefix: classpath:/templates/
     suffix: .html
 
 # 伺服器配置
@@ -66,5 +70,8 @@ server:
 #logging:
 #  level:
 #    org.springframework: DEBUG
+
+
+  
 
 

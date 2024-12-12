@@ -1,0 +1,91 @@
+@charset "UTF-8";
+
+* 主容器 */
+div.return-details {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color:white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* 標題樣式 */
+.return-details h1 {
+    text-align: center;
+    color: #4b4b4b;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* 單個退貨項目 */
+.return-item {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    position: relative;
+    min-height: 100px;
+}
+
+/* 右上角下載圖示 */
+.return-item .header {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.return-item .header .icon {
+    color: #7c7c7c;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.return-item .header .icon:hover {
+    color: #8f78fc;
+}
+
+/* 單個字段樣式 */
+.field {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.label {
+    width: 25%; /* 左側占比 */
+    font-weight: bold;
+    color: #555;
+    text-align: left;
+}
+
+.value {
+    width: 75%; /* 右側占比 */
+    color: #333;
+}
+
+/* 單個退款金額樣式 */
+.refund-amount {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-size: 16px;
+    color: red;
+    font-weight: bold;
+}
+
+/* 總退款金額樣式 */
+.total-refund-amount {
+	float:right;
+	width:200px;
+    font-size: 18px;
+    color: red;
+    font-weight: bold;
+    padding: 5px 10px;
+    background-color:white;
+    border-radius:10px;
+}
+
+
