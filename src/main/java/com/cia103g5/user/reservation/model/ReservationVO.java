@@ -1,15 +1,22 @@
 package com.cia103g5.user.reservation.model;
 
+import java.time.LocalDateTime;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.cia103g5.user.member.model.MemberVO;
-import com.cia103g5.user.skill.model.SkillVO;
 import com.cia103g5.user.availabletime.model.AvailableTimeVO;
 import com.cia103g5.user.ft.model.FtVO;
 import com.cia103g5.user.ftskill.model.FtSkillVO;
+import com.cia103g5.user.member.model.MemberVO;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 
 @Entity
@@ -35,7 +42,7 @@ public class ReservationVO {
 
 	@ManyToOne
 	@JoinColumn(name = "skill_no", nullable = false)
-	private SkillVO skillNo;
+	private FtSkillVO skillNo;
 
 	@Column(name = "rsv_status", nullable = false)
 	private Byte rsvStatus;
@@ -99,13 +106,11 @@ public class ReservationVO {
 		this.availableTimeNo = availableTimeNo;
 	}
 
-	
-
-	public SkillVO getSkillNo() {
+	public FtSkillVO getSkillNo() {
 		return skillNo;
 	}
 
-	public void setSkillNo(SkillVO skillNo) {
+	public void setSkillNo(FtSkillVO skillNo) {
 		this.skillNo = skillNo;
 	}
 
