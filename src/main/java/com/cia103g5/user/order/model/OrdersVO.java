@@ -1,23 +1,32 @@
 package com.cia103g5.user.order.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Set;
 
 import com.cia103g5.user.ft.model.FtVO;
 import com.cia103g5.user.member.model.MemberVO;
+import com.cia103g5.user.orderDetails.model.OrderDetailVO;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
 @Entity
 @Table(name="orders")
-public class OrdersVO {
+public class OrdersVO  implements Serializable{
+	 private static final long serialVersionUID = 1L;
+	
 	
 	@Id
 	@Column(name="order_no")
@@ -64,6 +73,10 @@ public class OrdersVO {
 	
 	@Column(name="ended_time",updatable = false)
 	private Timestamp endedTime;
+	
+	@JsonManagedReference //可被序列化(避免雙向關聯造成循環引用)
+	@OneToMany(mappedBy = "compositekey.ordersVO", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private Set<OrderDetailVO> orderDetails;
 
 	public OrdersVO() {
 		super();

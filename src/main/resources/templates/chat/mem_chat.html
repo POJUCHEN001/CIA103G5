@@ -20,6 +20,7 @@
     <!-- 會員基本資料 -->
     <link href="/css/membercenter.css" rel="stylesheet">
 
+	 <link rel="stylesheet" th:href="@{/css/chat.css}"> 
     <style>
       
 
@@ -109,12 +110,23 @@
           </ul>
         </div>
       </li>
+      <li class="mb-1">
       
       <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#fav-collapse" aria-expanded="false">
+        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+          聊天室
+        </button>
+        <div class="collapse" id="orders-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a th:href="@{/chat/mem_chat}" class="link-dark rounded">前往聊天室</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
           收藏
         </button>
-        <div class="collapse" id="fav-collapse">
+        <div class="collapse" id="orders-collapse">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
             <li><a href="#" class="link-dark rounded">商品收藏</a></li>
             <li><a href="#" class="link-dark rounded">占卜師收藏</a></li>
@@ -122,17 +134,6 @@
           </ul>
         </div>
       </li>
-      <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#chat-collapse" aria-expanded="false">
-          聊天室
-        </button>
-        <div class="collapse" id="chat-collapse">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a th:href="@{/chatroom}" class="link-dark rounded">前往聊天室</a></li>
-          </ul>
-        </div>
-      </li>
-      
       <li class="border-top my-3"></li>
       <li class="mb-1">
         <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
@@ -151,90 +152,39 @@
   </div>
 
     <main class="main">
-
-      <div class="main_container">
-        <ul class="main_title">會員基本資料</ul>
-        <hr>
-        <div class="mem_center">
-          <div class="mem_photo">
-            <span><img id="photo" name="photo" src="" width="100px" alt="大頭照"></span><br/>
-            <br>
-            <button id="update-photo-btn">更換照片</button> 
-          </div>
-          <div class="mem_info">
-            <ul class="mem_info">
-              <li>會員姓名: <span id="name" name="name"></span></li>
-              <li>會員帳號: <span id="account" name="account"></span></li>
-              <li>電子信箱: <span id="email" name="email"></span></li>
-              <li>信箱驗證狀態: <span id="emailStatus" name="emailStatus"></span><button id="resendButton" style="display: none;">重新寄送驗證碼</button></li>
-              <li>會員暱稱: <span id="nickname" name="nickname"></span></li>
-              <li>會員性別: <span id="gender" name="gender"></span></li>
-              <li>會員電話: <span id="phone" name="phone"></span></li>
-              <li>會員積分: <span id="points" name="points"></span></li>
-              <li>轉帳帳戶: <span id="bankAccount" name="bankAccount"></span></li>
-              <li>註冊時間: <span id="registeredTime" name="registeredTime"></span></li>
-              <li>會員狀態: <span id="status" name="status"></span></li>
-            </ul>
-            <br>
-            <button class="edit-info-btn" id="edit-info-btn">修改基本資料</button>
-          </div>
-        </div>
-        <!-- 修改會員資料表單  -->
-        <div id="edit-modal" class="modal hidden">
-		  <div class="modal-content">
-		    <span class="close-btn" id="close-modal-btn">&times;</span>
-		    <h3>修改會員基本資料</h3>
-		    <form id="edit-form">
-		      <div class="form-group">
-			      <label for="edit-name">會員姓名:</label>
-			      <input type="text" id="edit-name" name="name" value="Lying" />
-			    </div>
-<!-- 			    <div class="form-group"> -->
-<!-- 			      <label for="edit-email">電子信箱:</label> -->
-<!-- 			      <input type="email" id="edit-email" name="email" value="eva8172003@gmail.com" /> -->
-<!-- 			    </div> -->
-			    <div class="form-group">
-			      <label for="edit-nickname">會員暱稱:</label>
-			      <input type="text" id="edit-nickname" name="nickname" value="" />
-			    </div>
-			    <div class="form-group">
-			      <label for="edit-gender">會員性別:</label>
-			      <select id="edit-gender" name="gender">
-			        <option value="1" selected>男</option>
-			        <option value="2">女</option>
-			        <option value="0">不公開</option>
-			      </select>
-			    </div>
-			    <div class="form-group">
-			      <label for="edit-phone">會員電話:</label>
-			      <input type="tel" id="edit-phone" name="phone" value="" />
-			    </div>
-			    <div class="form-group">
-			      <label for="edit-bankAccount">轉帳帳戶:</label>
-			      <input type="text" id="edit-bankAccount" name="bankAccount" value="" placeholder="" />
-			    </div>
-			    <button type="submit">儲存修改</button>
-		    </form>
-		  </div>
-		</div>
-      </div>
-
-      <!-- 燈箱 -->
-      <div class="modal-overlay" id="modalOverlay"></div>
-      <div class="modal" id="verificationModal">
-        <h3>驗證碼已寄發</h3>
-        <p>驗證碼已寄送至您的電子郵件，請輸入驗證碼完成註冊。</p>
-        <label for="verificationCode">驗證碼</label> <input type="text"
-                                                            id="verificationCode" placeholder="輸入驗證碼">
-        <button id="verifyCodeBtn">確認驗證碼</button>
-      </div>
+		<div>
+   			<button type="button" class="btn chat_btn" id="chat_with_ft" style="background-color:lightblue;color:white;">
+   			聊聊
+   			</button>
+   			<input type="hidden" name="ftId" value="1">
+   		</div>
+      	 <div id="chat-widget" th:fragment="chatroom">
+				       <div id="chat-header" onclick="toggleChat()">
+				           <span id="return-icon" onclick="goBackToUserList(event)">←</span>
+				           <span id="header-title"></span>
+				       </div>
+				       <div id="chat-body">
+				           <!-- 聊天對象列表 -->
+				           <div id="user-list" class="mem_block">
+				               <ul>
+				               </ul>
+				           </div>
+				           <!-- 聊天視窗 -->
+				           <div id="chat-window" style="display: none;">
+				               <div id="chat-display">
+				                   <!-- 聊天訊息將顯示在這裡 -->
+				               </div>
+				               <div id="chat-input">
+				                   <input type="text" id="message-input" placeholder="輸入訊息..." />
+				                   <button class="send-msg" onclick="sendMessage()" id="sendbtn">送出</button>
+				               </div>
+				           </div>
+				       </div>
+			   </div>
     </main>
     <script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/sidebars.js"></script>
     <script src="/js/membercenter.js"></script>
-    <script>
-      
-
-    </script>
+     <script th:src="@{/js/mem_chat.js}"></script>
   </body>
 </html>

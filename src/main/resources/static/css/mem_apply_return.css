@@ -1,0 +1,117 @@
+@charset "UTF-8";
+
+div.return-container{
+          max-width: 800px;
+          margin: 40px auto 160px auto;
+          padding: 25px 25px 45px 25px;
+          background-color: #f9f9f9;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+  
+ h2.form-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+  div.form-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    div.form-group label {
+        margin-right: 10px;
+        flex: 1.3;
+        text-align: center;
+        margin: 0;
+    }
+
+   div.form-group input{
+        flex: 2;
+        margin: 0 20px 0 50px;
+    }
+
+    div.instructions {
+        background-color: #e9ecef;
+        padding: 10px;
+        border-left: 5px solid #ab75e1;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+    }
+
+    div.notice {
+        font-size: 0.9rem;
+        background-color: #f8f9fa;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 40px 0 0 0;
+    }
+
+	div.btn-area{		
+	 
+	 display:flex;
+	 justify-content:center;
+	}
+
+
+    button.btn-submit {
+        display: block;
+        width: 15%;
+        margin-top: 40px;
+        color: white;
+        font-size: 1rem;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        
+    }
+
+    tr.title th {
+        text-align: center;
+    }
+
+    td.name {
+        text-align: center;
+    }
+
+    td.check_place {
+        text-align: center;
+    }
+
+    /* 增加勾選框大小 */
+    input[type="checkbox"] {
+        transform: scale(1.2); /* 讓勾選框放大1.5倍 */
+        margin: 0 auto; /* 置中 */
+    }
+  
+  
+ /* 增加表格每個欄位的內邊距 */
+ table {
+     width: 100%;
+     margin-top: 20px;
+ }
+
+ table th, table td {
+     padding: 20px 15px; /* 增加內邊距 */
+     text-align: center;
+     vertical-align: middle;
+ }
+
+ .table-row td {
+     padding: 30px 15px 30px 15px;
+ }
+
+ div.agree label{
+     margin-left: 10px;
+ }
+ 
+ table.table-bordered{
+ 	margin-bottom:50px !important;
+ 	 border-collapse: collapse !important;
+ }
+ 
+ 

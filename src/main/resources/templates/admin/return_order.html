@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修卜人生 - 論壇系統</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" th:href="@{/css/style.css}"> 
+    <link rel="stylesheet" th:href="@{/css/return.css}"> 
+    
+</head>
+<body>
+	<div th:replace="index::header"></div>
+	
+		<div class="container">
+	        <div class="row">
+	         <aside class="col-md-3 sidebar">
+            	<i class="fa-solid fa-bars"></i>    
+                <h5 style="padding:10px 10px 10px 20px;font-weight:700;">訂單管理</h5>   
+                <ul style="list-style: none;padding:0;">                           
+                    <li class="side_list" style="padding:10px 10px 10px 20px;"><a href="#" style="text-decoration: none; color: rgb(99, 97, 97);">退貨訂單</a></li><!--列出所有訂單取消列表，可點退款處理、顯示處理狀態-->   
+           			
+
+                </ul>
+            </aside>
+	
+			
+			<main class=" main-content">			
+				
+					<table class="table table-hover " id="returnTable">
+					    <thead class="thead">
+					        <tr class="table-light">
+					            <th>訂單編號</th>
+					            <th>會員編號</th>
+					            <th>占卜師編號</th>
+					            <th>付款方式</th>
+					            <th>處理狀態</th>		                     			                                                       
+		            			<th>申請退貨時間</th>
+					           	<th>訂單結案時間</th>
+                  				<th>退貨明細</th>
+					        </tr>
+					    </thead>
+					    
+					    <tbody class="table-group-divider">
+					    
+					    	<!--第一列 -->
+					        <tr th:each="DTO : ${dtos}">
+					             <td class="orderno" name="orderno" th:text="${DTO.orderNo}"></td>					          
+					             <td class="memid" name="memid" th:text="${DTO.memId}"></td>
+					              <td class="ftid" name="ftid" th:text="${DTO.ftId}"></td>				            
+					       		 <td class="payment" name="payment" th:text="${DTO.payment}"></td>
+					       		 <td class="return_status">待處理</td>		          	            			 
+					       		 <td class="applytime" name="applytime" th:text="${DTO.applyTime}"></td>
+					       		 <td class="endedtime" name="endedtime" th:text="${DTO.endedTime!=null ? DTO.endedTime : '-'}"></td>		
+					       		 <td><a style="text-decoration:none;" th:href="@{/order/admin/statistic/detail/{orderNo}(orderNo=${DTO.orderNo})}">查看</a></td>
+
+					        </tr>
+					    
+					    </tbody>
+					</table>
+					
+				</main>
+			
+			
+		</div>
+    </div>
+    
+    <footer th:replace="index::footer"></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      
+        <!-- DataTables CSS & JS -->
+ <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<!--  <script th:src="@{/js/product.js}"></script> -->
+ 
+  <!-- DataTables 設定 -->
+    <script>
+    $(document).ready(function () {
+        $('#returnTable').DataTable({
+            lengthMenu: [10],
+            searching: false,
+            paging: true,
+            ordering: true,
+            language: {
+                processing: "處理中...",
+                loadingRecords: "載入中...",
+                lengthMenu: "",
+                zeroRecords: "沒有符合的結果",
+                info: "顯示第 _START_ 至 _END_ 筆結果，共 <font color='red'>_TOTAL_</font> 筆",
+                infoEmpty: "顯示第 0 至 0 筆結果，共 0 筆",
+                infoFiltered: "(從 _MAX_ 筆結果中過濾)",
+                search: "搜尋:",
+                paginate: {
+                    first: "第一頁",
+                    previous: "上一頁",
+                    next: "下一頁",
+                    last: "最後一頁",
+                },
+                aria: {
+                    sortAscending: ": 升冪排列",
+                    sortDescending: ": 降冪排列",
+                },
+            },
+        });
+    });
+
+    </script>
+</body>
+</html>

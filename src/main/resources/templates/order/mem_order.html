@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fixlife 會員中心</title>
+
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.1/examples/headers/">
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
+
+<!-- Custom styles for this template -->
+<link href="/css/headers.css" rel="stylesheet">
+
+<!-- Bootstrap core CSS -->
+<link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for sidevar -->
+<link href="/css/sidebars.css" rel="stylesheet">
+
+<link href="/css/membercenter.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" th:href="@{/css/style.css}"> 
+<link rel="stylesheet" th:href="@{/css/modal.css}"> 
+<!-- <link rel="stylesheet" th:href="@{/css/chat.css}">  -->
+
+<style>
+</style>
+</head>
+<body>
+
+	<header class="p-3 mb-3 border-bottom">
+		<div class="container">
+			<div
+				class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+				<a href="/"
+					class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+					<h1>修卜人生</h1>
+				</a>
+
+				<ul
+					class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+					<li><a href="#" class="nav-link px-2 link-secondary">想找占卜師</a></li>
+					<li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li>
+					<li><a href="#" class="nav-link px-2 link-dark">占卜論壇</a></li>
+					<li><a href="#" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li>
+					<li><a href="register" class="nav-link px-2 link-dark">會員註冊</a></li>
+					<li><a href="login" class="nav-link px-2 link-dark">會員登入</a></li>
+				</ul>
+
+				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+					<input type="search" class="form-control" placeholder="Search..."
+						aria-label="Search">
+				</form>
+
+				<div class="dropdown text-end">
+					<a href="#"
+						class="d-block link-dark text-decoration-none dropdown-toggle"
+						id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+						<img id="photo-icon" src="/svg/user-solid.svg" alt="mdo"
+						width="32" height="32" class="rounded-circle">
+					</a>
+					<ul class="dropdown-menu text-small"
+						aria-labelledby="dropdownUser1">
+						<li><a class="dropdown-item" href="membercenter">會員中心</a></li>
+						<li><a class="dropdown-item" href="ftcenter">占卜師中心</a></li>
+						<li><a class="dropdown-item" href="#">購物車</a></li>
+						<li><a class="dropdown-item" href="#">客服中心</a></li>
+						<li><hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item logout-link" href="" id="logout"
+							name="logout">登出 </a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- <div class="b-example-divider"></div> -->
+	<div class="container-all">
+		  		<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;margin-right:0 !important;" >
+			    <a href="membercenter" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+			      <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+			      <span class="fs-5 fw-semibold">會員中心</span>
+			    </a>
+			    <ul class="list-unstyled ps-0">
+			      <li class="mb-1">
+			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+			          會員中心
+			        </button>
+			        <div class="collapse show" id="home-collapse">
+			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+			            <li><a href="membercenter" class="link-dark rounded">會員基本資料</a></li>
+			            <!-- <li><a href="#" class="link-dark rounded">修改會員資料</a></li> -->
+			            <!-- <li><a href="#" class="link-dark rounded">預約查詢</a></li> -->
+			          </ul>
+			        </div>
+			      </li>
+			      <li class="mb-1">
+			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+			          預約查詢
+			        </button>
+			        <div class="collapse" id="dashboard-collapse">
+			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+			            <li><a href="#" class="link-dark rounded">預約查詢</a></li>
+			            <li><a href="#" class="link-dark rounded">歷史預約查詢</a></li>
+			            <!-- <li><a href="#" class="link-dark rounded">Monthly</a></li> -->
+			            <!-- <li><a href="#" class="link-dark rounded">Annually</a></li> -->
+			          </ul>
+			        </div>
+			      </li>
+			      <li class="mb-1">
+			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+			          訂單查詢
+			        </button>
+			        <div class="collapse" id="orders-collapse">
+			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+			            <li><a th:href="@{/order/mem_order}" class="link-dark rounded">訂單查詢</a></li>
+			            <!-- <li><a href="#" class="link-dark rounded">訂單狀態查詢</a></li> -->
+			<!--             <li><a href="#" class="link-dark rounded">歷史訂單查詢</a></li> -->
+			          </ul>
+			        </div>
+			      </li>
+			      <li class="mb-1">
+			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+			          收藏
+			        </button>
+			        <div class="collapse" id="orders-collapse">
+			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+			            <li><a href="#" class="link-dark rounded">商品收藏</a></li>
+			            <li><a href="#" class="link-dark rounded">占卜師收藏</a></li>
+			            <li><a href="#" class="link-dark rounded">文章收藏</a></li>
+			          </ul>
+			        </div>
+			      </li>
+			      <li class="border-top my-3"></li>
+			      <li class="mb-1">
+			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+			          Account
+			        </button>
+			        <div class="collapse" id="account-collapse">
+			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+			            <li><a href="resetpassword" class="link-dark rounded">變更密碼</a></li>
+			            <li><a href="#" class="link-dark rounded">刪除帳號</a></li>
+			            <!-- <li><a href="#" class="link-dark rounded">客服中心</a></li> -->
+			            <li><a href="#" class="link-dark rounded logout-link" id="logout" name="logout">登出</a></li>
+			          </ul>
+			        </div>
+			      </li>
+			    </ul>
+			  </div>
+
+		<main class="main" style="padding:0 100px 0 10px;">
+			<main class="col-md-9 main-content" style="display:block;margin:0 !important;padding:0 !important;">
+				<!-- 頁嵌 -->
+			<ul class="nav tab_block">
+			  <li class="nav-item mytab">
+			    <a class="nav-link active mytab" aria-current="page" th:href="@{/order/mem_order}">所有訂單</a>
+			  </li>
+			  <li class="nav-item  mytab">
+			    <a class="nav-link mytab inactive delivery">待出貨</a>
+			  </li>
+			  <li class="nav-item  mytab">
+			    <a class="nav-link mytab inactive receiving">待收貨</a>
+			  </li>
+			  <li class="nav-item mytab">
+			    <a class="nav-link mytab inactive order-finished">已完成</a>
+			  </li>		
+			  <li class="nav-item mytab">
+			    <a class="nav-link mytab inactive order-canceled">已取消</a>
+			  </li>		  
+			   <li class="nav-item mytab">
+			    <a class="nav-link mytab inactive return-goods">退貨</a><!-- 取出所有申請退貨的訂單、以及退貨資訊 -->
+			  </li>
+			</ul>
+			
+			<!-- 頁嵌容器 -->
+			<div class="tab_container" style="background-color:white;border-radius:0 2px 2px 2px;margin-bottom:150px;">
+			
+			<!-- 訂單容器 -->
+			  <div class="order-container">
+			  
+			  <!-- 訂單一 -->
+		        <div class="order-card" th:each="DTO : ${OrderSumDTO}">		        		
+		        	<div class="order-info">
+		        		<p class="order-number" th:text="'訂單編號 : 00'+${DTO.orderNo}"></p>      		
+		        		<div class="total-price">
+			        		<p class="price-title" >訂單總金額</p>
+			        		<p class="total" th:text="'$'+${DTO.total}"></p>
+		        		</div>
+		        		
+		        	</div>
+		        		
+		        	<div class="order-item">
+		        		<div class="product-image">
+		        			<img src="example-image.jpg" th:src="@{/product/showPic} + '?prodno=' + ${DTO.prodNo}" alt="產品圖像">
+		        		</div>
+		        		<div class="product-name">
+		        			<p th:text="'[ '+${DTO.prodName}+' ]'"></p>
+		        		</div>		        			                 
+	                    <div class="price-container">
+		                    <p class="nubmer" th:text="'x'+${DTO.quantity}"></p>
+		                    <p class="price" th:text="'$'+${DTO.price}" style="margin-left:20px;"></p>
+	                    </div>                    
+		        	</div>
+		        		
+		        	 <div class="order-detail">
+		        		<div class="empty-div">
+		        			
+		        		</div>
+		        		<div class="check-detail">
+		        			<a th:href="@{/order/mem_order/detail(orderNo=${DTO.orderNo})}" class="check-detail">查看訂單詳情 >></a>
+		        		</div>
+		        		
+		        		<div class="cancel-button"></div>        				        				        	 	
+		        	 	      	 	
+		                
+		        	</div>	          			     		            
+      			 </div>
+      			   	     			 
+				
+				</div>
+			
+			</div>
+			
+			
+			</main>
+			
+			
+		</main>
+	</div>
+	<script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="/js/sidebars.js"></script>
+	<script src="/js/ftcenter.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+	 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+ 	 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	 <script th:src="@{/js/mem_order.js}"></script>
+</body>
+</html>

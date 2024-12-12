@@ -1,15 +1,10 @@
 package com.cia103g5.user.productImage.model;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import com.cia103g5.user.product.model.ProductVO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,14 +17,15 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="prod_image")
-public class ProductImageVO {
+public class ProductImageVO  implements Serializable{
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@Column(name="image_no")
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
 	private Integer imageNo;
 	
-	
+	@JsonIgnore
 	@ManyToOne //FK
 	@JoinColumn(name="prod_no",referencedColumnName = "prod_no") //前者為對應FK欄位名稱，後者為PK欄位名稱
 	private ProductVO productVO;
@@ -39,7 +35,7 @@ public class ProductImageVO {
 	
 	
 	@Column(name="is_primary",nullable=false)
-	private Boolean isPrimary;
+	private Byte isPrimary;
 	
 	@Column(name="created_time",updatable=false)
 	private Timestamp createdTime;
@@ -49,10 +45,7 @@ public class ProductImageVO {
 	}
 
 
-
-
-	
-public ProductImageVO(Integer imageNo, ProductVO productVO, byte[] prodPic, Boolean isPrimary, Timestamp createdTime) {
+public ProductImageVO(Integer imageNo, ProductVO productVO, byte[] prodPic, Byte isPrimary, Timestamp createdTime) {
 		super();
 		this.imageNo = imageNo;
 		this.productVO = productVO;
@@ -86,11 +79,11 @@ public Integer getImageNo() {
 		this.prodPic = prodPic;
 	}
 
-	public Boolean getIsPrimary() {
+	public Byte getIsPrimary() {
 		return isPrimary;
 	}
 
-	public void setIsPrimary(Boolean isPrimary) {
+	public void setIsPrimary(Byte isPrimary) {
 		this.isPrimary = isPrimary;
 	}
 
@@ -101,42 +94,5 @@ public Integer getImageNo() {
 	public void setCreatedTime(Timestamp createdTime) {
 		this.createdTime = createdTime;
 	}
-
-	//	將資料庫取出的照片寫到指定資料夾中
-	public void writePic(byte[] buf,Integer prod_no) throws IOException {
-		File file =new File("src\\main\\resources\\static\\images\\testpic."+prod_no+".jpg");
-		try {
-			FileOutputStream fos =new FileOutputStream(file);
-			BufferedOutputStream bos =new BufferedOutputStream(fos);
-			
-			bos.write(buf);
-			
-			
-			bos.close();
-			fos.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
-	
-//將圖片資料(路徑)傳入，轉換成byte[]並回傳->準備送進資料庫
-	public byte[] readPic(String filepath) throws IOException {
-		File file =new File(filepath);
-		FileInputStream fis=new FileInputStream(file);
-		BufferedInputStream bos =new BufferedInputStream(fis);
-	
-		byte[] buffer =new byte[bos.available()];
-		buffer=bos.readAllBytes();
-		
-		bos.close();
-		fis.close();
-		
-		return buffer;
-	} 
-	
-
-	
 	
 }

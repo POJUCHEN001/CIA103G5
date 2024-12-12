@@ -1,11 +1,10 @@
 package com.cia103g5.user.orderDetails.model;
 
 import java.io.Serializable;
-import java.util.Set;
-
 
 import com.cia103g5.user.order.model.OrdersVO;
 import com.cia103g5.user.product.model.ProductVO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -17,8 +16,9 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="order_detail")
-public class OrderDetailVO {
-
+public class OrderDetailVO  implements Serializable{
+	 private static final long serialVersionUID = 1L;
+	
 	@EmbeddedId
 	//配置複合主鍵
 	private CompositeDetail compositekey;
@@ -140,6 +140,7 @@ public class OrderDetailVO {
 		private static final long serialVersionUID = 1L;
 
 		//order_no本身也為FK
+		@JsonBackReference//不會被序列化(避免序列化時雙向關聯造成循環引用)
 		@ManyToOne
 		@JoinColumn(name="order_no",referencedColumnName="order_no")
 		private OrdersVO ordersVO;

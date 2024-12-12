@@ -57,4 +57,14 @@ public class PageController {
     	return "ftcenter"; 
     }
     
+    @GetMapping("/chatroom")
+    public String toChatRoom() {
+    	return "chat/mem_chat";
+    }
+
+    @GetMapping("/chatroom/ft")
+    public String toFtChatRoom() {		
+    	return "chat/ft_chat";
+    }
+    
 }

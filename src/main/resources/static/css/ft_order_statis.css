@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+form.query-part{
+	display:flex;
+	padding:10px;
+	flex-wrap:wrap;
+	justify-content:space-around;
+}
+
+div.date-block{
+	margin-right:20px;
+}
+
+div.year{
+	margin-right:15px;
+}
+
+div.month{
+	margin-right:40px;
+}
+
+select.year,select.month{
+	width:80px;
+	align-items:center;
+	height:32px;
+	border-radius:3px;
+}
+
+/* div.top-container{ */
+/* 	width:50% !important; */
+/* 	float:right; */
+/* } */
+
+div.table_container{
+	width:100%;
+	display:flex;
+
+}
+
+div.table_container table.one{
+	margin:60px 30px 0 30px;
+}
+
+div.table_container table.two{
+	margin:60px 0 0 20px;
+}
