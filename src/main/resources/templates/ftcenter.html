@@ -130,7 +130,8 @@
 							<li><a href="resetpassword" class="link-dark rounded">變更密碼</a></li>
 							<li><a href="#" class="link-dark rounded">刪除帳號</a></li>
 							<li><a href="#" class="link-dark rounded">客服中心</a></li>
-							<li><a class="dropdown-item logout-link" href="#" id="logout" name="logout">登出 </a></li>
+							<li><a class="dropdown-item logout-link" href="#"
+								id="logout" name="logout">登出 </a></li>
 						</ul>
 					</div>
 				</li>
@@ -145,13 +146,12 @@
 				<div class="ft_center">
 					<div class="ft_photo_container">
 						<div class="ft_photo">
-							<img id="photo" alt="大頭照"
-								name="photo"> <br>
+							<img id="photo" alt="大頭照" name="photo"> <br>
 							<button id="update-photo-btn">更換照片</button>
 						</div>
 						<div class="ft_photo">
-							<img id="businessPhoto"
-								alt="營業登記照片" name="businessPhoto"> <br>
+							<img id="businessPhoto" alt="營業登記照片" name="businessPhoto">
+							<br>
 							<!-- 							<button id="update-photo-btn">更換照片</button> -->
 						</div>
 					</div>
@@ -165,7 +165,7 @@
 							<li>申請時間：<span id="registeredTime" name="registeredTime"></span></li>
 							<li>審核通過時間：<span id="approvedTime" name="approvedTime"></span></li>
 							<li>占卜服務價格：<span id="price" name="price"></span></li>
-							<li>占卜師簡介：<div id="intro" name="intro" rows="4" cols="30"></div></li>
+							<li>占卜師簡介：<div id="intro" name="intro" style="word-wrap: break-word"></div></li>
 						</ul>
 						<br>
 						<button class="edit-info-btn" id="edit-info-btn">修改占卜價格與簡介</button>
@@ -178,11 +178,11 @@
 								type="text" id="edit-bankAccount" placeholder="請輸入轉帳帳號">
 							</li> -->
 							<li><label for="edit-price">占卜服務價格：</label> <input
-								type="text" id="edit-price" placeholder="請輸入服務價格" min="0" step="1"></li>
-							<li><label for="edit-intro">占卜師簡介：</label>
-<!--								<input type="text" id="edit-intro" placeholder="請輸入占卜師簡介">-->
-								<textarea id="edit-intro" placeholder="請輸入占卜師簡介" rows="4" cols="30"></textarea>
-							</li>
+								type="text" id="edit-price" placeholder="請輸入服務價格" min="0"
+								step="1"></li>
+							<li><label for="edit-intro">占卜師簡介：</label> <!--								<input type="text" id="edit-intro" placeholder="請輸入占卜師簡介">-->
+								<textarea id="edit-intro" placeholder="請輸入占卜師簡介" rows="4"
+									cols="30"></textarea></li>
 						</ul>
 						<div style="text-align: center; margin-top: 20px;">
 							<button id="cancel-edit-btn">取消修改</button>
@@ -197,7 +197,6 @@
 	<script src="/js/sidebars.js"></script>
 	<script src="/js/ftcenter.js"></script>
 	<script>
-
 		
 	</script>
 </body>

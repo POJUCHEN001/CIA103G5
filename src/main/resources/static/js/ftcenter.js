@@ -3,63 +3,129 @@
  */
 
 // 載入占卜師基本資料
+//async function loadMemberProfile() {
+//    // 使用 fetch API 從後端獲取占卜師資料
+//    await fetch('/ftAPI/info', { method: "GET" , credentials: 'include'})
+//        .then(function (response) {
+//            // 檢查是否成功獲取資料，否則拋出錯誤
+//            if (!response.ok) {
+//				if(response.status === 401){
+//					alert("未登入，請前往登入");				
+//				} else if (response.status === 404){
+//					alert("沒有占卜師身分");
+//				}else{
+//	                throw new Error('無法獲取占卜師資料');					
+//				}
+//			} return;
+//            return response.json(); // 解析 JSON 資料
+//        })
+//        .then(function (data) {
+//            // 更新 HTML 中的占卜師資料
+//            document.getElementById('ftId').textContent = data.ftId;
+//            document.getElementById('nickname').textContent = data.nickname;
+//            document.getElementById('companyName').textContent = data.companyName || '未提供';
+//            document.getElementById('businessNo').textContent = data.businessNo || '未提供';
+//
+//            // 假設 ftRank 包含 rankName，顯示等級名稱
+//            document.getElementById('ftRank').textContent = data.ftRank.rankName;
+//
+//            // 格式化日期並更新到頁面
+//            document.getElementById('registeredTime').textContent = data.registeredTime
+//                ? new Date(data.registeredTime).toLocaleString()
+//                : '已提交申請';
+//            document.getElementById('approvedTime').textContent = data.approvedTime
+//                ? new Date(data.approvedTime).toLocaleString()
+//                : '尚未審核';
+//
+//            // 顯示價格與簡介
+//            document.getElementById('price').textContent = data.price || '尚未設置價格';
+//            document.getElementById('intro').textContent = data.intro || '暫無簡介';
+//
+//            // 照片處理邏輯
+//            const profilePhoto = document.getElementById('photo');
+//            const businessPhoto = document.getElementById('businessPhoto');
+//
+//            // 處理個人照片
+//            if (data.photo) {
+//                profilePhoto.src = 'data:image/' + data.photoFormat + ';base64,' + data.photo;
+//            } else {
+//                profilePhoto.src = '/img/default-photo.png'; // 預設照片
+//            }
+//
+//            // 處理營業執照照片
+//            if (data.businessPhoto) {
+//                businessPhoto.src = 'data:image/' + data.photoFormat + ';base64,' + data.businessPhoto;
+//            } else {
+//                businessPhoto.src= '/img/businessphoto01.jpg'; // 預設照片
+//            }
+//        })
+//        .catch(function (error) {
+//            // 錯誤處理，顯示錯誤訊息
+//            console.error(error);
+////            alert('請重新登入！');
+////            window.location.href = "/login";
+//        });
+//}
+
 async function loadMemberProfile() {
-    // 使用 fetch API 從後端獲取占卜師資料
-    await fetch('/ftAPI/info')
-        .then(function (response) {
-            // 檢查是否成功獲取資料，否則拋出錯誤
-            if (!response.ok) {
+    try {
+        const response = await fetch('/ftAPI/info', { 
+            method: "GET", 
+            credentials: 'include' 
+        });
+
+        // 處理非 2xx 狀態碼
+        if (!response.ok) {
+            if (response.status === 401) {
+                alert("未登入，請前往登入");
+                window.location.href = "/login"; // 重導到登入頁面
+            } else if (response.status === 404) {
+                alert("未找到占卜師資料，請確認您的權限");
+            } else {
                 throw new Error('無法獲取占卜師資料');
             }
-            return response.json(); // 解析 JSON 資料
-        })
-        .then(function (data) {
-            // 更新 HTML 中的占卜師資料
-            document.getElementById('ftId').textContent = data.ftId;
-            document.getElementById('nickname').textContent = data.nickname;
-            document.getElementById('companyName').textContent = data.companyName || '未提供';
-            document.getElementById('businessNo').textContent = data.businessNo || '未提供';
+            return; // 提前結束函數
+        }
 
-            // 假設 ftRank 包含 rankName，顯示等級名稱
-            document.getElementById('ftRank').textContent = data.ftRank.rankName;
+        // 解析返回的 JSON 資料
+        const data = await response.json();
 
-            // 格式化日期並更新到頁面
-            document.getElementById('registeredTime').textContent = data.registeredTime
-                ? new Date(data.registeredTime).toLocaleString()
-                : '已提交申請';
-            document.getElementById('approvedTime').textContent = data.approvedTime
-                ? new Date(data.approvedTime).toLocaleString()
-                : '尚未審核';
+        // 更新 HTML 中的占卜師資料
+        updateFtProfile(data);
 
-            // 顯示價格與簡介
-            document.getElementById('price').textContent = data.price || '尚未設置價格';
-            document.getElementById('intro').textContent = data.intro || '暫無簡介';
-
-            // 照片處理邏輯
-            const profilePhoto = document.getElementById('photo');
-            const businessPhoto = document.getElementById('businessPhoto');
-
-            // 處理個人照片
-            if (data.photo) {
-                profilePhoto.src = 'data:image/' + data.photoFormat + ';base64,' + data.photo;
-            } else {
-                profilePhoto.src = '/img/default-photo.png'; // 預設照片
-            }
-
-            // 處理營業執照照片
-            if (data.businessPhoto) {
-                businessPhoto.src = 'data:image/' + data.photoFormat + ';base64,' + data.businessPhoto;
-            } else {
-                businessPhoto.src= '/img/businessphoto01.jpg'; // 預設照片
-            }
-        })
-        .catch(function (error) {
-            // 錯誤處理，顯示錯誤訊息
-            console.error(error);
-            alert('請重新登入！');
-            window.location.href = "/login";
-        });
+    } catch (error) {
+        console.error("獲取占卜師資料時發生錯誤：", error);
+        alert("系統錯誤，請稍後再試");
+    }
 }
+
+// 抽取更新資料邏輯到獨立函數
+function updateFtProfile(data) {
+    document.getElementById('ftId').textContent = data.ftId || 'N/A';
+    document.getElementById('nickname').textContent = data.nickname || '未提供';
+    document.getElementById('companyName').textContent = data.companyName || '未提供';
+    document.getElementById('businessNo').textContent = data.businessNo || '未提供';
+    document.getElementById('ftRank').textContent = data.ftRank?.rankName || 'N/A';
+    document.getElementById('registeredTime').textContent = data.registeredTime 
+        ? new Date(data.registeredTime).toLocaleString() 
+        : '已提交申請';
+    document.getElementById('approvedTime').textContent = data.approvedTime 
+        ? new Date(data.approvedTime).toLocaleString() 
+        : '尚未審核';
+    document.getElementById('price').textContent = data.price || '尚未設置價格';
+    document.getElementById('intro').textContent = data.intro || '暫無簡介';
+
+    const profilePhoto = document.getElementById('photo');
+    const businessPhoto = document.getElementById('businessPhoto');
+
+    profilePhoto.src = data.photo 
+        ? `data:image/jpeg;base64,${data.photo}` 
+        : '/img/default-photo.png';
+    businessPhoto.src = data.businessPhoto 
+        ? `data:image/jpeg;base64,${data.businessPhoto}` 
+        : '/img/businessphoto01.jpg';
+}
+
 
 
 // 當 DOM 完全加載後執行
