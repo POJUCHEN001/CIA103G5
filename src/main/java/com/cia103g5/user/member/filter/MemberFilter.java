@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = {"/membersAPI/*", "reservations"}) // 攔截所有請求
+@WebFilter(urlPatterns = {"/membersAPI/*"}) // 攔截所有請求
 public class MemberFilter extends HttpFilter implements Filter {
     @Override
     public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
