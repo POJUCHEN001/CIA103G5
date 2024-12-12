@@ -49,7 +49,7 @@ public class MemberService {
 		newMember.setGender(gender);
 		newMember.setRegisteredTime(registeredTime);
 		newMember.setStatus(0); // 帳號啟用
-		newMember.setEmailState(0); // 信箱驗證狀態
+		newMember.setEmailState(0); // 信箱驗證狀態預設為0(未驗證)
 
 		// 檢查註冊資訊
 		processPhoto(newMember, photo); // 處理照片

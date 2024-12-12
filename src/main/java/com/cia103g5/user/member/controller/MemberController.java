@@ -92,11 +92,11 @@ public class MemberController {
 			@RequestParam("photo") MultipartFile photo) {
 		SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
 		Integer memberId = sessionMember.getMemberId();
-		if(sessionMember == null) {
-			System.out.println("沒有抓到sessionMember, 就沒有 memberId");
-		} else {
-			System.out.println("有 memberId");
-		}
+//		if(sessionMember == null) {
+//			System.out.println("沒有抓到sessionMember, 就沒有 memberId");
+//		} else {
+//			System.out.println("有 memberId");
+//		}
 
 		System.out.println(memberId);
 
@@ -140,6 +140,42 @@ public class MemberController {
 	        );
 	    }
 	}
+
+	// 重新寄送驗證信
+	@PostMapping("/resend-verification-code")
+	public ResponseEntity<Map<String, Object>> sendVerificationCode(@RequestParam String email) {
+		try {
+			String result = service.sendVerificationCode(email);
+			return ResponseEntity.ok(Map.of("message", result));
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body(Map.of("message", "驗證碼發送失敗", "error", e.getMessage()));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Map.of("message", "系統錯誤，請稍後再試"));
+		}
+	}
+
+	// 驗證用戶驗證碼
+	@PostMapping("/validate-verification-code")
+	public ResponseEntity<Map<String, Object>> validateVerificationCode(@RequestParam String email,
+																		@RequestParam String code) {
+		try {
+			boolean isValid = service.validateVerificationCode(email, code);
+			if (isValid) {
+				// 驗證碼正確，更新會員信箱狀態
+				service.updateEmailState(email);
+				return ResponseEntity.ok(Map.of("message", "驗證碼正確，已更新信箱驗證狀態"));
+			} else {
+				return ResponseEntity.badRequest().body(Map.of("message", "驗證碼錯誤或已過期"));
+			}
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.badRequest().body(Map.of("message", "驗證失敗", "error", e.getMessage()));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(Map.of("message", "系統錯誤，請稍後再試"));
+		}
+	}
+
 
 	// 查詢會員
 	@GetMapping("/{id}")

@@ -5,10 +5,10 @@
 // 當 DOM 完全加載後執行
 document.addEventListener('DOMContentLoaded', function () {
     // 假設占卜師 ID 固定為 1，實際可以通過其他方式動態獲取
-    var ftId = 1;
+    // var ftId = 1;
 
     // 使用 fetch API 從後端獲取占卜師資料
-    fetch('/ft/info/' + ftId)
+    fetch('/ft/info')
         .then(function (response) {
             // 檢查是否成功獲取資料，否則拋出錯誤
             if (!response.ok) {
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(function (data) {
             // 更新 HTML 中的占卜師資料
-            document.getElementById('ftId').textContent = ftId;
+            document.getElementById('ftId').textContent = data.ftId;
             document.getElementById('nickname').textContent = data.nickname || '未提供';
             document.getElementById('companyName').textContent = data.companyName || '未提供';
             document.getElementById('businessNo').textContent = data.businessNo || '未提供';
@@ -29,13 +29,13 @@ document.addEventListener('DOMContentLoaded', function () {
             // 格式化日期並更新到頁面
             document.getElementById('registeredTime').textContent = data.registeredTime
                 ? new Date(data.registeredTime).toLocaleString()
-                : '尚未註冊';
+                : '已提交申請';
             document.getElementById('approvedTime').textContent = data.approvedTime
                 ? new Date(data.approvedTime).toLocaleString()
                 : '尚未審核';
 
             // 顯示價格與簡介
-            document.getElementById('price').textContent = data.price || '未設定';
+            document.getElementById('price').textContent = data.price || '尚未設置價格';
             document.getElementById('intro').textContent = data.intro || '暫無簡介';
 
             // 照片處理邏輯
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-// 修改資料的樣式
+// 修改資料的樣式 (點擊修改占卜師資料)
 document.getElementById("edit-info-btn").addEventListener("click", function () {
     // 切換到編輯模式
     document.getElementById("info-view").style.display = "none";
@@ -78,6 +78,7 @@ document.getElementById("edit-info-btn").addEventListener("click", function () {
     document.getElementById("edit-bankAccount").value = document.getElementById("bankAccount").textContent;
     document.getElementById("edit-intro").value = document.getElementById("intro").textContent;
     document.getElementById("edit-price").value = document.getElementById("price").textContent;
+
 });
 
 document.getElementById("cancel-edit-btn").addEventListener("click", function () {
@@ -86,13 +87,93 @@ document.getElementById("cancel-edit-btn").addEventListener("click", function ()
     document.getElementById("edit-section").style.display = "none";
 });
 
+
+// 點擊送出修改
 document.getElementById("save-edit-btn").addEventListener("click", function () {
     // 保存修改，將輸入框的值更新到顯示區域
     document.getElementById("nickname").textContent = document.getElementById("edit-nickname").value;
     document.getElementById("intro").textContent = document.getElementById("edit-intro").value;
     document.getElementById("price").textContent = document.getElementById("edit-price").value;
 
+    // Fetch FtController 的 /updateinfo
+    const nickname = document.getElementById("edit-nickname").value;
+    const intro = document.getElementById("edit-intro").value;
+    const price = document.getElementById("edit-price").value;
+
+    // 驗證價格是否為有效數字
+    if (!price || isNaN(price) || Number(price) < 0) {
+        alert("請輸入有效的服務價格（正整數）");
+        return;
+    }
+
+    const data = {
+        nickname: nickname,
+        intro: intro,
+        price: parseInt(price, 10)
+    }
+    fetch('/ft/updateinfo',{
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if(!response.ok){
+            throw new Error('請輸入正確的資料格式')
+        }
+        return response.text();
+    })
+    .then(message => {
+        alert(message);
+
+
+    // 更新顯示區域的內容
+    document.getElementById("nickname").textContent = nickname;
+    document.getElementById("intro").textContent = intro;
+    document.getElementById("price").textContent = price;
+
     // 切回查看模式
     document.getElementById("info-view").style.display = "inline-block";
     document.getElementById("edit-section").style.display = "none";
+    })
+        .catch(error => {
+            alert(`錯誤：${error.message}`)
+        })
+});
+
+
+
+// 登出功能
+document.querySelectorAll('.logout-link').forEach(logoutLink => {
+    logoutLink.addEventListener('click', async function(event) {
+        event.preventDefault(); // 阻止默認行為，如跳轉鏈接
+
+        try {
+            const response = await fetch('/membersAPI/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                // alert(result.message || "登出成功");
+
+                // 清除 sessionStorage 中的帳號
+                sessionStorage.removeItem("loggedInAccount");
+                sessionStorage.removeItem("memberInfo");
+
+                // 跳轉到登入頁面
+                window.location.href = "/login";
+            } else {
+                const result = await response.json();
+                // alert(result.message || "登出失敗，請稍後再試");
+            }
+        } catch (error) {
+            console.error("登出發生錯誤：", error);
+            alert("系統發生錯誤，請稍後再試");
+        }
+    });
 });

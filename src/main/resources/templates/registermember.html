@@ -235,12 +235,14 @@
 	            }
 	
 	          const registerResult = await registerResponse.json();
+			  // 從返回數據中提取 memberId
+				const memberId = registerResult.memberId;
+				// const message = registerResult.message;
               alert("註冊成功: " + registerResult.message);
 	            
               // 將帳號存入 sessionStorage 
               sessionStorage.setItem("registeredAccount", formData.get("account"));
-	            
-	       
+			  sessionStorage.setItem("memberId", memberId);
 	          
            // 發送驗證碼請求
               const email = formData.get("email");
