@@ -33,8 +33,10 @@ import com.cia103g5.user.post.repository.PostRepository;
 import com.cia103g5.user.post.service.FavPostService;
 import com.cia103g5.user.post.service.PostService;
 
+import jakarta.servlet.http.HttpSession;
+
 @RestController
-@RequestMapping("/api") // 設定 API 路徑前綴為 /api
+@RequestMapping("/post") // 設定 API 路徑前綴為 /post
 public class PostController {
 
     @Autowired
@@ -61,10 +63,12 @@ public class PostController {
 
     // 發表新文章
     @PostMapping("/posts")
-    public ResponseEntity<Post> createPost(@RequestBody Post post) {
+    public ResponseEntity<Post> createPost(@RequestBody Post post, HttpSession session) {
+    	Integer memberId = (Integer) session.getAttribute("memberId");
+    	
         try {
             // 預設 memId 和 userType
-            post.setMemId(6);
+            post.setMemId(memberId);
             post.setUserType((byte) 1);
 
             // 檢查分類是否存在或創建新分類
@@ -245,8 +249,9 @@ public class PostController {
     }
     
     @PostMapping("/comment/{postNo}")
-    public ResponseEntity<Void> postComment(@PathVariable int postNo, @RequestBody PostComment newComment) {
-        postService.postComment(6, postNo, newComment.getCommentText()); // 預設 memId:6
+    public ResponseEntity<Void> postComment(@PathVariable int postNo, @RequestBody PostComment newComment, HttpSession session) {
+        Integer memId =(Integer)session.getAttribute("memberId");
+    	postService.postComment(memId, postNo, newComment.getCommentText()); // 預設 memId:6
         return ResponseEntity.ok().build();
     }
     
