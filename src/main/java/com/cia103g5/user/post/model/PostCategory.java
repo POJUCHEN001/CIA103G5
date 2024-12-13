@@ -6,17 +6,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-/**
- *
- * ＶＯ對不上，這是錯誤的
- * 註解請加上，要正確映射到資料庫
- *
- */
-
 // 將此類別標記為一個 JPA 實體（Entity），這樣它可以映射到資料庫的表格
 @Entity
 @Table(name = "post_category") // 指定對應的資料表名稱為 "post_category"
-public class PostCategoryVO {
+public class PostCategory {
 
     // 指定 categoryNo 欄位為主鍵
     @Id
@@ -26,9 +19,25 @@ public class PostCategoryVO {
     // 定義資料庫的欄位，用來存放類別名稱
     private String categoryName; // 類別名稱，例如 "塔羅板" 或 "星座板"
 
+    // Getter 和 Setter 方法用於訪問和設置類別的屬性
+    public int getCategoryNo() {
+        return categoryNo;
+    }
+
+    public void setCategoryNo(int categoryNo) {
+        this.categoryNo = categoryNo;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 }
 
-
+//PostCategory 類別是 POJO，因為它的用途是代表資料庫中的實體，而不是用於在不同層之間傳遞資料（這是 DTO 的用途）。
 //使用 Spring Data JPA 來與資料庫互動檔案中 spring-boot-starter-data-jpa 的依賴關係可以確認。
 //這種方式會將 JDBC 操作抽象化，讓您可以透過 JPA（Java Persistence API）來使用 repository
 //（例如 PostRepository 和 PostCategoryRepository）與資料庫進行互動。

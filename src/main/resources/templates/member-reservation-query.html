@@ -47,8 +47,8 @@
 					</a>
 					<ul class="dropdown-menu text-small"
 						aria-labelledby="dropdownUser1">
-						<li><a class="dropdown-item" href="membercenter">會員中心</a></li>
-						<li><a class="dropdown-item" href="ftcenter">占卜師中心</a></li>
+						<li><a class="dropdown-item" href="/membercenter">會員中心</a></li>
+						<li><a class="dropdown-item" href="/ftcenter">占卜師中心</a></li>
 						<li><a class="dropdown-item" href="#">購物車</a></li>
 						<li><a class="dropdown-item" href="#">客服中心</a></li>
 						<li><hr class="dropdown-divider"></li>
@@ -67,11 +67,15 @@
 				<div class="position-sticky">
 					<ul class="nav flex-column">
 						<li class="nav-item"><a class="nav-link active"
-							aria-current="page" href="membercenter"> 會員中心 </a></li>
+							aria-current="page" href="/membercenter">會員中心</a></li>
 						<li class="nav-item"><a class="nav-link"
-							href="/reservations/member/query"> 預約查詢 </a></li>
+							href="/reservations/member/query">預約查詢</a></li>
 						<li class="nav-item"><a class="nav-link"
-							href="/reservations/member/statistics"> 歷史預約查詢 </a></li>
+							href="/reservations/member/manage">預約評價</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="/reservations/member/statistics">預約管理</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="/reservations/member/financial">交易紀錄</a></li>
 						<li class="nav-item"><a class="nav-link" href="#"> 訂單查詢 </a>
 						</li>
 						<li class="nav-item"><a class="nav-link" href="#"> 收藏 </a></li>
@@ -89,59 +93,68 @@
 					<form th:action="@{/reservations/member/search}" method="get"
 						class="mb-4">
 						<div class="mb-3">
-							<label for="rsvNo" class="form-label">預約編號：</label> <input
-								type="text" class="form-control" id="rsvNo" name="rsvNo"
-								required>
+
+							<label for="rsvNo" class="form-label">預約編號：</label> <select
+								class="form-control" id="rsvNo" name="rsvNo" required>
+								<option value="" disabled selected>選擇預約編號</option>
+								<option th:each="reservation : ${allReservations}"
+									th:value="${reservation.rsvNo}" th:text="${reservation.rsvNo}"></option>
+							</select>
+
 						</div>
-						<button type="submit" class="btn btn-primary">查詢</button>
+						<button type="submit" class="btn btn-primary">查詢</button> <a href="/reservations/member/manage"><button class="btn btn-primary">評價</button></a>
 					</form>
 
 					<h1 class="mb-4">Member Reservation Details</h1>
-					<div th:each="reservation : ${reservations}" class="card mb-4">
-						<div class="card-body">
-							<h5 class="card-title">Reservation Details</h5>
-							<p class="card-text">
-								Reservation Number: <span th:text="${reservation.rsvNo}"></span>
-							</p>
-							<p class="card-text">
-								Member: <span th:text="${reservation.memberId.name}"></span>
-							</p>
-							<p class="card-text">
-								Reservation Time: <span
-									th:text="${#temporals.format(reservation.availableTimeNo.startTime, 'yyyy-MM-dd HH:mm')}"></span>
-								to <span
-									th:text="${#temporals.format(reservation.availableTimeNo.endTime, 'yyyy-MM-dd HH:mm')}"></span>
-							</p>
-							<p class="card-text">
-								Skill: <span th:text="${reservation.skillNo.skillName}"></span>
-							</p>
-							<p class="card-text">
-								Reservation Status: <span th:text="${reservation.rsvStatusInfo}"></span>
-							</p>
-							<p class="card-text">
-								Price: <span th:text="${reservation.price}"></span> NT$
-							</p>
-							<p class="card-text">
-								Payment Status: <span th:text="${reservation.paymentStatus}"></span>
-							</p>
-							<p class="card-text">
-								Rating: <span th:text="${reservation.ratingInfo}"></span>
-							</p>
-							<p class="card-text">
-								Rating Content: <span th:text="${reservation.ratingContent}"></span>
-							</p>
-							<p class="card-text">
-								Feedback: <span th:text="${reservation.ftFeedback}"></span>
-							</p>
-							<p class="card-text">
-								Note: <span th:text="${reservation.note}"></span>
-							</p>
+					<div>
+						<div th:each="reservation : ${reservations}" class="card mb-4">
+							<div class="card-body">
+								<h5 class="card-title">預約明細</h5>
+								<p class="card-text">
+									預約編號: <span th:text="${reservation.rsvNo}"></span>
+								</p>
+								<p class="card-text">
+									預約人姓名: <span th:text="${reservation.memberId.name}"></span>
+								</p>
+								<p class="card-text">
+									占卜時間: <span
+										th:text="${#temporals.format(reservation.availableTimeNo.startTime, 'yyyy-MM-dd HH:mm')}"></span>
+									to <span
+										th:text="${#temporals.format(reservation.availableTimeNo.endTime, 'yyyy-MM-dd HH:mm')}"></span>
+								</p>
+								<p class="card-text">
+									占卜項目: <span th:text="${reservation.skillNo.skillName}"></span>
+								</p>
+								<p class="card-text">
+									預約狀態: <span th:text="${reservation.rsvStatusInfo}"></span>
+								</p>
+								<p class="card-text">
+									價錢: <span th:text="${reservation.price}"></span> NT$
+								</p>
+								<p class="card-text">
+									付款狀態: <span th:text="${reservation.paymentStatus}"></span>
+								</p>
+								<p class="card-text">
+									星級評價: <span th:text="${reservation.ratingInfo}"></span>
+								</p>
+								<p class="card-text">
+									評論: <span th:text="${reservation.ratingContent}"></span>
+								</p>
+								<p class="card-text">
+									占卜師回饋: <span th:text="${reservation.ftFeedback}"></span>
+								</p>
+								<p class="card-text">
+									補充: <span th:text="${reservation.note}"></span>
+								</p>
+							</div>
 						</div>
 					</div>
+
 					<div th:if="${error}" class="alert alert-danger mt-3" role="alert"
 						th:text="${error}"></div>
 				</div>
 			</main>
+
 		</div>
 	</div>
 

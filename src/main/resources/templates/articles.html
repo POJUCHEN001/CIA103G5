@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>發文</title>
+    <style>
+        /* 設定 #post-content 的初始樣式 */
+        #post-content {
+            min-height: 400px;
+            overflow-y: auto;
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #ccc;
+            resize: none;
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{/css/post_index.css}">
+</head>
+<body>
+    <!-- 定義 content 片段，讓 layout.html 引用此片段 -->
+    <div th:fragment="content">
+        <div id="post-container">
+            <section id="post-section">
+                <!-- 表單部分 -->
+                <form id="postForm">
+                    <!-- 標題框 -->
+                    <input type="text" id="post-title" name="title" placeholder="標題 : 由作者輸入" required/>
+
+                    <!-- 作者框 -->
+                    <p id="post-author"
+							th:text="'作者 : ' + ${authorName}"></p>
+
+                    <!-- 文章內容框 -->
+                    <div id="post-content" contenteditable="true" placeholder="輸入文章內容"></div>
+
+                    <div id="submit-section">
+                        <!-- 插入圖片按鈕和隱藏的文件選擇器 -->
+                        <button id="insert-image" type="button">插入圖片</button>
+                        <input type="file" id="image-input" accept="image/jpeg" style="display: none"/>
+
+                        <!-- 發文選擇區 -->
+                        <select id="post-category" name="category" required>
+                            <option value="" disabled selected>選擇發文版區</option>
+                            <option value="塔羅板">塔羅板</option>
+                            <option value="星座板">星座板</option>
+                            <option value="夢境板">夢境板</option>
+                            <option value="心情板">心情板</option>
+                            <option value="感情板">感情板</option>
+                            <option value="八卦板">八卦板</option>
+                            <option value="占卜師">占卜師</option>
+                        </select>
+                        <button id="post-submit" type="button">發文送出</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+    
+    <!-- 引入 jQuery 和自訂的 JavaScript -->
+    <script type="text/javascript" th:src="@{/vendors/jquery/jquery-3.7.1.min.js}"></script> 
+    <script th:src="@{/js/post_index.js}"></script> 
+</body>
+</html>

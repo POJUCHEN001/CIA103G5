@@ -28,3 +28,9 @@ spring.thymeleaf.suffix=.html
 # Ensure to add the dependency in pom.xml if not already installed
 logging.level.com.fixlife.controller=DEBUG
 spring.web.resources.static-locations=classpath:/static/
+
+
+spring.redis.host=localhost;
+spring.redis.port=6379;
+spring.redis.password=  ;
+spring.redis.database=1;  

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="${post.title}">文章詳細頁面</title>
+<link rel="stylesheet" th:href="@{/css/articlesdetail.css}" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+</head>
+<body>
+	<div th:fragment="content" id="post-section">
+		<!-- 顯示文章標題 -->
+		<div id="post-title">
+			<h1>
+				標題：<span id="post-title-content" th:text="${post.title}">文章標題</span>
+			</h1>
+		</div>
+
+		<!-- 顯示分類名稱 -->
+		<div id="post-category">
+			<p>
+				<strong>分類：</strong><span id="post-category-content"
+					th:text="${post.postCategory.categoryName}">分類名稱</span>
+			</p>
+		</div>
+
+		<!-- 顯示作者名稱 -->
+		<div id="post-author">
+			<p>
+				<strong>作者：</strong><span id="post-author-content"
+					th:text="${post.authorName}">作者名稱</span>
+			</p>
+		</div>
+
+		<!-- 顯示文章發表時間 -->
+		<div id="post-time">
+			<p>
+				<strong>發表時間：</strong><span th:text="${formattedPostTime}">發表時間</span>
+			</p>
+		</div>
+
+		<!-- 顯示文章內容 -->
+		<div id="post-content">
+			<!-- 顯示文字 -->
+			<p id="post-textarea" th:text="${post.content}">文章內容</p>
+			<!-- 顯示圖片 -->
+			<img th:src="@{data:image/jpeg;base64,{pic}(pic=${pic.picBase64})}"
+				th:each="pic : ${pics}" th:alt="'圖片編號：' + ${pic.picNo}" />
+		</div>
+
+		<!-- 顯示編輯文章內容(預設隱藏) -->
+		<div id="post-edit">
+			<textarea id="edit-content"></textarea>
+			<button id="save-edited-btn" th:data-post="${post.postNo}"
+				onclick="saveEditedContent(this)">保存內容</button>
+		</div>
+
+		<div id="interaction-buttons">
+			<!-- 按讚按鈕 -->
+			<button id="like-btn" th:data-post="${post.postNo}"
+				onclick="toggleLike(this)">
+				<i class="fas fa-thumbs-up"></i> 讚 <span
+					th:text="${post.totalLikes}">0</span>
+			</button>
+
+			<!-- 倒讚按鈕 -->
+			<button id="dislike-btn" th:data-post="${post.postNo}"
+				onclick="toggleDislike(this)">
+				<i class="fas fa-thumbs-down"></i> 倒讚 <span
+					th:text="${post.totalDislikes}">0</span>
+			</button>
+
+			<!-- 編輯按鈕 -->
+			<button id="edit-article-btn" th:data-post="${post.postNo}"
+				onclick="editArticle(this)">編輯文章</button>
+
+			<!-- 刪除按鈕 -->
+			<button id="delete-article-btn" th:data-post="${post.postNo}"
+				onclick="deleteArticle(this)">刪除文章</button>
+			<!-- 檢舉按鈕 -->
+			<button id="report-article-btn" th:data-post="${post.postNo}"
+				onclick="openReportModal(this)">檢舉文章</button>
+		</div>
+		
+		<!-- 顯示發表檢舉內容 -->
+		<div id="post-report">
+		    <h3>檢舉文章</h3>
+		    <label for="reportReason">檢舉原因：</label>
+		    <select id="reportReason">
+		        <option value="0">洗版</option>
+		        <option value="1">色情內容</option>
+		        <option value="2">仇恨言論</option>
+		        <option value="3">誤導性資訊</option>
+		        <option value="4">廣告</option>
+		        <option value="5">侵權版權</option>
+		        <option value="6">詐騙訊息</option>
+		        <option value="7">其他</option>
+		    </select>
+		    <br>
+		    <label for="reportContent">檢舉內容：</label>
+		    <textarea id="reportContent" rows="5" cols="30"></textarea>
+		    <br>
+		    <button id="save-report-btn" onclick="submitReport(this)" th:data-post="${post.postNo}">提交</button>
+		    <button id="cancel-report-btn" onclick="cancelReport(this)">取消</button>
+		</div>
+		
+		<!-- 顯示留言內容 -->
+		<div id="post-comments">
+			<div id="post-comments-area" th:each="comment : ${commentsMap}">
+				<p th:text="${comment.value + ': ' + comment.key.commentText}">
+					留言內容</p>
+				<button id="delete-comment-btn"
+					th:data-post="@{{commentNo}(commentNo=${comment.key.commentNo})}"
+					onclick="deleteComment(this)">刪除留言</button>
+			</div>
+		</div>
+
+		<!-- 顯示發表留言內容 -->
+		<div id="post-post-comment">
+			<textarea id="new-comment-content"></textarea>
+			<button id="save-comment-btn" th:data-post="${post.postNo}"
+				onclick="saveCommentContent(this)">留言</button>
+		</div>
+	</div>
+	<script type="text/javascript"
+		th:src="@{/vendors/jquery/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/post_index.js}"></script>
+</body>
+</html>
