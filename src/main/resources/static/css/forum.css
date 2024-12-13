@@ -7,6 +7,7 @@
     margin: 0 auto;
     padding: 0 20px; /* 增加內邊距，讓內容不貼邊 */
     box-sizing: border-box;
+    
 }
 
 /* 調整 post-list 寬度，使其佔據更多空間 */

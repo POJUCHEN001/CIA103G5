@@ -9,6 +9,15 @@
     <title>修卜人生</title>
     <!-- 設定網頁標題 -->
 
+    <!--  -->
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/headers/">
+
+    <!-- Custom styles for header -->
+    <link href="/css/headers.css" rel="stylesheet">
+    
+    <!-- Bootstrap core CSS -->
+    <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- 使用 Thymeleaf 的 th:href 引入 CSS 檔案，可動態處理應用路徑 -->
     <link rel="stylesheet" th:href="@{/css/post_index.css}" />
     <link rel="stylesheet" th:href="@{/css/forum.css}" />
@@ -69,24 +78,39 @@
     </style>
 </head>
 <body>
-    <!-- 頁面頂部的標題和導航按鈕區域 -->
-    <header>
-        <h1>修卜人生</h1>
-        <!-- 網站名稱或標題 -->
-        <nav>
-            <!-- 導航按鈕設計，提供主要功能的入口 -->
-            <button class="nav-btn" onclick="window.location.href='/forum'">瀏覽論壇</button>
-            <!-- 導向論壇 -->
-            <button class="nav-btn">瀏覽占卜師</button>
-            <!-- 暫未設定的導覽按鈕 -->
-            <button class="nav-btn">瀏覽商品</button>
-            <button class="nav-btn">線上抽牌</button>
-            <button class="nav-btn">購物車</button>
-            <button class="nav-btn">會員中心</button>
-            <button class="nav-btn">註冊・登入</button>
-        </nav>
-    </header>
+<header class="p-3 mb-3 border-bottom">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+          <h1>修卜人生</h1>
+        </a>
 
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="#" class="nav-link px-2 link-secondary">想找占卜師</a></li>
+          <li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li>
+          <li><a href="/forum" class="nav-link px-2 link-dark">占卜論壇</a></li>
+          <li><a href="#" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li>
+          <li><a href='/register' class="nav-link px-2 link-dark">會員註冊</a></li>
+          <li><a href="/login" class="nav-link px-2 link-dark">會員登入</a></li>
+        </ul>
+
+        
+
+        <div class="dropdown text-end">
+          <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="svg/user-solid.svg" alt="mdo" width="32" height="32" class="rounded-circle">
+          </a>
+          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+            <li><a class="dropdown-item" href="/membercenter">會員中心</a></li>
+            <li><a class="dropdown-item" href="#">購物車</a></li>
+            <li><a class="dropdown-item" href="#">客服中心</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">登出 </a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
     <!-- 包含主要內容和側邊欄的容器 -->
     <div id="main-container">
         <!-- 側邊欄設置，包含搜尋框和文章分類按鈕 -->

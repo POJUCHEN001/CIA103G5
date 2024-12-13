@@ -7,14 +7,14 @@ body {
 }
 
 /* Header 樣式 */
-header {
-    background-color: #7d2da3;
-    color: white;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+/* header { */
+/*     background-color: #7d2da3; */
+/*     color: white; */
+/*     padding: 10px; */
+/*     display: flex; */
+/*     justify-content: space-between; */
+/*     align-items: center; */
+/* } */
 
 h1 {
     margin: 0;
@@ -23,6 +23,7 @@ h1 {
 }
 
 /* 導覽列樣式 */
+/*
 nav {
     display: flex;
     gap: 10px;
@@ -39,6 +40,7 @@ nav {
 .nav-btn:hover {
     background-color: #f0f0f0;
 }
+*/
 
 /* 主容器樣式 */
 #main-container {
