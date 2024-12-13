@@ -23,10 +23,11 @@
                 <!-- 表單部分 -->
                 <form id="postForm">
                     <!-- 標題框 -->
-                    <input type="text" id="post-title" name="title" placeholder="標題: 由作者輸入" required/>
+                    <input type="text" id="post-title" name="title" placeholder="標題 : 由作者輸入" required/>
 
                     <!-- 作者框 -->
-                    <input type="text" id="post-author" name="authorName" placeholder="作者:(登入後自動帶入)" required/>
+                    <p id="post-author"
+							th:text="'作者 : ' + ${authorName}"></p>
 
                     <!-- 文章內容框 -->
                     <div id="post-content" contenteditable="true" placeholder="輸入文章內容"></div>

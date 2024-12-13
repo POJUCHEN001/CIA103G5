@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cia103g5.user.ft.model.FtRepository;
+import com.cia103g5.user.member.model.MemberRepository;
+import com.cia103g5.user.member.model.MemberVO;
 import com.cia103g5.user.post.model.Post;
 import com.cia103g5.user.post.model.PostCategory;
 import com.cia103g5.user.post.model.PostComment;
@@ -59,6 +62,12 @@ public class PostController {
 	
 	@Autowired
 	private PostReportRepository postReportRepository;
+	
+	@Autowired
+	private FtRepository ftRepository;
+	
+	@Autowired
+	private MemberRepository memberRepository;
 
 
     // 發表新文章
@@ -69,7 +78,19 @@ public class PostController {
         try {
             // 預設 memId 和 userType
             post.setMemId(memberId);
-            post.setUserType((byte) 1);
+            
+			Optional<MemberVO> member = memberRepository.findById(memberId);
+			if (member.isPresent()) {
+				post.setAuthorName(member.get().getNickname());
+			} else {
+				post.setAuthorName(member.get().getName());	
+			}
+            
+        	if (ftRepository.findFtIdByMemId(memberId).isPresent()) {
+                post.setUserType((byte) 1);
+        	} else {
+                post.setUserType((byte) 0);
+        	}
 
             // 檢查分類是否存在或創建新分類
             if (post.getPostCategory() != null && post.getPostCategory().getCategoryName() != null) {
@@ -216,6 +237,11 @@ public class PostController {
             	List<PostComment> comments = postCommentRepository.findByPostNo(postNo);
             	if (!comments.isEmpty()) {
             		postCommentRepository.deleteAll(comments);
+            	}
+            	
+            	List<PostReport> reports = postReportRepository.findByPostNo(postNo);
+            	if (!reports.isEmpty()) {
+            		postReportRepository.deleteAll(reports);
             	}
             	
                 postRepository.deleteById(postNo);

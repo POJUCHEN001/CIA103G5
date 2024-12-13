@@ -19,10 +19,10 @@ $(document).ready(function () {
             alert("請填寫標題！");
             return;
         }
-        if (!author) {
-            alert("請填寫作者！");
-            return;
-        }
+//       if (!author) {
+//            alert("請填寫作者！");
+//            return;
+//       }
         if (!content) {
             alert("請填寫文章內容！");
             return;
