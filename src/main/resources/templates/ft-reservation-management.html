@@ -85,7 +85,7 @@
 						<li class="nav-item"><a class="nav-link"
 							href="/reservations/ft/manage">預約評價</a></li>
 						<li class="nav-item"><a class="nav-link"
-							href="/reservations/ft/statistics">預約統計</a></li>
+							href="/reservations/ft/statistics">預約管理</a></li>
 						<li class="nav-item"><a class="nav-link"
 							href="/reservations/ft/financial">交易紀錄</a></li>
 						<li class="nav-item"><a class="nav-link" href="resetpassword">
@@ -132,13 +132,17 @@
 								<td th:text="${reservation.paymentStatus}"></td>
 								<td>
 									<div th:if="${reservation.rsvStatus == 0}">
-										<form th:action="@{/reservations/confirm}" method="post"
+										<form
+											th:if="${reservation.rsvStatus == 0 and reservation.payment == 1}"
+											th:action="@{/reservations/confirm}" method="post"
 											style="display: inline;">
 											<input type="hidden" name="rsvNo"
 												th:value="${reservation.rsvNo}">
 											<button type="submit" class="btn btn-success btn-sm">確認</button>
 										</form>
-										<form th:action="@{/reservations/reject}" method="post"
+										<form
+											th:if="${reservation.rsvStatus == 0 and (reservation.payment == 0 or reservation.payment == 2)}"
+											th:action="@{/reservations/reject}" method="post"
 											style="display: inline;">
 											<input type="hidden" name="rsvNo"
 												th:value="${reservation.rsvNo}">

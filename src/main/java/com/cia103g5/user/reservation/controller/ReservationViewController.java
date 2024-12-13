@@ -308,6 +308,28 @@ public class ReservationViewController {
 		}
 		return "redirect:/login";
 	}
+	
+	@PostMapping("/confirm")
+    public String confirmReservation(@RequestParam("rsvNo") Integer rsvNo, RedirectAttributes redirectAttributes) {
+        try {
+            reservationServiceSpring.confirmReservation(rsvNo);
+            redirectAttributes.addFlashAttribute("message", "預約已確認");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "確認預約失敗: " + e.getMessage());
+        }
+        return "redirect:/reservations/ft/manage";
+    }
+
+    @PostMapping("/reject")
+    public String rejectReservation(@RequestParam("rsvNo") Integer rsvNo, RedirectAttributes redirectAttributes) {
+        try {
+            reservationServiceSpring.rejectReservation(rsvNo);
+            redirectAttributes.addFlashAttribute("message", "預約已拒絕");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "拒絕預約失敗: " + e.getMessage());
+        }
+        return "redirect:/reservations/ft/manage";
+    }
 
 	@PostMapping("/update")
 	public String updateReservation(@RequestParam Integer rsvNo, @RequestParam String action, HttpSession session) {
