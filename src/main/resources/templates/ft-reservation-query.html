@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fixlife 會員中心</title>
+<title>Fixlife 占卜師中心</title>
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/5.1/examples/headers/">
 <link rel="canonical"
@@ -19,7 +19,6 @@
 	rel="stylesheet">
 </head>
 <body>
-
 	<header class="p-3 mb-3 border-bottom">
 		<div class="container">
 			<div
@@ -68,15 +67,15 @@
 				<div class="position-sticky">
 					<ul class="nav flex-column">
 						<li class="nav-item"><a class="nav-link active"
-							aria-current="page" href="/membercenter">會員中心</a></li>
+							aria-current="page" href="/ftcenter">占卜師中心</a></li>
 						<li class="nav-item"><a class="nav-link"
-							href="/reservations/member/query">預約查詢</a></li>
+							href="/reservations/ft/query">預約查詢</a></li>
 						<li class="nav-item"><a class="nav-link"
-							href="/reservations/member/manage">預約評價</a></li>
-						<li class="nav-item"><a class="nav-link"
-							href="/reservations/member/statistics">預約統計</a></li>
-						<li class="nav-item"><a class="nav-link"
-							href="/reservations/member/financial">交易紀錄</a></li>
+							href="/reservations/ft/manage">預約評價</a></li>
+							<li class="nav-item"><a class="nav-link"
+							href="/reservations/ft/statistics">預約統計</a></li>
+							<li class="nav-item"><a class="nav-link"
+							href="/reservations/ft/financial">交易紀錄</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">訂單查詢</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">收藏</a></li>
 						<li class="nav-item"><a class="nav-link" href="resetpassword">變更密碼</a></li>
@@ -88,58 +87,72 @@
 
 			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 				<div class="container mt-5">
-					<h1 class="mb-4">會員財務管理</h1>
-					<div class="row">
-						<div class="col-md-6">
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title">銀行帳戶</h5>
-									<p class="card-text">
-										帳號：<span th:text="${financialData.bankAccount}"></span>
-									</p>
-								</div>
-							</div>
+					<h1 class="mb-4">預約查詢</h1>
+					<form th:action="@{/reservations/ft/search}" method="get"
+						class="mb-4">
+						<div class="mb-3">
+							<label for="rsvNo" class="form-label">預約編號：</label> <select
+								class="form-control" id="rsvNo" name="rsvNo" required>
+								<option value="" disabled selected>選擇預約編號</option>
+								<option th:each="reservation : ${allReservations}"
+									th:value="${reservation.rsvNo}" th:text="${reservation.rsvNo}"></option>
+							</select>
 						</div>
-						<div class="col-md-6">
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title">消費統計</h5>
-									<p class="card-text">
-										本月消費：<span th:text="${financialData.monthlySpending}"></span>
-										元
-									</p>
-									<p class="card-text">
-										年度消費：<span th:text="${financialData.yearlySpending}"></span> 元
-									</p>
-								</div>
-							</div>
+						<button type="submit" class="btn btn-primary">查詢</button>
+					</form>
+
+					<h1 class="mb-4">Fortune Teller Reservation Details</h1>
+					<div th:each="reservation : ${reservations}" class="card mb-4">
+						<div class="card-body">
+							<h5 class="card-title">預約明細</h5>
+							<p class="card-text">
+								預約編號: <span th:text="${reservation.rsvNo}"></span>
+							</p>
+							<p class="card-text">
+								客戶名稱: <span th:text="${reservation.memberId.name}"></span>
+							</p>
+							<p class="card-text">
+								占卜時間: <span
+									th:text="${#temporals.format(reservation.availableTimeNo.startTime, 'yyyy-MM-dd HH:mm')}"></span>
+								to <span
+									th:text="${#temporals.format(reservation.availableTimeNo.endTime, 'yyyy-MM-dd HH:mm')}"></span>
+							</p>
+							<p class="card-text">
+								占卜項目: <span th:text="${reservation.skillNo.skillName}"></span>
+							</p>
+							<p class="card-text">
+								預約狀態: <span th:text="${reservation.rsvStatusInfo}"></span>
+							</p>
+							<p class="card-text">
+								價錢: <span th:text="${reservation.price}"></span> NT$
+							</p>
+							<p class="card-text">
+								付款狀態: <span th:text="${reservation.paymentStatus}"></span>
+							</p>
+							<p class="card-text">
+								評價星級: <span th:text="${reservation.ratingInfo}"></span>
+							</p>
+							<p class="card-text">
+								評論: <span th:text="${reservation.ratingContent}"></span>
+							</p>
+							<p class="card-text">
+								占卜師回饋: <span th:text="${reservation.ftFeedback}"></span>
+							</p>
+							<p class="card-text">
+								補充: <span th:text="${reservation.note}"></span>
+							</p>
 						</div>
 					</div>
-					<div class="mt-4">
-						<h3>交易記錄</h3>
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th>日期</th>
-									<th>金額</th>
-									<th>占卜師</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="transaction : ${financialData.transactions}">
-									<td
-										th:text="${#temporals.format(transaction.date, 'yyyy-MM-dd HH:mm')}"></td>
-									<td th:text="${transaction.amount}"></td>
-									<td th:text="${transaction.fortuneTeller}"></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+					<div th:if="${error}" class="alert alert-danger mt-3" role="alert"
+						th:text="${error}"></div>
 				</div>
 			</main>
 		</div>
 	</div>
 
+	<script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="/js/sidebars.js"></script>
+	
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
