@@ -154,12 +154,12 @@ public class OrderController {
 	 //接收要轉交到占卜師訂單畫面的請求
 	@GetMapping("/ft_order")
 	public String queryFtOrders(ModelMap model,HttpSession session) {
-//		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
-//		Integer ftId = sessionMember.getFtId();
+		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
+		Integer ftId = sessionMember.getFtId();
 		
-//		List<OrdersVO> list = orderSvc.getAllByFtId(ftId);
+		List<OrdersVO> list = orderSvc.getAllByFtId(ftId);
 				
-		List<OrdersVO> list =orderSvc.getAll();
+//		List<OrdersVO> list =orderSvc.getAll();
 		model.addAttribute("allOrders",list);
 		
 		//轉換時間
@@ -208,10 +208,10 @@ public class OrderController {
 	//轉交到占卜師訂單統計的畫面，傳誦可選年份、上個月、全部的統計
 	@GetMapping("/ft_order/statistics")
 	public String toFtStatisticsPage(ModelMap model,HttpSession session) {
-//		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
-//		Integer ftId = sessionMember.getFtId();
+		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
+		Integer ftId = sessionMember.getFtId();
 		
-		Integer ftId =1;
+//		Integer ftId =1;
 		Integer firstYearOfOrder =orderSvc.getFirstOrderYearFromFtId(ftId);
 		
 		System.out.println("first year of order:"+firstYearOfOrder);
@@ -291,8 +291,12 @@ public class OrderController {
 			ModelMap model,
 	        @RequestParam("orderNo") String orderNo,
 	        @RequestParam Map<String, String> params,//取得所有型態string的參數的map，key:name value:參數值
-	        @RequestParam Map<String, MultipartFile> files //取得所有型態為multipartFile的map，key:name value:檔案
+	        @RequestParam Map<String, MultipartFile> files,
+	        HttpSession session//取得所有型態為multipartFile的map，key:name value:檔案
 	) throws IOException {
+		SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
+		Integer memberId = sessionMember.getMemberId();
+		
 		//檢查是否更新成功，決定後續更新狀態
 		Boolean check_success =false;
 		
@@ -359,9 +363,10 @@ public class OrderController {
 		    //3.更新物流狀態:已到貨(shipStatus=4)
 		    orderSvc.alterShipStatus(Integer.valueOf(orderNo), (byte)4);
 	    }
-	   	    
-	    List<OrderSummaryDTO> list =orderSvc.getOrderSummary();
+	   	    	
+		List<OrderSummaryDTO> list =orderSvc.getOrderSummaryByMemId(memberId);
 		model.addAttribute("OrderSumDTO",list);
+		
 			
 		return "order/mem_order";
 	}

@@ -17,8 +17,53 @@ function toggleChat() {
         // 展開到原始大小
         chatWidget.style.height = '400px';
         chatBody.style.display = 'flex';
+		
+		const headerTitle = document.getElementById('header-title_ft');
+				   const userList = document.getElementById('user-list_ft');
+				   const chatWindow = document.getElementById('chat-window_ft');
+				   const returnIcon = document.getElementById('return-icon_ft');
+
+				//fetch API 顯示會員的聊天對象
+				       // 使用 fetch 調用後端 API
+				       fetch(`/chat/list`)
+				           .then(res => {
+				               // 檢查是否為 200 OK
+				               if (res.ok) {
+				                   return res.json(); // 將響應轉為 JSON
+				               } else {
+				                   // 處理非 200 狀態碼的響應
+				                   return res.text().then(error => {
+				                       throw new Error(error); // 拋出錯誤供 catch 處理
+				                   });
+				               }
+				           })
+				           .then(data => {
+								headerTitle.innerText = ''; // 清空標題文字
+								returnIcon.style.display = 'none'; // 隱藏返回符號
+								chatWindow.style.display = 'none';
+								userList.style.display = 'block';
+							 	
+								
+								userList.innerHTML="";
+								//把抓到的資料迭代放出來
+								data.forEach(ft=>{
+									let li =document.createElement("li");				
+									li.innerHTML=ft;
+									li.style.listStyle="none";					
+									
+									userList.appendChild(li);
+								});								
+
+				           })
+				           .catch(error => {
+				               // 處理錯誤情況
+				               console.error("Error fetching fortuneteller info:", error);
+				               alert(error.message); // 彈出錯誤提示
+				           });
+		
+		
         // 如果處於聊天窗口，顯示返回符號
-        if (document.getElementById('chat-window').style.display === 'flex') {
+        if (document.getElementById('chat-window_ft').style.display === 'flex') {
             returnIcon.style.display = 'block';
         }
         isMinimized = false;
@@ -42,27 +87,63 @@ function openChat(user) {
 function goBackToUserList(event) {
     // 阻止觸發 header 的收縮/展開功能
     event.stopPropagation();
-
+	
     const headerTitle = document.getElementById('header-title_ft');
     const userList = document.getElementById('user-list_ft');
     const chatWindow = document.getElementById('chat-window_ft');
     const returnIcon = document.getElementById('return-icon_ft');
 
-    headerTitle.innerText = ''; // 清空標題文字
-    returnIcon.style.display = 'none'; // 隱藏返回符號
-    chatWindow.style.display = 'none';
-    userList.style.display = 'block';
+	//fetch API 顯示會員的聊天對象
+
+		       // 使用 fetch 調用後端 API
+		       fetch(`/chat/list`)
+		           .then(res => {
+		               // 檢查是否為 200 OK
+		               if (res.ok) {
+		                   return res.json(); // 將響應轉為 JSON
+		               } else {
+		                   // 處理非 200 狀態碼的響應
+		                   return res.text().then(error => {
+		                       throw new Error(error); // 拋出錯誤供 catch 處理
+		                   });
+		               }
+		           })
+		           .then(data => {
+						headerTitle.innerText = ''; // 清空標題文字
+						returnIcon.style.display = 'none'; // 隱藏返回符號
+						chatWindow.style.display = 'none';
+						userList.style.display = 'block';
+					 	
+						userList.innerHTML="";
+						//把抓到的資料迭代放出來
+						data.forEach(ft=>{
+							let li =document.createElement("li");				
+							li.innerHTML=ft;
+							li.style.listStyle="none";					
+							
+							userList.appendChild(li);
+						});								
+
+		           })
+		           .catch(error => {
+		               // 處理錯誤情況
+		               console.error("Error fetching fortuneteller info:", error);
+		               alert(error.message); // 彈出錯誤提示
+		           });
+				   
 }
 
 
 		let list =document.getElementById("user-list_ft");
 		
-		//點擊聊聊，將該占卜師加到聊天室列表裡面
+		//點擊人名，跳轉到該聊天視窗、建立連線
 		list.addEventListener("click",function(e){
-			if(e.target.classList.contains("mem")){
+			console.log(e.target);
+			console.log(e.target.innerText);
+			
 				openChat(e.target.innerText);
-				connect(e.target.innerText);
-			}
+				connect();
+			
 		});
 		
 		
@@ -70,16 +151,12 @@ function goBackToUserList(event) {
 		let stompClient =null;	
 					
 				//點擊聊天室窗時，與該占卜師建立連線，並訂閱該占卜師，可接收來自占卜師的訊息
-				function connect(memname){
+				function connect(){
 					//已連線的情況
 					if (stompClient !== null) {
 					     console.log('已經連線，直接訂閱');	
-						 		 	 
-//						 stompClient.subscribe('/user/'+memname+'/queue/messages', function (message) {
-//		 	   				 const json = JSON.parse(message.body);
-//		 				     showMessage(json);       
-//		 	   		     });				 				 
-						 			   
+				 				 
+						 let selfnickname =getSelfNickName();			   
 		 		       stompClient.subscribe('/user/queue/messages', function (message) {
 							console.log('收到歷史訊息:', message.body);
 						       const historyMsg = JSON.parse(message.body);
@@ -103,13 +180,7 @@ function goBackToUserList(event) {
 					   stompClient.connect({}, function (frame) {
 					       console.log('Connected: ' + frame);
 						   
-					       // 訂閱目的地
-//						   stompClient.subscribe('/user/queue/messages', function (message) {
-//				   				 const chatMessageObj = JSON.parse(message.body);
-//							     showMessage(chatMessageObj);       
-//				   		     });
-							 
-						   
+						   let selfnickname =getSelfNickName();
 					       stompClient.subscribe('/user/queue/messages', function (message) {
 								console.log('這裡是訂閱自己:', message.body);
 							       const historyMsg = JSON.parse(message.body);
@@ -121,8 +192,7 @@ function goBackToUserList(event) {
 					       });
 						   
 						   getHistory(); //訂閱之後才發送歷史紀錄的請求
-					   });			   
-					   			   
+					   }); 
 				}
 				
 				//<顯示訊息的方法>
@@ -139,8 +209,8 @@ function goBackToUserList(event) {
 					       messageElement.style.borderRadius = '5px';
 						   messageElement.style.width='50%';
 						   
-						   const self =document.getElementById("text_name_ft").innerText;
-						   if (message.sender === self) {
+						   let selfnickname =getSelfNickName();
+						   if (message.sender === selfnickname) {
 					              // 如果是自己，訊息在右側
 					              messageElement.style.backgroundColor = '#e6f7ff'; // 蓝色背景
 					              messageElement.style.alignSelf = 'flex-end';
@@ -166,14 +236,14 @@ function goBackToUserList(event) {
 			     const message = input.value.trim();
 				 
 				const memname =document.getElementById('header-title_ft').innerText;//取得會員名字
-				 const self =document.getElementById("text_name_ft").innerText;
+				let selfnickname =getSelfNickName();
 				 
 				 if(message && stompClient){
 					
 					//用物件裝傳送的訊息
 					const sendobj ={
 						"type" : "",
-						"sender" : self,
+						"sender" : selfnickname,
 						"receiver" :memname,
 						"message": message,
 						"sendTime":""
@@ -219,11 +289,11 @@ function goBackToUserList(event) {
 			 function getHistory(){
 
 			const memname =document.getElementById('header-title_ft').innerText;
-			 const self =document.getElementById("text_name_ft").innerText;	
+			let selfnickname =getSelfNickName();
 				//用物件裝傳送的訊息
 				const sendobj ={
 					"type" : "history",
-					"sender" : self,
+					"sender" : selfnickname,
 					"receiver" :memname,
 					"message": "",
 					"sendTime":""
@@ -232,4 +302,22 @@ function goBackToUserList(event) {
 				stompClient.send('/app/history',{},JSON.stringify(sendobj));
 						
 			 }
+			 
+			 
+			 function getSelfNickName(){
+			 	const memberInfo = sessionStorage.getItem('memberInfo');
+			 	let nickname=null;
+			 				
+			 	if (memberInfo) {
+			 	    const memberObject = JSON.parse(memberInfo);
+			 	    nickname = memberObject.nickname;
+			 	} 
+			 	
+			 	return nickname;
+			 	
+			  }
+			 
+			  
+			  window.onload = connect;
+			 
 			 	   

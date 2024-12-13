@@ -58,10 +58,10 @@ public class ProductController {
 	
 	@GetMapping("product_statistics")
 	public String toStatisticsPage(ModelMap model,HttpSession session) {
-//		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
-//		Integer ftId = sessionMember.getFtId();
+		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
+		Integer ftId = sessionMember.getFtId();
 		
-		List<ProductVO> list =prodSvc.getFtAllProductExcludeDelete(1); 
+		List<ProductVO> list =prodSvc.getFtAllProductExcludeDelete(ftId); 
 		model.addAttribute("average",average(list));
 		model.addAttribute("allProductList",list);	
 		
@@ -88,12 +88,12 @@ public class ProductController {
 		//先新增商品現有資訊(不包含照片)
 		//先自訂，之後取出session存入的ft_id
 		
-//		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
-//		Integer ftId = sessionMember.getFtId();
+		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
+		Integer ftId = sessionMember.getFtId();
 		
 		//預設的ftId(1號)
 		FtVO ftVO = new FtVO();
-		ftVO.setFtId(1);
+		ftVO.setFtId(ftId);
 		
 		productVO.setFtId(ftVO);
 		productVO.setListedTime(new java.sql.Timestamp(System.currentTimeMillis()));
@@ -125,11 +125,11 @@ public class ProductController {
 	@GetMapping("queryAllProduct")
 	//之後要在參數內放入@sessionAttribute，取出存在session當中的ft_id
 	public String getAll(ModelMap model,HttpSession session) {
-//		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
-//		Integer ftId = sessionMember.getFtId();
+		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
+		Integer ftId = sessionMember.getFtId();
 		
 //		尚未取得ft_id，先不指定占卜師會員。取得ft_id後，使用以下方法，取得單一占卜師的所有商品
-		List<ProductVO> list =prodSvc.getFtAllProductExcludeDelete(1); 
+		List<ProductVO> list =prodSvc.getFtAllProductExcludeDelete(ftId); 
 		
 		//轉換所有商品時間、單獨存入model中(map的形式)
 		Map<Integer,LocalDate> timemap =transferTime(list);
@@ -325,10 +325,10 @@ public class ProductController {
 				 
 												
 				//取得更新後的所有商品，返回到所有商品列表頁面
-//				 SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
-//				 Integer ftId = sessionMember.getFtId();
+				 SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
+				 Integer ftId = sessionMember.getFtId();
 				 
-				 List<ProductVO> list =prodSvc.getFtAllProductExcludeDelete(1); 	
+				 List<ProductVO> list =prodSvc.getFtAllProductExcludeDelete(ftId); 	
 				Map<Integer,LocalDate> timemap =transferTime(list);
 				model.addAttribute("timemap",timemap);			
 				model.addAttribute("allProductList",list);	
@@ -339,14 +339,14 @@ public class ProductController {
 	//<<刪除:使用update更新status狀態，回傳product/product_list頁面，查詢全部的地方自訂排除status=2的商品>>	
 	@PostMapping("delete_product")
 	public String delete(@RequestParam("prodno") String prodno,ModelMap model,HttpSession session) {
-//		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
-//		Integer ftId = sessionMember.getFtId();	
+		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
+		Integer ftId = sessionMember.getFtId();	
 		
 		//依照點擊的prodno，查到該商品物件，變更狀態再update
 		prodSvc.updateStatus(Integer.valueOf(prodno));
 		
 		//點即刪除更新狀態完為2，返回商品列表
-		List<ProductVO> list =prodSvc.getFtAllProductExcludeDelete(1); 
+		List<ProductVO> list =prodSvc.getFtAllProductExcludeDelete(ftId); 
 		Map<Integer,LocalDate> timemap =transferTime(list);
 		model.addAttribute("timemap",timemap);			
 		model.addAttribute("allProductList",list);		

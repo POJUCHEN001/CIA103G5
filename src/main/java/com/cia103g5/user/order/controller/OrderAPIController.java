@@ -137,10 +137,10 @@ public class OrderAPIController {
 	//占卜師查詢訂單統計
 	@PostMapping("/query/chooseDate/byFt")
 	public ResponseEntity<?> statisticOrdersChooseByFt(@RequestParam("year")String year,@RequestParam("month")String month,HttpSession session){
-//		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
-//		Integer ftId = sessionMember.getFtId();	
+		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
+		Integer ftId = sessionMember.getFtId();	
 		
-		Integer ftId =1;
+//		Integer ftId =1;
 		Integer chooseYear =null;
 		Integer chooseMonth =null;
 		

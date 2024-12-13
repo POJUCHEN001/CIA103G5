@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fixlife 會員中心</title>
+	
+	<!-- sockJS cdn -->
+	<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/headers/">
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
@@ -152,29 +156,24 @@
   </div>
 
     <main class="main">
-<!-- 		<div> -->
-<!--    			<button type="button" class="btn chat_btn" id="chat_with_ft" style="background-color:lightblue;color:white;"> -->
-<!--    			聊聊 -->
-<!--    			</button> -->
-<!--    			<input type="hidden" name="ftId" value="1"> -->
-<!--    		</div> -->
+
       	 <div id="chat-widget_ft" th:fragment="chatroom">
 				       <div id="chat-header_ft" onclick="toggleChat()">
 				           <span id="return-icon_ft" onclick="goBackToUserList(event)">←</span>
 				           <span id="header-title_ft"></span>
 				       </div>
-				       <div id="chat-body">
+				       <div id="chat-body_ft">
 				           <!-- 聊天對象列表 -->
 				           <div id="user-list_ft" class="mem_block">
 				               <ul>
 				               </ul>
 				           </div>
 				           <!-- 聊天視窗 -->
-				           <div id="chat-window" style="display: none;">
-				               <div id="chat-display">
+				           <div id="chat-window_ft" style="display: none;">
+				               <div id="chat-display_ft">
 				                   <!-- 聊天訊息將顯示在這裡 -->
 				               </div>
-				               <div id="chat-input">
+				               <div id="chat-input_ft">
 				                   <input type="text" id="message-input_ft" placeholder="輸入訊息..." />
 				                   <button class="send-msg" onclick="sendMessage()" id="sendbtn_ft">送出</button>
 				               </div>
@@ -182,9 +181,10 @@
 				       </div>
 			   </div>
     </main>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/sidebars.js"></script>
-    <script src="/js/membercenter.js"></script>
+<!--     <script src="/js/membercenter.js"></script> -->
      <script th:src="@{/js/ft_chat.js}"></script>
   </body>
 </html>
