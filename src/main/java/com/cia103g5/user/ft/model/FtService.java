@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -34,7 +33,6 @@ public class FtService {
         MemberVO member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("無效的會員編號: " + memberId));
 
-        // 預設的占卜師等級為1
         FtGrade ftGrade = ftGradeRepository.findByFtRank(1)
                 .orElseThrow(() -> new IllegalArgumentException("無效的 FtRank 預設值"));
 
@@ -46,24 +44,36 @@ public class FtService {
         fortuneTeller.setCompanyName(companyName);
         fortuneTeller.setBusinessNo(businessNo);
         fortuneTeller.setNickname(nickname);
+        fortuneTeller.setRegisteredTime(registeredTime);
         // 尚未審核 占卜師服務預設關閉(0)
         fortuneTeller.setCanPost((byte) 0);
         fortuneTeller.setCanSell((byte) 0);
         fortuneTeller.setCanRev((byte) 0);
-        fortuneTeller.setRegisteredTime(registeredTime);
 
-        processPhotos(fortuneTeller, new MultipartFile[]{photo});
+
+        processPhotos(fortuneTeller, new MultipartFile[]{photo, businessPhoto});
         validateRegisteredInfo(fortuneTeller);
 
         ftRepository.save(fortuneTeller);
 
     }
 
+    // 查詢占卜師編號(依據會員編號)
+    public Integer findFtIdByMemberId(Integer memberId){
+        // 回傳占卜師編號，若沒有占卜師編號回傳-1(即沒有占卜師身分)
+        return ftRepository.findFtIdByMemId(memberId).orElse(-1);
+    }
+
+    // 查詢占卜師資料
+    public FtVO findFtByFtId(Integer ftId){
+        return ftRepository.findById(ftId)
+                .orElseThrow(() -> new RuntimeException("占卜師不存在"));
+    }
+
     // 更新占卜師形象照
     public void updateFortuneTellerProfilePhoto(Integer ftId, MultipartFile photo){
-        FtVO fortuneTeller = findFtOrThrow(ftId); // 先查詢原始資料
-        processPhotos(fortuneTeller, new MultipartFile[]{photo, null});
-
+        FtVO fortuneTeller = findFtOrThrow(ftId);
+        processPhoto(fortuneTeller, photo);
         ftRepository.save(fortuneTeller);
     }
 
@@ -88,10 +98,21 @@ public class FtService {
         return ftRepository.save(fortuneTeller);
     }
 
-    // 查詢占卜師資料
-    public FtVO findFtByFtId(Integer ftId){
-        return ftRepository.findById(ftId)
-                .orElseThrow(() -> new RuntimeException("占卜師不存在"));
+
+    // 啟用占卜師
+    public void updateFortuneTellerState(Integer ftId) {
+        Date approvedDate = new Date();
+        FtVO fortuneTeller = findFtOrThrow(ftId);
+        fortuneTeller.setStatus((byte) 1);
+        fortuneTeller.setApprovedTime(approvedDate);
+        ftRepository.save(fortuneTeller);
+    }
+
+    // 占卜師權限關閉
+    public void updateFortuneTellerState (Integer ftId, byte state){
+        FtVO fortuneTeller = findFtOrThrow(ftId);
+        fortuneTeller.setStatus(state);
+        ftRepository.save(fortuneTeller);
     }
 
     // 查詢所有占卜師
@@ -100,17 +121,27 @@ public class FtService {
     }
 
 
+    // 通用方法：處理單張照片
+    private void processPhoto(FtVO fortuneTeller, MultipartFile photo) {
+        try {
+            if (photo != null && !photo.isEmpty()) {
+                fortuneTeller.setPhoto(photo.getBytes());
+            } else {
+                throw new IllegalArgumentException("請上傳有效的照片");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("照片處理失敗：" + e.getMessage(), e);
+        }
+    }
 
 
-    // 通用方法：處理照片
+    // 通用方法：處理多張照片
     private void processPhotos(FtVO fortuneTeller, MultipartFile[] photos) {
         String[] photoFields = {"photo", "businessPhoto"};
-
         try{
             for(int i = 0; i < photos.length; i++){
-                if(photoFields[i].equals(photos[i].getOriginalFilename())){
+                if (photos[i] != null)
                     setPhotoField(fortuneTeller, photos[i], photoFields[i]);
-                }
             }
         } catch(IOException ie){
             System.err.println("照片處理失敗" + ie.getMessage());

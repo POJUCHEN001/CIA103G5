@@ -126,6 +126,7 @@
         }
       });
 
+
       document.getElementById("loginForm").addEventListener("submit", async (event) => {
         event.preventDefault();
 
@@ -145,11 +146,12 @@
 	            alert(result.message);
 	
               // 更新 sessionStorage
+              sessionStorage.setItem("isLogin", true); // 儲存登入狀態
               sessionStorage.setItem("loggedInAccount", result.member.account); // 儲存帳號
               sessionStorage.setItem("memberInfo", JSON.stringify(result.member)); // 儲存完整會員資訊
 
 	            // 跳轉到會員中心
-	            window.location.href = "/membercenter";
+              window.location.href = result.redirectURL;
 	         } else {
 	           const error = await response.json();
 	           alert(`登入失敗：${error.error}`);
@@ -159,6 +161,8 @@
            alert("系統發生錯誤，請稍後再試！");
          }
       });
+
+
     </script>
   </body>
 </html>

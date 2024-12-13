@@ -39,20 +39,27 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // 發送重新寄送驗證碼的請求
-  async function resendVerificationCode(email) {
-    try {
-      const response = await fetch(`/membersAPI/send-verification-code?email=${encodeURIComponent(email)}`, {
-        method: "POST",
-      });
-      if (!response.ok) {
-        throw new Error("重新寄送驗證碼失敗");
-      }
-      alert("驗證碼已重新寄送到您的信箱，請查收！");
-    } catch (error) {
-      console.error("錯誤：", error);
-      alert("無法重新寄送驗證碼，請稍後再試！");
-    }
-  }
+	const email = document.getElementById("email").value;
+  	console.log(email);
+	  async function resendVerificationCode(email) {
+		try {
+		  const response = await fetch(`/membersAPI/resend-verification-code?email=${encodeURIComponent(email)}`, {
+			method: "POST",
+		  });
+		  if (!response.ok) {
+			throw new Error("重新寄送驗證碼失敗");
+		  }
+		  alert("驗證碼已重新寄送到您的信箱，請查收！");
+			const modal = document.getElementById("verificationModal");
+			const modalOverlay = document.getElementById("modalOverlay");
+			// 顯示燈箱
+			modal.classList.add("active");
+			modalOverlay.classList.add("active");
+		} catch (error) {
+		  console.error("錯誤：", error);
+		  alert("無法重新寄送驗證碼，請稍後再試！");
+		}
+	  }
 
   // 初始化頁面
   fetchMemberInfo();

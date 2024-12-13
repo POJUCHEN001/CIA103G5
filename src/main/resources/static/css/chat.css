@@ -1,0 +1,127 @@
+@charset "UTF-8";
+
+#chat-widget {
+    position: fixed;
+    bottom: 0;
+    right: 20px;
+    width: 330px;
+    height: 400px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: height 0.3s ease;
+    display: flex;
+    flex-direction: column; /* 確保子元素垂直排列 */
+}
+
+#chat-header {
+    background-color: #9366f0;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px 10px 0 0;
+    font-size: 16px;
+    font-weight: bold;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+#return-icon {
+    position: absolute;
+    left: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    display: none; /* 預設隱藏 */
+}
+
+#header-title {
+    pointer-events: none; /* 禁止影響點擊功能 */
+}
+
+#chat-body {
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    flex: 1; /* 填充剩餘空間 */
+    display: flex;
+    flex-direction: column;
+}
+
+#user-list {
+    padding: 10px;
+    flex: 1;
+    overflow-y: auto; /* 用於用戶列表的滾動 */
+}
+
+#user-list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#user-list li {
+    padding: 15px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s;
+}
+
+#user-list li:hover {
+    background-color: #ddd;
+}
+
+#chat-window {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+}
+
+#chat-display {
+    flex: 1; /* 填充垂直剩餘空間 */
+    padding: 10px;
+    overflow-y: auto; /* 啟用垂直捲軸 */
+    height:90%;
+    border-top: 1px solid #ccc;
+    background-color: #fff; /* 調整背景顏色 */
+    flex-basis:270px;
+    flex-direction: column;
+    display:flex;
+}
+
+#chat-input {
+    display: flex;
+    padding: 10px;
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* 輕微陰影效果 */
+    flex-shrink:0;
+    flex-basis:66px;
+}
+
+#chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#chat-input button {
+    padding: 10px 15px;
+    background-color:#9366f0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#chat-input button:hover {
+    background-color: #7a4fcf;
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修卜人生 - 論壇系統</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">    
+   	 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" th:href="@{/css/style.css}"> 
+    <link rel="stylesheet" th:href="@{/css/order_statistic.css}"> 
+</head>
+<body>
+	<div th:replace="index::header"></div>
+	
+		<div class="container">
+	        <div class="row">
+	         <aside class="col-md-3 sidebar">
+            	<i class="fa-solid fa-bars"></i>    
+                <h5 style="padding:10px 10px 10px 20px;font-weight:700;">訂單管理</h5>   
+                <ul style="list-style: none;padding:0;">      
+                    <li class="side_list" style="padding:10px 10px 10px 20px;" ><a href="#" style="text-decoration: none; color: rgb(99, 97, 97);">訂單統計</a></li><!--列出每個占卜師每月結算的訂單(金額、筆數)，可選擇日期-->                                
+          
+           			
+
+                </ul>
+            </aside>
+	
+			
+			<main class=" main-content">			
+					<div class="top-container">
+																	
+						<form class="query-part" method="post" action="#">	
+							<div class="date-block">
+								<label style="padding:0 0 3px 0;font-weight:bold;">選擇查詢日期</label>
+							</div>
+							<div class="year">							
+								<select class="year" th:each="year : ${yearList}">
+									<option th:text="${year}"></option>
+								</select>
+								<label>年</label>
+							</div>
+							
+							<div class="month">							
+								<select class="month">
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+									<option>5</option>
+									<option>6</option>
+									<option>7</option>
+									<option>8</option>
+									<option>9</option>
+									<option>10</option>
+									<option>11</option>
+									<option>12</option>
+								</select>
+								<label>月</label>
+							</div>
+							
+							<div class="date-query-btn">
+								<button type="button" class="btn date-query" id="statis_query" style="background-color:#1e6bd5;">查詢</button>
+								
+							</div>										
+												
+						</form>	
+					</div>
+					
+					<table class="table table-hover " id="statisTable">
+					    <thead class="thead">
+					        <tr class="table-light">
+					            <th>總訂單筆數</th> 
+					            <th>總訂單金額</th>
+					            <th>平台抽成(5%)</th>
+					            <th>撥款金額</th>	                     			                                                       			                     
+					            <th>平台營收</th>	                     			                                                       			                     
+					        </tr>
+					    </thead>
+					    
+					    <tbody class="table-group-divider" >
+					    
+					    	<!--第一列 -->
+					        <tr>
+					             <td class="orders_count" name="orders_count" th:text="${DTO.totalCount}" ></td>			            					       	
+					       		 <td class="orders_amount" name="orders_amount" th:text="${DTO.totalAmount}" ></td>			          	            			     		
+					       		 <td class="revenue" name="revenue" th:text="${DTO.revenue}"></td>
+					       		 <td class="settlement" name="settlement" th:text="${DTO.settlement}"></td>			
+					       		 <td class="gain" name="gain" style="background-color:rgb(239, 187, 194);" th:text="${DTO.revenue}"></td>			
+					        </tr>
+					        					     					    
+					    </tbody>
+					</table>
+					
+				</main>
+			
+			
+		</div>
+    </div>
+    
+    <footer th:replace="index::footer"></footer>
+
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+ <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+ <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<!--  <script th:src="@{/js/product.js}"></script> -->
+<!--  <script th:src="@{/js/flatpickr.js}"></script> -->
+ <script th:src="@{/js/admin_order_statistic.js}"></script>
+  <!-- DataTables 設定 -->
+    <script>
+    $(document).ready(function () {
+        $('#statisTable').DataTable({
+            lengthMenu: [10],
+            searching: false,
+            paging: true,
+            ordering: false,
+            language: {
+                processing: "處理中...",
+                loadingRecords: "載入中...",
+                lengthMenu: "",
+                zeroRecords: "沒有符合的結果",
+                info: "顯示第 _START_ 至 _END_ 筆結果，共 <font color='red'>_TOTAL_</font> 筆",
+                infoEmpty: "顯示第 0 至 0 筆結果，共 0 筆",
+                infoFiltered: "(從 _MAX_ 筆結果中過濾)",
+                search: "搜尋:",
+                paginate: {
+                    first: "第一頁",
+                    previous: "上一頁",
+                    next: "下一頁",
+                    last: "最後一頁",
+                },
+                aria: {
+                    sortAscending: ": 升冪排列",
+                    sortDescending: ": 降冪排列",
+                },
+            },
+        });
+    });
+
+    </script>
+</body>
+</html>

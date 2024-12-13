@@ -60,7 +60,7 @@
 				margin-left: 300px;
 				margin-top: var(--header-height);
 				width: calc(100% - 300px); /* 確保主內容不超出視窗 */
-				overflow-y: auto; /* 只允許垂直滾動 */
+				overflow-x: auto;
 				/* 				max-height: 100vh; 限制內容高度 */
 				padding: 20px;
 			}
@@ -310,4 +310,37 @@
 			    opacity: 1;
 			    transform: scale(1);
 			  }
+			}
+
+			/* 驗證信燈箱 */
+			.modal {
+				display: none;
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 1000;
+				background: white;
+				padding: 20px;
+				border-radius: 8px;
+				box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+			}
+
+			.modal.active {
+				display: block;
+			}
+
+			.modal-overlay {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(0, 0, 0, 0.5);
+				z-index: 999;
+				display: none;
+			}
+
+			.modal-overlay.active {
+				display: block;
 			}

@@ -64,6 +64,13 @@
             <version>3.0.2</version>
         </dependency>
 
+
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-devtools</artifactId>
+		    <optional>true</optional>
+		</dependency>
+
         <!-- for log4j.properties -->
         <!-- Spring Boot日誌系統預設是使用logback -->
         <!-- 對於習慣了log4j的開發者，Spring Boot依然有很好的支援 -->
@@ -86,6 +93,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
+
+		<!--加入jakarta.servlet的依賴-->
+		<dependency>
+		    <groupId>jakarta.servlet</groupId>
+		    <artifactId>jakarta.servlet-api</artifactId>
+		    <scope>provided</scope>
+		</dependency>
 
 
         <dependency>

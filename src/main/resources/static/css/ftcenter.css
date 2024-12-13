@@ -51,6 +51,18 @@ div.flex-shrink-0 {
 	margin-right: 20px;
 	font-size: 1rem;
 }
+/* 行動版排版 */
+@media ( max-width : 767.98px) {
+	div.flex-shrink-0 {
+		top: 0;
+		height: 100%;
+		transform: translateX(-100%);
+		transition: all 1s;
+	}
+	aside.aside.-on {
+		transform: translateX(0%);
+	}
+}
 
 main.main {
 	/* 	border: 2px solid red; */
@@ -59,7 +71,18 @@ main.main {
 	vertical-align: top;
 	width: calc(100% - 280px - 20px);
 	padding: 20px;
+	overflow-x:auto;/*新加的*/
 }
+/* 行動版排版 */
+/*@media ( max-width : 767.98px) {*/
+/*	main.main {*/
+/*		font-size: 1rem;*/
+/*		vertical-align: top;*/
+/*		padding: 20px;*/
+/*		margin-left: 0;*/
+/*	}*/
+/*}*/
+
 
 div.main_container {
 	position: relative;
@@ -96,18 +119,27 @@ ul.main_title {
 /* ul.mem_info { */
 /* 	list-style: none; */
 /* } */
-
+button.edit-info-btn{
+	margin-left:60%;
+	margin-bottom:5%;
+}
 div.ft_center {
+	display:flex;
 	vertical-align: top;
 	margin-top: 10px;
-	/* 	border: 1px black solid; */
+/* 	border: 3px black solid; */
 }
 
+#intro{
+	width:350px;
+}
 div.mem_info {
 	/* 	border: 2px solid green; */
-	display: inline-block;
+	
 	vertical-align: top;
+	width:100%;
 	gap: 15px; /* 調整每個欄位的間距 */
+	margin-left: 30px;
 }
 
 @media ( max-width : 768px) {
@@ -118,9 +150,10 @@ div.mem_info {
 
 div.ft_photo_container {
 	display: inline-block;
-	/* 	border: 2px solid orange; */
+/* 	border: 2px solid orange; */
 	vertical-align: top;
 	width: 200px;
+	margin-right: 20px;
 }
 
 @media ( max-width : 768px) {
@@ -143,9 +176,11 @@ div.ft_photo {
 
 /* 表單樣式 */
 .mem_info li {
+/* 	border:3px solid blue; */
     display: flex; /* 將文字和輸入框水平排列 */
-    align-items: center; /* 垂直置中 */
+    align-items: top; /* 垂直置中 */
     gap: 10px; /* 文字與輸入框之間的間距 */
+    width:100%;
 }
 .mem_info label {
     display: inline-block; /* 確保文字有固定寬度 */

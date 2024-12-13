@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixlife 會員中心</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/headers/">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/headers.css" rel="stylesheet">
+    
+    <!-- Bootstrap core CSS -->
+    <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for sidevar -->
+    <link href="/css/sidebars.css" rel="stylesheet">
+    
+    <!-- 會員基本資料 -->
+    <link href="/css/membercenter.css" rel="stylesheet">
+
+	 <link rel="stylesheet" th:href="@{/css/chat.css}"> 
+    <style>
+      
+
+    </style>
+  </head>
+  <body>
+
+    <header class="p-3 mb-3 border-bottom">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+          <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+            <h1>修卜人生</h1>
+          </a>
+  
+          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" class="nav-link px-2 link-secondary">想找占卜師</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">占卜論壇</a></li>
+            <li><a href="#" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li>
+<!--            <li><a href="register" class="nav-link px-2 link-dark">會員註冊</a></li>-->
+<!--            <li><a href="login" class="nav-link px-2 link-dark">會員登入</a></li>-->
+          </ul>
+  
+          <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+            <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+          </form>
+  
+          <div class="dropdown text-end">
+            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+              <img id="photo-icon" src="/svg/user-solid.svg" alt="mdo" width="32" height="32" class="rounded-circle">
+            </a>
+            <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+              <li><a class="dropdown-item" href="membercenter">會員中心</a></li>
+              <li><a class="dropdown-item" href="ftcenter">占卜師中心</a></li>
+              <li><a class="dropdown-item" href="#">購物車</a></li>
+              <li><a class="dropdown-item" href="#">客服中心</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item logout-link" href="#" id="logout" name="logout">登出 </a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+  
+    <!-- <div class="b-example-divider"></div> -->
+
+  <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
+    <a href="membercenter" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+      <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
+      <span class="fs-5 fw-semibold">會員中心</span>
+    </a>
+    <ul class="list-unstyled ps-0">
+      <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+          會員中心
+        </button>
+        <div class="collapse show" id="home-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="membercenter" class="link-dark rounded">會員基本資料</a></li>
+            <!-- <li><a href="#" class="link-dark rounded">修改會員資料</a></li> -->
+            <!-- <li><a href="#" class="link-dark rounded">預約查詢</a></li> -->
+          </ul>
+        </div>
+      </li>
+      <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+          預約查詢
+        </button>
+        <div class="collapse" id="dashboard-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="#" class="link-dark rounded">預約查詢</a></li>
+            <li><a href="#" class="link-dark rounded">歷史預約查詢</a></li>
+            <!-- <li><a href="#" class="link-dark rounded">Monthly</a></li> -->
+            <!-- <li><a href="#" class="link-dark rounded">Annually</a></li> -->
+          </ul>
+        </div>
+      </li>
+      <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+          訂單查詢
+        </button>
+        <div class="collapse" id="orders-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a th:href="@{/order/mem_order}" class="link-dark rounded">訂單查詢</a></li>
+            <!-- <li><a href="#" class="link-dark rounded">訂單狀態查詢</a></li> -->
+<!--             <li><a href="#" class="link-dark rounded">歷史訂單查詢</a></li> -->
+          </ul>
+        </div>
+      </li>
+      <li class="mb-1">
+      
+      <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+          聊天室
+        </button>
+        <div class="collapse" id="orders-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a th:href="@{/chat/mem_chat}" class="link-dark rounded">前往聊天室</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+          收藏
+        </button>
+        <div class="collapse" id="orders-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="#" class="link-dark rounded">商品收藏</a></li>
+            <li><a href="#" class="link-dark rounded">占卜師收藏</a></li>
+            <li><a href="#" class="link-dark rounded">文章收藏</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="border-top my-3"></li>
+      <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+          Account
+        </button>
+        <div class="collapse" id="account-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="resetpassword" class="link-dark rounded">變更密碼</a></li>
+            <li><a href="#" class="link-dark rounded">刪除帳號</a></li>
+            <!-- <li><a href="#" class="link-dark rounded">客服中心</a></li> -->
+            <li><a href="#" class="link-dark rounded logout-link" id="logout" name="logout">登出</a></li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+    <main class="main">
+		<div>
+   			<button type="button" class="btn chat_btn" id="chat_with_ft" style="background-color:lightblue;color:white;">
+   			聊聊
+   			</button>
+   			<input type="hidden" name="ftId" value="1">
+   		</div>
+      	 <div id="chat-widget" th:fragment="chatroom">
+				       <div id="chat-header" onclick="toggleChat()">
+				           <span id="return-icon" onclick="goBackToUserList(event)">←</span>
+				           <span id="header-title"></span>
+				       </div>
+				       <div id="chat-body">
+				           <!-- 聊天對象列表 -->
+				           <div id="user-list" class="mem_block">
+				               <ul>
+				               </ul>
+				           </div>
+				           <!-- 聊天視窗 -->
+				           <div id="chat-window" style="display: none;">
+				               <div id="chat-display">
+				                   <!-- 聊天訊息將顯示在這裡 -->
+				               </div>
+				               <div id="chat-input">
+				                   <input type="text" id="message-input" placeholder="輸入訊息..." />
+				                   <button class="send-msg" onclick="sendMessage()" id="sendbtn">送出</button>
+				               </div>
+				           </div>
+				       </div>
+			   </div>
+    </main>
+    <script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/sidebars.js"></script>
+    <script src="/js/membercenter.js"></script>
+     <script th:src="@{/js/mem_chat.js}"></script>
+  </body>
+</html>
