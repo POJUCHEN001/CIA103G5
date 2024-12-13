@@ -192,6 +192,7 @@ public class ReservationViewController {
 
 			Map<String, Object> statistics = reservationServiceSpring.getMemberReservationStatistics(memberId);
 
+			model.addAttribute("totalReservations", statistics.get("totalReservations"));
 			model.addAttribute("completedReservations", statistics.get("completedReservations"));
 			model.addAttribute("cancelledReservations", statistics.get("cancelledReservations"));
 			model.addAttribute("pendingReservations", statistics.get("pendingReservations"));
@@ -220,6 +221,8 @@ public class ReservationViewController {
 				Map<String, Object> statistics = reservationServiceSpring.getFtReservationStatistics(ftId);
 
 				// Add all statistics to the model to be used in the Thymeleaf view
+				
+				model.addAttribute("totalReservations", statistics.get("totalReservations"));
 				model.addAttribute("completedReservations", statistics.get("completedReservations"));
 				model.addAttribute("cancelledReservations", statistics.get("cancelledReservations"));
 				model.addAttribute("pendingReservations", statistics.get("pendingReservations"));
@@ -273,32 +276,6 @@ public class ReservationViewController {
 		}
 		return "redirect:/login";
 	}
-
-//	@GetMapping("/manage")
-//	public String manageReservations(Model model, HttpSession session) {
-//		Object isLogin = session.getAttribute("isLogin");
-//		SessionMemberDTO loggedInMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
-//
-//		if (isLogin != null && loggedInMember != null) {
-//			Integer memberId = (Integer) session.getAttribute("memberId");
-//			Integer ftId = (Integer) session.getAttribute("ftId");
-//
-//			List<ReservationVO> reservations;
-//
-//			if (ftId != null) {
-//				// For fortune tellers
-//				reservations = reservationServiceSpring.getReservationsForFortuneTeller(ftId);
-//				model.addAttribute("reservations", reservations);
-//				return "ft-reservation-management";
-//			} else {
-//				// For regular members
-//				reservations = reservationServiceSpring.getReservationsForMember(memberId);
-//				model.addAttribute("reservations", reservations);
-//				return "member-reservation-management";
-//			}
-//		}
-//		return "redirect:/login";
-//	}
 
 	@GetMapping("/member/manage")
 	public String manageMemberReservations(Model model, HttpSession session) {
