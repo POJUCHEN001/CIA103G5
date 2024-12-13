@@ -39,7 +39,7 @@ $(document).ready(function () {
         console.log("發送的資料：", postData); // 檢查發送的資料內容
 
         // 使用 fetch 發送文章的 POST 請求
-        fetch('/api/posts', {
+        fetch('/post/posts', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -114,7 +114,7 @@ $(document).ready(function () {
             }
 
             // 使用 fetch 發送圖片的 POST 請求
-            fetch(`/api/posts/${postNo}/uploadPic`, {
+            fetch(`/post/posts/${postNo}/uploadPic`, {
                 method: 'POST',
                 body: formData
             })
@@ -144,7 +144,7 @@ $(document).ready(function () {
 function toggleFavorite(button) {
     const postNo = button.getAttribute("data-post");
 
-    fetch('/api/favorite', {
+    fetch('/post/favorite', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `postNo=${postNo}`
@@ -159,7 +159,7 @@ function toggleFavorite(button) {
 function toggleLike(button) {
     const postNo = button.getAttribute("data-post");
 
-    fetch(`/api/like/${postNo}`, {
+    fetch(`/post/like/${postNo}`, {
         method: 'POST',
     })
     .then(response => location.reload())
@@ -169,7 +169,7 @@ function toggleLike(button) {
 function toggleDislike(button) {
     const postNo = button.getAttribute("data-post");
 
-    fetch(`/api/dislike/${postNo}`, {
+    fetch(`/post/dislike/${postNo}`, {
         method: 'POST',
     })
 	.then(response => location.reload())
@@ -212,7 +212,7 @@ function saveEditedContent(button) {
 	console.log("發送的資料：", postData); // 檢查發送的資料內容
 
 	// 使用 fetch 發送文章的 PUT 請求
-	fetch(`/api/posts/${postNo}`, {
+	fetch(`/post/posts/${postNo}`, {
 	    method: 'PUT',
 	    headers: {
 	        'Content-Type': 'application/json'
@@ -228,7 +228,7 @@ function deleteArticle(button) {
 	const category = document.getElementById("post-category-content");
 	
 	// 使用 fetch 發送文章的 DELETE 請求
-	fetch(`/api/posts/${postNo}`, {
+	fetch(`/post/posts/${postNo}`, {
 	    method: 'DELETE',
 	})	
 	.then(response => window.location.href = "/category/" + category.textContent)
@@ -249,7 +249,7 @@ function saveCommentContent(button) {
 	console.log("發送的留言：", commentData); // 檢查發送的資料內容
 
 	// 使用 fetch 發送文章的 PUT 請求
-	fetch(`/api/comment/${postNo}`, {
+	fetch(`/post/comment/${postNo}`, {
 	    method: 'POST',
 	    headers: {
 	        'Content-Type': 'application/json'
@@ -264,7 +264,7 @@ function deleteComment(button) {
 	const commentNo = button.getAttribute("data-post");
 	
 	// 使用 fetch 發送留言的 DELETE 請求
-	fetch(`/api/comment/${commentNo}`, {
+	fetch(`/post/comment/${commentNo}`, {
 	    method: 'DELETE',
 	})	
 	.then(response => location.reload())
@@ -291,7 +291,7 @@ function submitReport(button) {
 	    content: content,// 檢舉內容，直接傳遞字串
 	};
 	
-	fetch(`/api/report`, {
+	fetch(`/post/report`, {
 	    method: "POST",
 	    headers: {
 	        "Content-Type": "application/json",
@@ -331,7 +331,7 @@ function cancelReport(button) {
 //Spring MVC 可以將前端表單中的資料直接映射到後端的物件（例如 Post 類別的屬性），這樣可以讓資料傳遞和綁定更為簡單，不需要在前端處理過多資料轉換。
 //AJAX（若使用）：
 
-//若使用了 AJAX，那麼在前端就會使用 JavaScript 或 jQuery 等方式發送非同步請求，將表單資料傳送到後端的 API。
+//若使用了 AJAX，那麼在前端就會使用 JavaScript 或 jQuery 等方式發送非同步請求，將表單資料傳送到後端的 post。
 //AJAX 的優勢在於可以非同步地更新資料，而不需要重新載入頁面。
 //在專案中，若是透過 JavaScript 發送的請求，那麼這部分應該是用 AJAX 技術來達成。
 //Spring Data JPA 負責儲存：
@@ -346,7 +346,7 @@ function cancelReport(button) {
 //AJAX 和 Spring Data JPA 的合作方式
 //前端（AJAX）發送請求：
 
-//使用者在前端提交表單後，AJAX 會攔截這個操作並使用 JavaScript（如 jQuery 的 $.ajax 或 fetch）來發送非同步請求，通常是 HTTP POST 請求，將表單資料（如文章標題、內容等）以 JSON 格式發送給後端的 API。
+//使用者在前端提交表單後，AJAX 會攔截這個操作並使用 JavaScript（如 jQuery 的 $.ajax 或 fetch）來發送非同步請求，通常是 HTTP POST 請求，將表單資料（如文章標題、內容等）以 JSON 格式發送給後端的 post。
 //後端（Spring MVC 控制器）接收請求：
 
 //在 Spring Boot 中，控制器（如 PostController）負責處理這個 AJAX 請求。控制器中的方法通常會用 @PostMapping 來標記，指定接受的 URL 路徑。

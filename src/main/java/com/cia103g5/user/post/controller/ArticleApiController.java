@@ -19,7 +19,7 @@ import com.cia103g5.user.post.repository.PostRepository;
 @RestController
 //使用 @RestController 註解，將 ArticleApiController 標示為 REST API 的控制器。這樣所有方法的回應都會自動轉為 JSON 格式。
 
-@RequestMapping("/api") // @RequestMapping("/api") 設定這個控制器的基礎路徑為 /api，表示所有路由會以 /api 作為開頭。
+@RequestMapping("/post") // @RequestMapping("/api") 設定這個控制器的基礎路徑為 /api，表示所有路由會以 /api 作為開頭。
 class ArticleApiController {
 
     private final PostRepository postRepository;
