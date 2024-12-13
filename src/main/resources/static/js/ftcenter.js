@@ -95,7 +95,7 @@ async function loadMemberProfile() {
 
     } catch (error) {
         console.error("獲取占卜師資料時發生錯誤：", error);
-        alert("系統錯誤，請稍後再試");
+        alert("沒有訪問權限或未登入");
     }
 }
 

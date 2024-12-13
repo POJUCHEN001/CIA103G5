@@ -40,10 +40,10 @@
 					class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 					<li><a href="#" class="nav-link px-2 link-secondary">想找占卜師</a></li>
 					<li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li>
-					<li><a href="#" class="nav-link px-2 link-dark">占卜論壇</a></li>
+					<li><a href="/forum" class="nav-link px-2 link-dark">占卜論壇</a></li>
 					<li><a href="#" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li>
-					<li><a href="register" class="nav-link px-2 link-dark">會員註冊</a></li>
-					<li><a href="login" class="nav-link px-2 link-dark">會員登入</a></li>
+					<li><a href="/register" class="nav-link px-2 link-dark">會員註冊</a></li>
+					<li><a href="/login" class="nav-link px-2 link-dark">會員登入</a></li>
 				</ul>
 
 				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
@@ -60,8 +60,8 @@
 					</a>
 					<ul class="dropdown-menu text-small"
 						aria-labelledby="dropdownUser1">
-						<li><a class="dropdown-item" href="membercenter">會員中心</a></li>
-						<li><a class="dropdown-item" href="ftcenter">占卜師中心</a></li>
+						<li><a class="dropdown-item" href="/membercenter">會員中心</a></li>
+						<li><a class="dropdown-item" href="/ftcenter">占卜師中心</a></li>
 						<li><a class="dropdown-item" href="#">購物車</a></li>
 						<li><a class="dropdown-item" href="#">客服中心</a></li>
 						<li><hr class="dropdown-divider"></li>
@@ -76,7 +76,7 @@
 	<!-- <div class="b-example-divider"></div> -->
 	<div class="container-all">
 		<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;" th:fragment="sidebar">
-			<a href="ftcenter"
+			<a href="/ftcenter"
 				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
 				<svg class="bi me-2" width="30" height="24">
 					<use xlink:href="#bootstrap" /></svg> <span class="fs-5 fw-semibold">占卜師中心</span>
@@ -88,7 +88,7 @@
 						aria-expanded="true">占卜師中心</button>
 					<div class="collapse show" id="home-collapse">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a href="ftcenter" class="link-dark rounded">基本資料</a></li>
+							<li><a href="/ftcenter" class="link-dark rounded">基本資料</a></li>
 							<li><a href="#" class="link-dark rounded">占卜服務設置</a></li>
 							<!-- <li><a href="#" class="link-dark rounded">預約查詢</a></li> -->
 						</ul>
@@ -100,10 +100,10 @@
 						aria-expanded="false">預約查詢</button>
 					<div class="collapse" id="dashboard-collapse">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a href="#" class="link-dark rounded">預約查詢</a></li>
-							<li><a href="#" class="link-dark rounded">歷史預約查詢</a></li>
-							<!-- <li><a href="#" class="link-dark rounded">Monthly</a></li> -->
-							<!-- <li><a href="#" class="link-dark rounded">Annually</a></li> -->
+							<li><a href="/reservations/ft/query" class="link-dark rounded">預約查詢</a></li>
+							<li><a href="/reservations/ft/manage" class="link-dark rounded">預約評價</a></li>
+							<li><a href="/reaervations/ft/statistics" class="link-dark rounded">預約統計</a></li>
+							<li><a href="/reservations/ft/financial" class="link-dark rounded">交易紀錄</a></li>
 						</ul>
 					</div>
 				</li>

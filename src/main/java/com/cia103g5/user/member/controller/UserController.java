@@ -121,6 +121,7 @@ public class UserController {
 //                    isFortuneTeller ? ftId : null, // 如果不是占卜師，設為 null
                     ftId
             );
+            
             // 儲存登入狀態和會員資訊
             // 將 sessionDTO 存入HttpSession
             session.setAttribute("isLogin", true);
@@ -157,6 +158,7 @@ public class UserController {
                             "gender", member.getGender()
                     )
             ));
+            
         } catch (IllegalArgumentException ie) {
             // 帳號或密碼錯誤
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
