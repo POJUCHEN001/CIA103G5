@@ -12,7 +12,7 @@ public class PageController {
 		return "index";
 	}
 	
-//	@GetMapping
+//	@GetMapping("/")
 //	 public String index() {
 //        return "index"; // 導向 index.html
 //    }
@@ -67,4 +67,12 @@ public class PageController {
     	return "chat/ft_chat";
     }
     
+    @GetMapping("/store")
+    public String storePage() {
+    	return "store";
+    }
+
+    
+
+
 }

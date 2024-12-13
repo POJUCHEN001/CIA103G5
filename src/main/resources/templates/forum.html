@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>論壇</title>
+    <link rel="stylesheet" th:href="@{/css/forum.css}"> <!-- 引入樣式 -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- 引入 FontAwesome -->
+</head>
+<body>
+<div th:fragment="content"> <!-- 定義 content 片段 -->
+    <div class="forum-content">
+        <div class="post-list">
+            <div class="post-item" th:each="post : ${posts}"> <!-- 迭代文章 -->
+                <h2 class="post-title" th:text="${post.title}">文章標題</h2> <!-- 顯示標題 -->
+                <p class="post-author">作者: <span th:text="${post.authorName}">作者</span></p> <!-- 顯示作者 -->
+                
+                <!-- 顯示文章摘要 -->
+                <p class="post-preview" 
+                   th:text="${#strings.abbreviate(post.content.replaceAll('\\<.*?\\>', ''), 100)}">
+                    文章內容
+                </p>
+                
+                <!-- 顯示發表時間 -->
+                <p class="post-time">發表時間: <span th:text="${post.formattedPostTime}">發表時間</span></p>
+
+                <div class="post-icons"> <!-- 互動圖示 -->
+                    
+                   
+                    <div class="icon" title="按讚數">
+                        <i class="fas fa-thumbs-up"></i>
+                        <span th:text="${post.totalLikes}">0</span>
+                    </div>
+                    <div class="icon" title="倒讚數">
+                        <i class="fas fa-thumbs-down"></i>
+                        <span th:text="${post.totalDislikes}">0</span>
+                    </div>
+                </div>
+
+                <!-- 閱讀文章按鈕 -->
+                <div class="view-button-container">
+                    <a th:href="@{/post/{id}(id=${post.postNo})}" class="view-button">閱讀文章</a>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+</body>
+</html>

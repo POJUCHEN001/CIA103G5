@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+<!-- 設定文件的 HTML5 文件類型和 Thymeleaf 語法支持 -->
+<head>
+    <!-- 設定文件的字符編碼為 UTF-8，確保繁體中文和其他語系正確顯示 -->
+    <meta charset="UTF-8" />
+    <!-- 設定視窗寬度及縮放比例，以提升在行動裝置上的顯示效果 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>修卜人生</title>
+    <!-- 設定網頁標題 -->
+
+    <!-- 使用 Thymeleaf 的 th:href 引入 CSS 檔案，可動態處理應用路徑 -->
+    <link rel="stylesheet" th:href="@{/css/post_index.css}" />
+    <link rel="stylesheet" th:href="@{/css/forum.css}" />
+    <link rel="stylesheet" th:href="@{/css/articlesdetail.css}" />
+    <!-- 引入 Font Awesome 圖示庫的外部 CDN 連結，提供常見圖示供按鈕或視覺效果使用 -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <!-- 內嵌的樣式，用於限制主內容容器的最大寬度和邊距，提升版面呈現效果 -->
+    <style>
+        #content-container {
+            max-width: 1600px;
+            /* 設定最大寬度為 1600px，避免在大螢幕上版面過於寬 */
+            width: calc(100% - 40px);
+            /* 使用 calc 函數計算實際寬度，減少40px的邊距 */
+            margin: 0 auto;
+            /* 使容器置中 */
+            padding: 0 20px;
+            /* 設定內邊距 */
+            box-sizing: border-box;
+            /* 包含內邊距與邊框在內，計算元素的總寬度 */
+        }
+          #search-container {
+        position: relative;
+        width: 100%; /* 搜尋容器寬度 */
+    }
+
+    #search-bar {
+        width: calc(100% - 40px); /* 搜索框寬度，扣除按鈕寬度 */
+        padding: 10px 15px; /* 內邊距 */
+        font-size: 16px; /* 字體大小 */
+        border: 1px solid #ccc; /* 邊框樣式 */
+        border-radius: 5px 0 0 5px; /* 左側圓角 */
+        box-sizing: border-box; /* 計算內邊距 */
+    }
+
+    #search-icon {
+        position: absolute; /* 絕對定位 */
+        right: 0; /* 靠右對齊 */
+        top: 0; /* 靠頂對齊 */
+        bottom: 0; /* 靠底對齊 */
+        background-color: #6c63ff; /* 背景顏色 */
+        color: white; /* 圖標顏色 */
+        border: none; /* 無邊框 */
+        padding: 0 15px; /* 左右內邊距 */
+        font-size: 16px; /* 字體大小 */
+        display: flex; /* 使用 Flex 排版 */
+        align-items: center; /* 垂直居中 */
+        justify-content: center; /* 水平居中 */
+        border-radius: 0 5px 5px 0; /* 右側圓角 */
+        cursor: pointer; /* 滑鼠指針樣式 */
+    }
+
+    #search-icon i {
+        margin: 0; /* 去掉多餘的外邊距 */
+        pointer-events: none; /* 禁止點擊事件穿透 */
+    }
+    </style>
+</head>
+<body>
+    <!-- 頁面頂部的標題和導航按鈕區域 -->
+    <header>
+        <h1>修卜人生</h1>
+        <!-- 網站名稱或標題 -->
+        <nav>
+            <!-- 導航按鈕設計，提供主要功能的入口 -->
+            <button class="nav-btn" onclick="window.location.href='/forum'">瀏覽論壇</button>
+            <!-- 導向論壇 -->
+            <button class="nav-btn">瀏覽占卜師</button>
+            <!-- 暫未設定的導覽按鈕 -->
+            <button class="nav-btn">瀏覽商品</button>
+            <button class="nav-btn">線上抽牌</button>
+            <button class="nav-btn">購物車</button>
+            <button class="nav-btn">會員中心</button>
+            <button class="nav-btn">註冊・登入</button>
+        </nav>
+    </header>
+
+    <!-- 包含主要內容和側邊欄的容器 -->
+    <div id="main-container">
+        <!-- 側邊欄設置，包含搜尋框和文章分類按鈕 -->
+        <div id="sidebar-container">
+            <aside id="sidebar">
+                <!-- 搜尋功能區域 -->
+                <div id="search-container">
+    <!-- 表單，用於處理搜尋請求 -->
+    <form action="/search" method="get" style="display: flex;">
+        <!-- 輸入框，供用戶輸入關鍵字 -->
+        <input 
+            type="text" 
+            id="search-bar" 
+            name="keyword" 
+            placeholder="搜尋文章功能" 
+            style="flex: 1;" 
+        />
+        <!-- 搜尋按鈕 -->
+        <button type="submit" id="search-icon">
+            <i class="fas fa-search"></i>
+        </button>
+    </form>
+</div>
+                <!-- 發文和分類按鈕，提供常見的論壇分類或功能連結 -->
+                <button class="sidebar-btn"
+                    onclick="window.location.href='/articles'">發文</button>
+                <!-- 發文頁面按鈕 -->
+                <button class="sidebar-btn"
+                    onclick="window.location.href='/popular'">熱門文章</button>
+
+                <!-- 各版區按鈕，點擊後會根據分類顯示相應文章 -->
+                <button class="sidebar-btn"
+                    onclick="window.location.href='/category/塔羅板'">塔羅板</button>
+                <button class="sidebar-btn"
+                    onclick="window.location.href='/category/星座板'">星座板</button>
+                <button class="sidebar-btn"
+                    onclick="window.location.href='/category/夢境板'">夢境板</button>
+                <button class="sidebar-btn"
+                    onclick="window.location.href='/category/心情板'">心情板</button>
+                <button class="sidebar-btn"
+                    onclick="window.location.href='/category/感情板'">感情板</button>
+                <button class="sidebar-btn"
+                    onclick="window.location.href='/category/八卦板'">八卦板</button>
+                <button class="sidebar-btn"
+                    onclick="window.location.href='/category/占卜師'">占卜師</button>
+            </aside>
+        </div>
+
+        <!-- 主內容顯示區，用於顯示論壇或發文頁面內容 -->
+        <div id="content-container">
+            <!-- 使用 th:switch 依據 page 變數值來選擇不同的片段內容 -->
+            <div th:switch="${page}">
+                <!-- 當 page 為 'forum' 時，引入 forum.html 的 content 片段 -->
+                <div th:case="'forum'" th:insert="~{forum :: content}">
+                    Forum content should load here...
+                    <!-- 預設文字，在頁面未正確載入時顯示 -->
+                </div>
+                <!-- 當 page 為 'articles' 時，引入 articles.html 的 content 片段 -->
+                <div th:case="'articles'" th:insert="~{articles :: content}">
+                    Articles content should load here...
+                    <!-- 預設文字，在頁面未正確載入時顯示 -->
+                </div>
+                <!-- 當 page 為 'category' 時，引入 forum.html 的 content 片段，但顯示特定分類的文章 -->
+                <div th:case="'category'" th:insert="~{forum :: content}">
+                    Category content should load here...
+                    <!-- 預設文字，在頁面未正確載入時顯示 -->
+                </div>
+                <!-- 當 page 為 'popular' 時，引入 forum.html 的 content 片段顯示熱門文章 -->
+                <div th:case="'popular'" th:insert="~{forum :: content}">
+                    Popular content should load here...
+                    <!-- 預設文字，在頁面未正確載入時顯示 -->
+                </div>
+               <div th:switch="${page}">
+    <!-- 其他頁面條件 -->
+    <div th:case="'articlesdetail'" th:insert="~{articlesdetail :: content}">
+        Articles detail content should load here...
+    </div>
+    <!-- 其他頁面條件 -->
+   <div th:case="'search_results'" th:insert="~{search_results :: content}"></div>
+</div>
+                <!-- 預設情況，當 page 未匹配到其他條件時顯示的訊息 -->
+               <!--  <div th:case="*">
+                    Page not found.-->
+                    <!-- 頁面不存在時的提示訊息 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入 JavaScript 檔案，提供頁面互動和行為 -->
+    <script type="text/javascript"
+        th:src="@{/vendors/jquery/jquery-3.7.1.min.js}"></script>
+    <!-- jQuery庫 -->
+    <script th:src="@{/js/post_index.js}"></script>
+    <!-- 自定義的JavaScript文件 -->
+</body>
+</html>

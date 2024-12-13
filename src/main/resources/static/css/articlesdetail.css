@@ -1,0 +1,181 @@
+/* 整個文章區塊的布局 */
+#post-section {
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    gap: 10px; /* 各區塊之間的間距 */
+    padding-right: 5px; /* 與瀏覽器右側保持 5px 距離 */
+    box-sizing: border-box; /* 確保內邊距和邊框包含在寬度計算中 */
+}
+
+/* 標題框、作者框、文章內容框的通用樣式 */
+#post-title, #post-category, #post-author, #post-content, #post-edit, #edit-content {
+    background-color: white; /* 框框內部設置白色背景 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+    width: calc(100% - 5px); /* 框與右側保持 5px 距離 */
+    padding: 10px; /* 內邊距 */
+    font-size: 16px; /* 預設字體大小 */
+    border: 1px solid #ccc; /* 灰色邊框 */
+    border-radius: 5px; /* 圓角 */
+    box-sizing: border-box; /* 包括內邊距與邊框在內的寬度計算 */
+}
+
+/* 留言的通用樣式 */
+#post-comments-area, #post-post-comment {
+    background-color: white; /* 框框內部設置白色背景 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+    margin-left:30px;
+    margin-right:30px;
+    padding: 10px; /* 內邊距 */
+    font-size: 16px; /* 預設字體大小 */
+    border: 1px solid #ccc; /* 灰色邊框 */
+    border-radius: 5px; /* 圓角 */
+    box-sizing: border-box; /* 包括內邊距與邊框在內的寬度計算 */
+}
+
+/* 標題的特殊樣式 */
+#post-title h1 {
+	display: flex; /* 啟用 Flexbox */
+	align-items: center; /* 垂直居中 */
+    font-size: 20px; /* 較大的字體 */
+    font-weight: bold; /* 加粗 */
+    margin: 0; /* 去除默認的上下外邊距 */
+    color: #333; /* 深灰色字體 */
+    min-height: 50px; /* 設置最小高度為 400px */
+}
+
+/* 作者框的樣式 */
+#post-author {
+    font-size: 16px; /* 較小的字體 */
+    color: #555; /* 中灰色字體 */
+    margin-top: 1px; /* 與標題保持距離 */
+}
+
+/* 文章內容框的樣式 */
+#post-content {
+    line-height: 1.6; /* 行距，提升可讀性 */
+    color: rgb(0, 0, 0); /* 深灰色字體 */
+    margin-top: 1px; /* 與作者保持距離 */
+    min-height: 400px; /* 設置最小高度為 400px */
+    overflow-y: auto; /* 超出時允許滾動 */
+    padding: 10px; /* 內邊距 */
+    font-size: 18px; /* 預設字體大小 */
+}
+#post-time {
+    color: #666; /* 字體顏色 */
+    margin: 1px 0; /* 上下間距 */
+    border-radius: 5px; /* 圓角效果 */
+    display: inline-block; /* 使其成為區塊元素 */
+    background-color: white; /* 框框內部設置白色背景 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+    width: calc(100% - 5px); /* 框與右側保持 5px 距離 */
+    padding: 10px; /* 內邊距 */
+    font-size: 16px; /* 預設字體大小 */
+    border: 1px solid #ccc; /* 灰色邊框 */
+    box-sizing: border-box; /* 包括內邊距與邊框在內的寬度計算 */
+}
+
+/* 圖片區塊的樣式 */
+.images img {
+    max-width: 100%; /* 確保圖片不會超出容器寬度 */
+    border-radius: 5px; /* 圓角 */
+    margin-top: 10px; /* 與其他內容保持距離 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+}
+
+/* 文章編輯區的樣式 */
+#post-edit {
+    line-height: 1.6; /* 行距，提升可讀性 */
+    color: rgb(0, 0, 0); /* 深灰色字體 */
+    margin-top: 1px; /* 與作者保持距離 */
+    min-height: 400px; /* 設置最小高度為 400px */
+    overflow-y: auto; /* 超出時允許滾動 */
+    padding: 10px; /* 內邊距 */
+    font-size: 18px; /* 預設字體大小 */
+    display: none;
+}
+/* 增強整體可視效果的背景色 */
+body {
+    background-color: #f9f9f9; /* 網頁背景為淺灰色，突顯白色框框 */
+    font-family: Arial, sans-serif; /* 字體 */
+    color: #333; /* 全局字體顏色 */
+    margin: 0; /* 去除默認邊距 */
+    padding: 0; /* 去除默認內邊距 */
+}
+
+/* 留言的通用樣式 */
+#post-comments-area, #post-post-comment {
+    background-color: white; /* 框框內部設置白色背景 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加輕微陰影 */
+    width: calc(100% - 5px); /* 與文章內容框一致寬度 */
+    margin: 0 auto; /* 水平置中 */
+    padding: 10px; /* 內邊距 */
+    font-size: 16px; /* 預設字體大小 */
+    border: 1px solid #ccc; /* 灰色邊框 */
+    border-radius: 5px; /* 圓角 */
+    box-sizing: border-box; /* 包括內邊距與邊框在內的寬度計算 */
+}
+
+/* 新留言框樣式 */
+#new-comment-content {
+    width: 100%; /* 與父容器寬度一致 */
+    resize: none; /* 禁用調整大小 */
+    padding: 10px; /* 留言框內邊距 */
+    font-size: 16px; /* 字體大小 */
+    border: 1px solid #ccc; /* 灰色邊框 */
+    border-radius: 5px; /* 圓角樣式 */
+    box-sizing: border-box; /* 確保內邊距包含在寬高計算內 */
+    overflow-y: auto; /* 如果內容超出，顯示垂直滾動條 */
+}
+
+/* 通用按鈕容器 */
+.button-container {
+    display: flex;
+    justify-content: center; /* 水平置中 */
+    align-items: center; /* 垂直置中 */
+    margin-top: -10px; /* 向上移動 "留言" 按鈕 */
+}
+
+/* 按鈕樣式 */
+#like-btn, #dislike-btn, #edit-article-btn, #delete-article-btn, #save-edited-btn, #delete-comment-btn, #save-comment-btn, #report-article-btn {
+    text-align: center; /* 讓按鈕內文字置中 */
+    margin-top: 15px;
+    display: inline-block;
+    font-size: 16px;
+    color: #007bff;
+    text-decoration: none;
+    border: 1px solid #007bff;
+    padding: 10px 20px; /* 增加 padding 使按鈕更明顯 */
+    border-radius: 5px; /* 使用圓角樣式 */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: bold;
+}
+
+/* 按鈕 hover 效果 */
+#like-btn:hover, #dislike-btn:hover, #edit-article-btn:hover, #delete-article-btn:hover, #save-edited-btn:hover, #delete-comment-btn:hover, #save-comment-btn:hover, #report-article-btn:hover {
+    background-color: #007bff; /* 改變背景顏色 */
+    color: #ffffff; /* 改變文字顏色 */
+    cursor: pointer; /* 改變滑鼠指標樣式 */
+}
+
+#delete-comment-btn {
+    display: block; /* 讓按鈕成為塊級元素，獨占一行 */
+     margin: 0 auto; /* 水平置中 */
+}
+#save-comment-btn {
+    display: block; /* 讓按鈕成為塊級元素，獨占一行 */
+     margin: 0 auto; /* 水平置中 */
+}
+
+#post-report {
+    display: none; /* 預設隱藏 */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-radius: 5px;
+}
+

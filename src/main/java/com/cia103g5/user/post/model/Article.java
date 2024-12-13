@@ -17,6 +17,8 @@ public class Article {// 定義 Article 類別，用來表示一篇文章的基�
     public String getTitle() {
         return title;
     }
+    
+    //Article 類別是 POJO，因為它是一個簡單的資料模型，用於儲存文章的基本資料
 
     public void setTitle(String title) {
         this.title = title;
@@ -24,9 +26,9 @@ public class Article {// 定義 Article 類別，用來表示一篇文章的基�
     //getTitle() 方法提供 title 欄位的讀取功能，允許外部獲取文章的標題。
     //setTitle(String title) 方法提供 title 欄位的修改功能，允許外部設置新的標題值。
     //使用 getter 和 setter 方法可以控制資料的存取，方便日後進行驗證或資料處理。
-
-
-
+    
+    
+    
     public String getContent() {
         return content;
     }
