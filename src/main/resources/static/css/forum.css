@@ -1,0 +1,92 @@
+/* forum.css */ 
+
+/* 主內容容器 */
+.forum-content {
+    max-width: 1600px; /* 增加最大寬度，使主容器變得更寬 */
+    width: calc(100% - 40px); /* 調整總寬度，減少左右邊距 */
+    margin: 0 auto;
+    padding: 0 20px; /* 增加內邊距，讓內容不貼邊 */
+    box-sizing: border-box;
+}
+
+/* 調整 post-list 寬度，使其佔據更多空間 */
+.post-list {
+    width: 100%; /* 使 post-list 填滿主內容區域 */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 文章項目樣式 */
+.post-item {
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #fff;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+/* 標題樣式 */
+.post-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* 作者和修改時間樣式 */
+.post-author,
+.post-modified {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* 文章預覽內容樣式 */
+.post-preview {
+    font-size: 16px;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+/* post-icons 區塊 */
+.post-icons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.post-icons .icon {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    color: #333;
+}
+
+.post-icons .icon i {
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+/* 按鈕容器樣式 */
+.view-button-container {
+    text-align: center; /* 讓按鈕置中 */
+    margin-top: 15px;
+}
+
+/* 閱讀文章按鈕樣式 */
+.view-button {
+    display: inline-block;
+    font-size: 16px;
+    color: #007bff;
+    text-decoration: none;
+    border: 1px solid #007bff;
+    padding: 10px 20px; /* 增加 padding 使按鈕更明顯 */
+    border-radius: 5px; /* 使用圓角樣式 */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: bold;
+}
+
+.view-button:hover {
+    background-color: #007bff;
+    color: #fff;
+}

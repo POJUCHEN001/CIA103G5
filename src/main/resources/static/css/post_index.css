@@ -1,0 +1,239 @@
+/* index.css全局樣式 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Header 樣式 */
+header {
+    background-color: #7d2da3;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    margin: 0;
+    font-size: 38px;
+    padding-left: 10px;
+}
+
+/* 導覽列樣式 */
+nav {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-btn {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.nav-btn:hover {
+    background-color: #f0f0f0;
+}
+
+/* 主容器樣式 */
+#main-container {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* 側邊欄容器樣式 */
+#sidebar-container {
+    width: 200px;
+}
+
+#sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 搜尋框樣式 */
+#search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#search-bar {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* 搜尋圖示 */
+#search-icon {
+    position: absolute;
+    right: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* 側邊欄按鈕樣式 */
+.sidebar-btn {
+    padding: 10px;
+    font-size: 16px;
+    background-color: white;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    text-align: left;
+    position: relative; /* 讓 ::after 相對於按鈕定位 */
+}
+
+/* 側邊欄按鈕圖示樣式 */
+.sidebar-btn::after {
+    content: ""; /* 預設空 */
+    position: absolute;
+    right: 10px;
+    font-size: 16px;
+}
+
+/* 發文按鈕：筆圖示 */
+.sidebar-btn:nth-child(2)::after {
+    content: "✏️";
+}
+
+/* 熱門文章按鈕：火圖示 */
+.sidebar-btn:nth-child(3)::after {
+    content: "🔥";
+}
+
+/* 塔羅版按鈕：水晶球圖示 */
+.sidebar-btn:nth-child(4)::after {
+    content: "🔮";
+}
+
+/* 星座版按鈕：天秤座圖示 */
+.sidebar-btn:nth-child(5)::after {
+    content: "♎";
+}
+
+/* 夢境版按鈕：雲朵圖示 */
+.sidebar-btn:nth-child(6)::after {
+    content: "☁️";
+}
+/* 心情版按鈕：愛心圖示 */
+.sidebar-btn:nth-child(7)::after {
+    content: "❤️";
+}
+
+.sidebar-btn:nth-child(8)::after {
+    content: "💕";
+}
+
+.sidebar-btn:nth-child(9)::after {
+    content: "💬";
+}
+
+.sidebar-btn:nth-child(10)::after {
+    content: "🧙";
+}
+
+/* 發文容器樣式 */
+#post-container {
+    flex: 1;
+}
+
+#post-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 5px; /* 與瀏覽器右側保持 5px 距離 */
+    box-sizing: border-box;
+}
+
+/* 標題框、作者框、文章內容框的樣式 */
+#post-title, #post-author, #post-content {
+    width: calc(100% - 5px); /* 框與右側保持 5px 距離 */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 文章內容框的特定樣式 */
+#post-content[contenteditable="true"] {
+    min-height: 400px; /* 預設為約 15 行高 */
+    overflow-y: auto;
+    background-color: white;
+    resize: none; /* 禁止調整大小 */
+    position: relative; /* 用於 placeholder 的定位 */
+}
+
+/* 模擬 placeholder 的文字樣式 */
+#placeholder {
+    color: #aaa;
+    position: absolute;
+    pointer-events: none; /* 讓文字無法被選中 */
+}
+
+/* 發文選擇區和按鈕樣式 */
+#submit-section {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#post-category {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+}
+
+#post-submit, #insert-image {
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #7d2da3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin: 0;
+}
+
+/* 圖片容器樣式，允許調整大小 */
+#post-content div[contenteditable="true"] {
+    min-height: 400px;
+    display: inline-block;
+    resize: both; /* 允許大小調整 */
+    overflow: auto; /* 顯示調整句柄 */
+    position: relative;
+}
+/* 側邊欄按鈕樣式 */
+.sidebar-btn {
+    padding: 10px;
+    font-size: 16px;
+    background-color: white;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    text-align: left;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+/* 側邊欄按鈕的懸浮與焦點效果 */
+.sidebar-btn:hover, .sidebar-btn:focus {
+    background-color: #dcdcdc;
+    outline: none;
+    color: #333;
+}
