@@ -25,6 +25,7 @@ public interface ReservationRepository extends JpaRepository<ReservationVO, Inte
 	Optional<ReservationVO> findByRsvNo(int rsvNo);
 	
 	
+	
 	List<ReservationVO> findByMemberIdAndRsvStatus(MemberVO member, Byte rsvStatus);
     List<ReservationVO> findByFtIdAndRsvStatus(FtVO ftId, Byte rsvStatus);
     List<ReservationVO> findByMemberIdAndCreatedTimeBetween(MemberVO member, Date startDate, Date endDate);
