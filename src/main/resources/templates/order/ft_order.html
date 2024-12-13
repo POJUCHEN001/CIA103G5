@@ -21,15 +21,24 @@
 
 <link href="/css/ftcenter.css" rel="stylesheet">
 
-    <!-- bootstrap cdn -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-       <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" />
-    <!-- flatpickr -->
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">    
-    <!-- 自訂css file -->
-    <link rel="stylesheet" th:href="@{/css/style.css}"> 
-    <link rel="stylesheet" th:href="@{/css/ftOrder.css}">
+<!-- bootstrap cdn -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+	integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" />
+<!-- flatpickr -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<!-- 自訂css file -->
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<link rel="stylesheet" th:href="@{/css/ftOrder.css}">
 
 <style>
 </style>
@@ -49,10 +58,10 @@
 					class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 					<li><a href="#" class="nav-link px-2 link-secondary">想找占卜師</a></li>
 					<li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li>
-					<li><a href="#" class="nav-link px-2 link-dark">占卜論壇</a></li>
+					<li><a href="/forum" class="nav-link px-2 link-dark">占卜論壇</a></li>
 					<li><a href="#" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li>
-					<li><a href="register" class="nav-link px-2 link-dark">會員註冊</a></li>
-					<li><a href="login" class="nav-link px-2 link-dark">會員登入</a></li>
+					<li><a href="/register" class="nav-link px-2 link-dark">會員註冊</a></li>
+					<li><a href="/login" class="nav-link px-2 link-dark">會員登入</a></li>
 				</ul>
 
 				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
@@ -69,8 +78,8 @@
 					</a>
 					<ul class="dropdown-menu text-small"
 						aria-labelledby="dropdownUser1">
-						<li><a class="dropdown-item" href="membercenter">會員中心</a></li>
-						<li><a class="dropdown-item" href="ftcenter">占卜師中心</a></li>
+						<li><a class="dropdown-item" href="/membercenter">會員中心</a></li>
+						<li><a class="dropdown-item" href="/ftcenter">占卜師中心</a></li>
 						<li><a class="dropdown-item" href="#">購物車</a></li>
 						<li><a class="dropdown-item" href="#">客服中心</a></li>
 						<li><hr class="dropdown-divider"></li>
@@ -84,7 +93,9 @@
 
 	<!-- <div class="b-example-divider"></div> -->
 	<div class="container-all">
-		<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;margin-right:0 !important;" th:fragment="sidebar">
+		<div class="flex-shrink-0 p-3 bg-white"
+			style="width: 280px; margin-right: 0 !important;"
+			th:fragment="sidebar">
 			<a href="ftcenter"
 				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
 				<svg class="bi me-2" width="30" height="24">
@@ -109,10 +120,14 @@
 						aria-expanded="false">預約查詢</button>
 					<div class="collapse" id="dashboard-collapse">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a href="#" class="link-dark rounded">預約查詢</a></li>
-							<li><a href="#" class="link-dark rounded">歷史預約查詢</a></li>
-							<!-- <li><a href="#" class="link-dark rounded">Monthly</a></li> -->
-							<!-- <li><a href="#" class="link-dark rounded">Annually</a></li> -->
+							<li><a href="/reservations/member/query"
+								class="link-dark rounded">預約查詢</a></li>
+							<li><a href="/reservations/member/manage"
+								class="link-dark rounded">預約評價</a></li>
+							<li><a href="/reservations/member/statistics"
+								class="link-dark rounded">預約統計</a></li>
+							<li><a href="/reservations/member/financial"
+								class="link-dark rounded">交易紀錄</a></li>
 						</ul>
 					</div>
 				</li>
@@ -122,21 +137,25 @@
 						aria-expanded="false">商品訂單查詢</button>
 					<div class="collapse" id="orders-collapse">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a th:href="@{/order/ft_order}"  class="link-dark rounded">訂單管理</a></li>
-							<li><a th:href="@{/order/ft_order/statistics}" class="link-dark rounded">訂單統計</a></li>
-<!-- 							<li><a href="#" class="link-dark rounded">歷史訂單查詢</a></li> -->
+							<li><a th:href="@{/order/ft_order}"
+								class="link-dark rounded">訂單管理</a></li>
+							<li><a th:href="@{/order/ft_order/statistics}"
+								class="link-dark rounded">訂單統計</a></li>
+							<!-- 							<li><a href="#" class="link-dark rounded">歷史訂單查詢</a></li> -->
 						</ul>
 					</div>
 				</li>
-				
+
 				<li class="mb-1">
 					<button class="btn btn-toggle align-items-center rounded collapsed"
 						data-bs-toggle="collapse" data-bs-target="#orders-collapse"
 						aria-expanded="false">商城管理</button>
 					<div class="collapse" id="orders-collapse">
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a  th:href="@{/product/queryAllProduct}" class="link-dark rounded">商品管理</a></li>
-							<li><a th:href="@{/product/product_statistics}" class="link-dark rounded">銷售統計</a></li>
+							<li><a th:href="@{/product/queryAllProduct}"
+								class="link-dark rounded">商品管理</a></li>
+							<li><a th:href="@{/product/product_statistics}"
+								class="link-dark rounded">銷售統計</a></li>
 						</ul>
 					</div>
 				</li>
@@ -159,189 +178,206 @@
 			</ul>
 		</div>
 
-			<main class="main">
-					<main class="col-md-9 main-content" style="display:flex;flex-direction:column;">
-				
-					<div class="top-container" style="flex:1;">
-																	
-						<form class="query-part" method="post" action="#" style="margin-left:0 !important;">	
-							<div class="query-orderstate" style="margin-left:40px;">
-								<label>訂單狀態 :</label>
-								<select class="order-status">
-									<option></option>
-									<option>已成立</option>
-									<option>已取消</option>
-									<option>已完成</option>
-									<option>退貨</option>
-								</select>
+		<main class="main">
+			<main class="col-md-9 main-content"
+				style="display: flex; flex-direction: column;">
+
+				<div class="top-container" style="flex: 1;">
+
+					<form class="query-part" method="post" action="#"
+						style="margin-left: 0 !important;">
+						<div class="query-orderstate" style="margin-left: 40px;">
+							<label>訂單狀態 :</label> <select class="order-status">
+								<option></option>
+								<option>已成立</option>
+								<option>已取消</option>
+								<option>已完成</option>
+								<option>退貨</option>
+							</select>
+						</div>
+
+						<div class="query-date">
+							<label>選擇日期區間 :</label> <input type="text" name="date"
+								class="datepicker" id="qy-date">
+						</div>
+
+						<div class="query-memid">
+							<label>輸入會員編號 :</label> <input type="text" id="memno">
+						</div>
+
+						<div class="query-orderno">
+							<label>輸入訂單編號 :</label> <input type="text" id="orderno">
+						</div>
+
+						<div class="query-btn">
+							<button type="button" class="btn" id="composite"
+								style="background-color: #1e6bd5; color: white;">查詢</button>
+						</div>
+
+					</form>
+				</div>
+
+				<table class="table table-hover " id="FTorderTable" style="flex: 3;">
+					<thead class="thead">
+						<tr class="table-light">
+							<th>訂單編號</th>
+							<th>會員編號</th>
+							<th>付款方式</th>
+							<th>總金額</th>
+							<th>物流狀態</th>
+							<th>訂單狀態</th>
+							<th>訂單成立時間</th>
+							<th>訂單結案時間</th>
+							<th>出貨通知</th>
+							<th>訂單明細</th>
+						</tr>
+					</thead>
+
+					<tbody class="table-group-divider">
+
+						<!--第一列 -->
+						<tr th:each="orderVO : ${allOrders}">
+							<td class="orderno" name="orderno" th:value="${orderVO.orderNo}"
+								th:text="${orderVO.orderNo}"></td>
+							<td class="memid" name="memid"
+								th:text="${orderVO.memId.memberId}"></td>
+							<td class="payment" name="payment"
+								th:text="${paymap[orderVO.orderNo]}"></td>
+							<td class="orderamount" name="orderamount"
+								th:text="${orderVO.orderAmount}"></td>
+							<td class="shipstatus" name="shipstatus"
+								th:text="${shipmap[orderVO.orderNo]}"></td>
+							<td class="orderstatus" name="orderstatus"
+								th:text="${statemap[orderVO.orderNo]}"></td>
+							<td class="createdtime" name="createdtime"
+								th:text="${timemap[orderVO.orderNo][0]}"></td>
+							<td class="endedtime" name="endedtime"
+								th:text="${timemap[orderVO.orderNo][1]}">-</td>
+							<td><a class="alter_order"
+								th:href="@{/order/ft_order/delivery/{orderNo}(orderNo=${orderVO.orderNo})}"
+								th:if="${'待出貨'.equals(shipmap[orderVO.orderNo]) and '已成立'.equals(statemap[orderVO.orderNo])}"
+								th:text="'出貨'"></a></td>
+							<td><a href="#" class="open_modal"
+								style="text-decoration: none;" data-bs-toggle="modal"
+								data-bs-target="#ratingModal"
+								th:data-order-no="${orderVO.orderNo}">查看</a></td>
+						</tr>
+
+
+					</tbody>
+				</table>
+
+
+				<!-- Modal -->
+				<div class="modal fade" id="ratingModal" tabindex="-1"
+					aria-labelledby="ratingModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="ratingModalLabel">訂單明細</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
 							</div>
-							
-							<div class="query-date">
-								<label>選擇日期區間 :</label>
-								<input type="text" name="date" class="datepicker" id="qy-date">
+							<div class="modal-body">
+
+								<!-- part1 -->
+								<table class="table mytable1"
+									style="margin-bottom: 20px !important;">
+									<thead class="thead">
+										<tr class="table-light">
+											<th>商品編號</th>
+											<th>商品名稱</th>
+											<th>商品金額</th>
+											<th>訂購數量</th>
+										</tr>
+									</thead>
+
+									<tbody class="table-group-divider">
+										<tr>
+											<td class="orderno" name="orderno">12</td>
+											<td class="memid" name="memid">水晶球</td>
+											<td class="payment" name="payment">500</td>
+											<td class="orderamount" name="orderamount">3</td>
+										</tr>
+
+									</tbody>
+								</table>
+
+								<!-- part2 -->
+								<div class="note">
+									<table class="table mytable2 "
+										style="margin-bottom: 20px !important;">
+										<thead class="thead">
+											<tr class="table-light">
+												<th style="width: 300px;">訂單金額</th>
+												<th style="width: 300px;"></th>
+												<th style="width: 300px;"></th>
+												<th style="width: 300px;"></th>
+
+											</tr>
+										</thead>
+
+										<tbody class="table-group-divider">
+
+											<!--第一列 -->
+											<tr>
+												<td class="total">總金額</td>
+												<td></td>
+												<td></td>
+												<td class="total" style="width: 400px;" id="total">1500</td>
+											</tr>
+
+											<tr>
+												<td class="delivery_fee">積分折抵</td>
+												<td></td>
+												<td></td>
+												<td class="delivery_fee" id="point">50</td>
+
+											</tr>
+
+											<tr>
+												<td class="point_discount">實付金額</td>
+												<td></td>
+												<td></td>
+												<td class="point_discount" id="realpay">1450</td>
+
+											</tr>
+
+											<tr>
+												<td class="payment">備註</td>
+												<td></td>
+												<td></td>
+												<td class="payment" id="note">我想要藍色的，謝謝!</td>
+											</tr>
+
+										</tbody>
+									</table>
+
+								</div>
+
 							</div>
-						
-							<div class="query-memid" >
-								<label>輸入會員編號 :</label>
-								<input type="text" id="memno">
+							<div class="modal-footer">
+								<!-- data-bs-dismiss="modal"加上此屬性可以再點擊後讓燈箱關閉 -->
+								<!-- 							                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color:rgb(180, 180, 180);color:white;">取消</button> -->
+								<input type="hidden">
+								<button type="submit" class="btn btn-primary" id="submitRating"
+									data-bs-dismiss="modal"
+									style="background-color: #1e6bd5; color: white;">關閉</button>
 							</div>
-							
-							<div class="query-orderno" >
-								<label>輸入訂單編號 :</label>
-								<input type="text" id="orderno">
-							</div>					
-							
-							<div class="query-btn">
-								<button type="button" class="btn" id="composite" style="background-color:#1e6bd5;color:white;">查詢</button>
-							</div>
-												
-						</form>	
+						</div>
 					</div>
-					
-					<table class="table table-hover " id="FTorderTable"  style="flex:3;">
-					    <thead class="thead" >
-					        <tr class="table-light">
-					            <th>訂單編號</th>
-					            <th>會員編號</th> 
-					            <th>付款方式</th>	                     			                                                       
-					            <th>總金額</th>			            	
-					            <th>物流狀態</th>
-					            <th>訂單狀態</th>		
-					            <th>訂單成立時間</th>
-					            <th>訂單結案時間</th>
-					            <th>出貨通知</th>
-					            <th>訂單明細</th>						                     
-					        </tr>
-					    </thead>
-					    
-					    <tbody class="table-group-divider" >
-					    
-					    	<!--第一列 -->
-					        <tr th:each="orderVO : ${allOrders}">
-					             <td class="orderno" name="orderno"  th:value="${orderVO.orderNo}" th:text="${orderVO.orderNo}"></td>					          
-					             <td class="memid" name="memid" th:text="${orderVO.memId.memberId}"></td>			            
-					       		 <td class="payment" name="payment" th:text="${paymap[orderVO.orderNo]}"></td>						       	
-					       		 <td class="orderamount" name="orderamount" th:text="${orderVO.orderAmount}"></td>			          	            
-					       		 <td class="shipstatus" name="shipstatus" th:text="${shipmap[orderVO.orderNo]}"></td>	
-					       		 <td class="orderstatus" name="orderstatus" th:text="${statemap[orderVO.orderNo]}" > 
-			
-					       		 </td>
-					       		 <td class="createdtime" name="createdtime" th:text="${timemap[orderVO.orderNo][0]}"></td>
-					       		 <td class="endedtime" name="endedtime" th:text="${timemap[orderVO.orderNo][1]}">-</td>
-					       		 <td><a class="alter_order" th:href="@{/order/ft_order/delivery/{orderNo}(orderNo=${orderVO.orderNo})}"  th:if="${'待出貨'.equals(shipmap[orderVO.orderNo]) and '已成立'.equals(statemap[orderVO.orderNo])}" th:text="'出貨'"></a></td>
-					       		 <td ><a href="#" class="open_modal" style="text-decoration:none;" data-bs-toggle="modal" data-bs-target="#ratingModal" th:data-order-no="${orderVO.orderNo}">查看</a></td>				
-					        </tr>
-					        
-					      			     				    
-					    </tbody>
-					</table>
-					
-					
-					  <!-- Modal -->
-					    <div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
-					        <div class="modal-dialog">
-					            <div class="modal-content">
-					                <div class="modal-header">
-					                    <h5 class="modal-title" id="ratingModalLabel">訂單明細</h5>
-					                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					                </div>
-					                <div class="modal-body">
-					                
-					                 <!-- part1 -->
-					                   <table class="table mytable1" style="margin-bottom:20px !important;" >
-										    <thead class="thead" >
-										        <tr class="table-light">
-										            <th>商品編號</th>
-										            <th>商品名稱</th> 
-										            <th>商品金額</th>	                     			                                                       
-										            <th>訂購數量</th>			            										           					                     
-										        </tr>
-										    </thead>
-										    
-										    <tbody class="table-group-divider">							    	
-										        <tr >
-										             <td class="orderno" name="orderno" >12</td>					          
-										             <td class="memid" name="memid">水晶球</td>			            
-										       		 <td class="payment" name="payment" >500</td>						       	
-										       		 <td class="orderamount" name="orderamount">3</td>			          	            			
-										        </tr>								        
-										      			     				    
-										    </tbody>
-										</table>
-					                    
-					                    <!-- part2 -->
-					                    <div class="note">
-					                    <table class="table mytable2 " style="margin-bottom:20px !important;">
-										    <thead class="thead">
-										        <tr class="table-light">
-										            <th style="width:300px;">訂單金額</th>	
-										            <th style="width:300px;"></th>	
-										            <th style="width:300px;"></th>	
-										            <th style="width:300px;"></th>	
-										                              
-										        </tr>
-										    </thead>
-										    
-										    <tbody class="table-group-divider">
-									    
-										    	<!--第一列 -->
-										        <tr >
-										            <td class="total" >總金額</td>
-										            <td></td>
-										            <td></td>
-										            <td class="total" style="width:400px;" id="total" >1500</td>            						           
-										        </tr>
-										        
-										         <tr >						         
-										            <td class="delivery_fee">積分折抵</td>		            
-										            <td></td>
-										            <td></td>
-										            <td class="delivery_fee" id="point">50</td>			            
-				           						           
-										        </tr>
-										        
-										         <tr >	            
-										            <td class="point_discount">實付金額</td>				
-										            <td></td>
-										            <td></td>
-										            <td class="point_discount" id="realpay">1450</td>
-										                     						           
-										        </tr>
-										        
-										         <tr >
-										            <td class="payment">備註</td>           						           
-										            <td></td>
-										            <td></td>
-										            <td class="payment" id="note">我想要藍色的，謝謝!</td>	           						           
-										        </tr>
-										       												        
-										    </tbody>
-										</table>
-					                    	
-					                    </div>
-					                    
-					                </div>
-					                <div class="modal-footer">
-					                    <!-- data-bs-dismiss="modal"加上此屬性可以再點擊後讓燈箱關閉 -->
-<!-- 							                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color:rgb(180, 180, 180);color:white;">取消</button> -->
-										<input type="hidden">
-					                    <button type="submit" class="btn btn-primary" id="submitRating"  data-bs-dismiss="modal" style="background-color:#1e6bd5;color:white;">關閉</button>
-					                </div>
-					            </div>
-					        </div>
-					    </div>	
-					
-					
-				</main>
-					
-				
-			
+				</div>
+
+
+			</main>
+
+
+
 		</main>
 	</div>
 	<script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="/js/sidebars.js"></script>
-<!-- 	<script src="/js/ftcenter.js"></script> -->
-	 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
  <!-- flatpickr js(5以上的bootstrap需搭配flatpickr) -->
  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -382,7 +418,7 @@
             },
         });
     });
-
     </script>
+
 </body>
 </html>
