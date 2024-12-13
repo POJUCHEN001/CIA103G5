@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -25,11 +26,11 @@ public class MemberViolationRecord implements Serializable {
 	@Column(name = "violation_record_no")
 	private Integer vioRecordNo;
 	
-	@OneToOne
+	@OneToOne // FK
 	@JoinColumn(name = "mem_id", referencedColumnName = "mem_id", nullable = false)
 	private MemberVO memberId;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "violation_type_no", referencedColumnName = "violation_type_no", nullable = false)
 	private ViolationVO vioTypeNo;
 

@@ -24,5 +24,8 @@ public interface FtRepository extends JpaRepository<FtVO, Integer>{
 //    Optional<FtVO> findByMemberAndFtId(MemberVO member, Integer ftId);
 
 //    List<FtVO> findAll();
+    
+    // 
+//    List<FtVO> findByStatus();
 
 }
