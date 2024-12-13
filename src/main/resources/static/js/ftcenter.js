@@ -142,15 +142,14 @@ document.getElementById("edit-info-btn").addEventListener("click", function () {
     document.getElementById("edit-section").style.display = "inline-block";
 
     // 將原有資料填入輸入框
-
     document.getElementById("edit-nickname").value = document.getElementById("nickname").textContent;
     // document.getElementById("edit-companyName").value = document.getElementById("companyName").textContent;
     // document.getElementById("edit-businessNo").value = document.getElementById("businessNo").textContent;
     // document.getElementById("edit-bankAccount").value = document.getElementById("bankAccount").textContent;
-    if(!document.getElementById("price").textContent == "尚未設置價格"){
+    if(document.getElementById("price").textContent != "尚未設置價格"){
         document.getElementById("edit-price").value = document.getElementById("price").textContent;
     }
-    if(!document.getElementById("intro").textContent == "暫無簡介"){
+    if(document.getElementById("intro").textContent != "暫無簡介"){
         document.getElementById("edit-intro").value = document.getElementById("intro").textContent;
     }
 

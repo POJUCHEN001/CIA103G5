@@ -5,7 +5,17 @@ import java.util.Date;
 
 import com.cia103g5.user.ft.model.FtVO;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "violation_record_ft")
@@ -18,11 +28,11 @@ public class FtViolationRecord implements Serializable {
 	@Column(name = "ft_violation_no")
 	private Integer ftVioRecordNo;
 
-	@OneToOne
+	@OneToOne // FK
 	@JoinColumn(name = "ft_id", referencedColumnName = "ft_id", nullable = false)
 	private FtVO ftId;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "violation_type_no", referencedColumnName = "violation_type_no", nullable = false)
 	private ViolationVO vioTypeNo;
 
