@@ -27,9 +27,10 @@ import jakarta.persistence.Table;
 public class ProductVO  implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+  
 	@Id //PK
 	@Column(name="prod_no")
-	@GeneratedValue(strategy =GenerationType.IDENTITY)//自增
+	@GeneratedValue(strategy =GenerationType.IDENTITY)
 	private Integer prodNo;
 		
 	@ManyToOne
@@ -78,15 +79,16 @@ public class ProductVO  implements Serializable{
 	
 	//一對多的主表格作設定，mappedBy寫上product_image對應的屬性名
 	@JsonIgnore
+
 	@OneToMany(mappedBy ="productVO" ,cascade =CascadeType.ALL)	
 	private Set <ProductImageVO> productImageVO;
 
-//	一個無參數建構子
+
 	public ProductVO() {
 		super();
 	}
 
-//	一格有參數建構子
+
 	public ProductVO(Integer prodNo, FtVO ftId,String prodName,String prodDesc,Integer price,Integer availableQuantity,
 	Integer soldQuantity, Integer rating, Integer ratingCount, Integer viewCount, Timestamp listedTime,Byte status) {
 	this.prodNo = prodNo;
@@ -207,6 +209,36 @@ public class ProductVO  implements Serializable{
 	public void setProductImageVO(Set<ProductImageVO> productImageVO) {
 		this.productImageVO = productImageVO;
 	}
+  
+	@Override
+	public String toString() {
+		return "ProductVO [prod_no=" + prodNo + ", prodName=" + prodName + ", prodDesc=" + prodDesc + ", price="
+				+ price + ", availableQuantity=" + availableQuantity + ", listedTime=" + listedTime + ", status="
+				+ status + "]";
+	}
+	
+/*
+	public void writePic(byte[] buf,Integer prod_no) throws IOException {
+		File file =new File("src\\main\\webapp\\backend\\getpictest\\prod_no_"+ prod_no+".jpg");
+		try {
+			
+			FileOutputStream fos =new FileOutputStream(file);
+			BufferedOutputStream bos =new BufferedOutputStream(fos);
+			
+			bos.write(buf,0,buf.length);
+			
+			
+			bos.close();
+			fos.close();
+			
+			System.out.println("已成功取出資料庫圖片，請到getpictest資料夾查看!");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+*/
 	
 	
 }
