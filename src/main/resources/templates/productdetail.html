@@ -142,18 +142,18 @@
     <main>
         <div class="container">
             <div class="row">
-                <!-- 商品圖片部分 -->
+        
                 <div class="col-md-6">
                     <div class="product-image-main">
                         <img id="mainImage" th:src="@{/images/{id}.jpg(id=${product.prodNo})}" class="img-fluid" alt="商品圖片">
                     </div>
                     <div class="product-image-thumbnails">
-                        <!-- 顯示多張商品縮略圖 -->
+           
                         <img class="product-thumbnail" th:each="i : ${#numbers.sequence(1, 5)}" th:src="@{/images/{id}_{i}.jpg(id=${product.prodNo}, i=${i})}" alt="商品縮略圖" onclick="changeImage(this)">
                     </div>
                 </div>
                 
-                <!-- 商品信息部分 -->
+         
                 <div class="col-md-6">
                     <h2 class="product-title" th:text="${product.prodName}">商品名稱</h2>
                     <div class="d-flex align-items-center">
@@ -169,7 +169,7 @@
                         <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
                     </div>
 
-                    <!-- 操作按鈕 -->
+     
                     <div class="product-actions">
                         <button class="btn-add-cart" onclick="addToCart()">加入購物車</button>
                         <button class="btn-buy-now" onclick="buyNow()">直接購買</button>

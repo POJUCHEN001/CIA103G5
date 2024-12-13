@@ -6,8 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class StoreServiceImpl implements StoreService {
 	  private final StoreRepository storeRepository;
 
@@ -17,11 +18,13 @@ public class StoreServiceImpl implements StoreService {
 	    }
 
 	   
+	
 	    @Override
 	    public Page<ProductVO> getAllAvailableProducts(Pageable pageable) {
-	        // 回傳status=1的商品(上架中) 
-	        return storeRepository.findByStatus((byte) 1, pageable);
+	        Page<ProductVO> products = storeRepository.findByStatus((byte) 1, pageable);
+	        return (products == null || products.isEmpty()) ? Page.empty() : products;
 	    }
+
 	  
 	    @Override
 	    public List<ProductVO> searchProducts(String keyword) {
@@ -36,8 +39,15 @@ public class StoreServiceImpl implements StoreService {
 	        if (productOpt.isPresent()) {
 	            ProductVO product = productOpt.get();
 
-	        
-	            product.setViewCount(product.getViewCount() == null ? 1 : product.getViewCount() + 1);
+	         
+	            if (product.getViewCount() == null) {
+	                product.setViewCount(0);
+	            }
+
+	           
+	            product.setViewCount(product.getViewCount() + 1);
+
+	         
 	            storeRepository.save(product);
 
 	            return product;

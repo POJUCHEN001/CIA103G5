@@ -9,52 +9,60 @@ public class PageController {
 	
 	@RequestMapping("/")
 	public String home() {
-		return "/index";
+		return "index";
 	}
 	
-//	@GetMapping
+//	@GetMapping("/")
 //	 public String index() {
 //        return "index"; // 導向 index.html
 //    }
 
     @GetMapping("/login")
     public String loginPage() {
-        return "/login"; // 導向 login.html
+        return "login"; // 導向 login.html
     }
 
     @GetMapping("/register")
     public String registerPage() {
-        return "/register"; // 導向 regist.html
+        return "register"; // 導向 regist.html
     }
 
     @GetMapping("/membercenter")
     public String memberCenterPage() {
-        return "/membercenter"; // 導向 membercenter.html
+        return "membercenter"; // 導向 membercenter.html
     }
     
     @GetMapping("/registermember")
     public String registerMemberPage() {
-    	return "/registermember"; 
+    	return "registermember"; 
     }
     
     @GetMapping("/resetpassword")
     public String resetPasswordPage() {
-    	return "/resetpassword"; 
+    	return "resetpassword"; 
     }
     
     @GetMapping("/registerftmember")
     public String registerFtMemberPage() {
-    	return "/registerftmember"; 
+    	return "registerftmember"; 
     }
     
     @GetMapping("/writeftinfo")
     public String writeFtregisterInfoPage() {
-    	return "/writeftinfo"; 
+    	return "writeftinfo"; 
     }
     
     @GetMapping("/ftcenter")
     public String ftcenterPage() {
-    	return "/ftcenter"; 
+    	return "ftcenter"; 
     }
     
+    @GetMapping("/store")
+    public String storePage() {
+    	return "store";
+    }
+
+    
+
+
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/product-collection")
+@RequestMapping("/productcollection")
 public class ProductCollectionController {
 
     private final ProductCollectionService productCollectionService;
@@ -20,13 +20,22 @@ public class ProductCollectionController {
         this.productCollectionService = productCollectionService;
     }
 
-    @GetMapping("/product-collection")
-    public String showProductCollectionPage(Model model, Integer memId) {
-      
-        List<ProductCollectionVO> collections = productCollectionService.findByMemId(memId);
 
-      
-        model.addAttribute("collections", collections);
-        return "product-collection"; 
+    @GetMapping("/{memId}")
+    public List<ProductCollectionVO> getProductCollections(@PathVariable Integer memId) {
+        return productCollectionService.findByMemId(memId);
     }
-}
+
+
+    @PostMapping("/{memId}/{prodNo}")
+    public ProductCollectionVO addProductToCollection(@PathVariable Integer memId, @PathVariable Integer prodNo) {
+        return productCollectionService.addCollection(memId, prodNo);
+    }
+
+
+    @DeleteMapping("/{memId}/{prodNo}")
+    public void removeProductFromCollection(@PathVariable Integer memId, @PathVariable Integer prodNo) {
+        productCollectionService.removeCollection(memId, prodNo);
+    }
+  }
+

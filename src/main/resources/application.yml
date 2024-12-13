@@ -54,7 +54,7 @@ spring:
   thymeleaf:
     enabled: true
     cache: true
-    prefix: classpath:/templates
+    prefix: classpath:/templates/
     suffix: .html
 
 # 伺服器配置
