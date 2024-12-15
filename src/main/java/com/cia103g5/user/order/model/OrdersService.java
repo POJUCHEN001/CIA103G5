@@ -225,6 +225,17 @@ public class OrdersService {
 	public List<OrderSummaryDTO> getOrderSummaryByOrderStateAndMemId(Byte state,Integer memId){
 		List<OrderSummaryDTO> list =repository.findOrderSummariesByOrderStatusAndMemId(state, memId);
 		
+		for(OrderSummaryDTO oneDTO:list) {
+			List<ScoringDTO> comments =detailSvc.getProductCommentByOrderNo(oneDTO.getOrderNo());
+			System.out.println("如果有評論的話，每個商品的評分都是必填，所以可以取得評分數值:"+comments.get(0).getRateScore());
+			if(comments.get(0).getRateScore()!=null) {
+				oneDTO.setComment(true);
+			}else {
+				oneDTO.setComment(false);
+			}
+			
+		}
+		
 		return list;
 	}
 	
@@ -392,8 +403,35 @@ public class OrdersService {
 	}
 	
 	//占卜師訂單的複合查詢
-		public List<OrdersVO> getOrdersByCompositeQueryByFtId(Timestamp startDate,Timestamp  endDate,Integer memId,Integer orderNo,Byte orderState,Byte shipStatus,Integer ftId){
-			return repository.getOrdersByCompositeQueryByFtId(startDate, endDate, memId, orderNo, orderState, shipStatus,ftId);
+		public List<TransferOrderDTO> getOrdersByCompositeQueryByFtId(Timestamp startDate,Timestamp  endDate,Integer memId,Integer orderNo,Byte orderState,Byte shipStatus,Integer ftId){
+			
+			List<OrdersVO> list =repository.getOrdersByCompositeQueryByFtId(startDate, endDate, memId, orderNo, orderState, shipStatus,ftId);
+			
+			//用來裝要傳送給前端的DTO，將手動裝
+			List<TransferOrderDTO> sendList =new ArrayList<TransferOrderDTO>();			
+
+			for(OrdersVO VO :list) {
+				TransferOrderDTO DTO =new TransferOrderDTO();
+				
+				DTO.setOrderNo(VO.getOrderNo());
+				DTO.setMemId(VO.getMemId().getMemberId());
+				DTO.setPayment(VO.getPayment());
+				DTO.setOrderAmount(VO.getOrderAmount());
+				DTO.setShipStatus(VO.getShipStatus());
+				DTO.setOrderState(VO.getOrderState());
+				
+				//轉換時間
+				DTO.setCreatedTime(VO.getCreatedTime().toLocalDateTime().toLocalDate());
+				
+				if(VO.getEndedTime()!=null) {
+					DTO.setEndedTime(VO.getEndedTime().toLocalDateTime().toLocalDate());
+				}		
+				
+				//每次迭代都new DTO，存入list
+				sendList.add(DTO);
+			}			
+			
+			return sendList;
 		}
 	
 	

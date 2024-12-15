@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fixlife 會員中心</title>
-
+	<!-- sockJS配置 -->
+	<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/headers/">
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
 
@@ -152,18 +155,22 @@
   </div>
 
     <main class="main">
-		<div>
+		<div style="margin-right:30px;">
    			<button type="button" class="btn chat_btn" id="chat_with_ft" style="background-color:lightblue;color:white;">
    			聊聊
    			</button>
-   			<input type="hidden" name="ftId" value="1">
+   			<input type="hidden"  class="ft" name="ftId" value="6">
    		</div>
-      	 <div id="chat-widget" th:fragment="chatroom">
+   		
+   		<br>
+   		
+   		
+      	 <div id="chat-widget" th:fragment="chatroom" style="height:45px;">
 				       <div id="chat-header" onclick="toggleChat()">
-				           <span id="return-icon" onclick="goBackToUserList(event)">←</span>
+				           <span id="return-icon" onclick="goBackToUserList(event)" style="display:none;">←</span>
 				           <span id="header-title"></span>
 				       </div>
-				       <div id="chat-body">
+				       <div id="chat-body" style="display:none;">
 				           <!-- 聊天對象列表 -->
 				           <div id="user-list" class="mem_block">
 				               <ul>
@@ -182,9 +189,10 @@
 				       </div>
 			   </div>
     </main>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/sidebars.js"></script>
-    <script src="/js/membercenter.js"></script>
+<!--     <script src="/js/membercenter.js"></script> -->
      <script th:src="@{/js/mem_chat.js}"></script>
   </body>
 </html>

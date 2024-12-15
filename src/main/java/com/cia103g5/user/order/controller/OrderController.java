@@ -49,6 +49,10 @@ public class OrderController {
 	@GetMapping("/mem_order")
 	public String toMemOrderPage(ModelMap model,HttpSession session) {
 		SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
+		if(sessionMember==null) {
+			return "/login";
+		}
+		
 		Integer memberId = sessionMember.getMemberId();
 		
 		
@@ -56,7 +60,7 @@ public class OrderController {
 		//之後請用mem_id查詢該會員所有的訂單
 //		List<OrderSummaryDTO> list =orderSvc.getOrderSummary();
 		model.addAttribute("OrderSumDTO",list);
-		
+				
 		
 				
 		return "order/mem_order";
@@ -110,9 +114,14 @@ public class OrderController {
 	@GetMapping("/member/orderState/login/{orderState}")
 	public List<OrderSummaryDTO> fetchOrdersByOrderStateByMemId(@PathVariable Byte orderState,HttpSession session){
 		SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
-		Integer memberId = sessionMember.getMemberId();
+		if(sessionMember!=null) {
+
+			Integer memberId = sessionMember.getMemberId();			
+			return orderSvc.getOrderSummaryByOrderStateAndMemId(orderState,memberId);
+		}else {
+			return null;
+		}
 		
-		return orderSvc.getOrderSummaryByOrderStateAndMemId(orderState,memberId);
 		
 	}
 	
@@ -129,9 +138,13 @@ public class OrderController {
 		@GetMapping("/member/shipStatus/login/{shipStatus}")
 		public List<OrderSummaryDTO> fetchOrdersByShipStatusByMemId(@PathVariable Byte shipStatus,HttpSession session){
 			SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
+			if(sessionMember!=null) {
 			Integer memberId = sessionMember.getMemberId();
 			
 			return orderSvc.getOrderSummaryByShipStatusAndMemId(shipStatus,memberId);
+			}else {
+				return null;
+			}
 			
 		}
 	
@@ -154,12 +167,14 @@ public class OrderController {
 	 //接收要轉交到占卜師訂單畫面的請求
 	@GetMapping("/ft_order")
 	public String queryFtOrders(ModelMap model,HttpSession session) {
-//		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
-//		Integer ftId = sessionMember.getFtId();
+		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
+		if(sessionMember==null) {
+			return "/login";
+		}
 		
-//		List<OrdersVO> list = orderSvc.getAllByFtId(ftId);
-				
-		List<OrdersVO> list =orderSvc.getAll();
+		Integer ftId = sessionMember.getFtId();
+		
+		List<OrdersVO> list = orderSvc.getAllByFtId(ftId);
 		model.addAttribute("allOrders",list);
 		
 		//轉換時間
@@ -208,10 +223,12 @@ public class OrderController {
 	//轉交到占卜師訂單統計的畫面，傳誦可選年份、上個月、全部的統計
 	@GetMapping("/ft_order/statistics")
 	public String toFtStatisticsPage(ModelMap model,HttpSession session) {
-//		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
-//		Integer ftId = sessionMember.getFtId();
+		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
+		if(sessionMember==null) {
+			return "/login";
+		}
 		
-		Integer ftId =1;
+		Integer ftId = sessionMember.getFtId();
 		Integer firstYearOfOrder =orderSvc.getFirstOrderYearFromFtId(ftId);
 		
 		System.out.println("first year of order:"+firstYearOfOrder);
@@ -257,8 +274,7 @@ public class OrderController {
 		
 		//轉換付款方式
 		Map <Integer,String> paymap =transferPay(list);
-		model.addAttribute("paymap",paymap);
-		
+		model.addAttribute("paymap",paymap);		
 		
 		List<OrderDetailVO> detailVOList =detailSvc.getAllDetailsByOrderNo(orderno);
 		//傳送該訂單的所有明細資訊(裝在List)
@@ -291,8 +307,16 @@ public class OrderController {
 			ModelMap model,
 	        @RequestParam("orderNo") String orderNo,
 	        @RequestParam Map<String, String> params,//取得所有型態string的參數的map，key:name value:參數值
-	        @RequestParam Map<String, MultipartFile> files //取得所有型態為multipartFile的map，key:name value:檔案
+	        @RequestParam Map<String, MultipartFile> files,
+	        HttpSession session//取得所有型態為multipartFile的map，key:name value:檔案
 	) throws IOException {
+		SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
+		if(sessionMember==null) {
+			return "/login";
+		}
+		
+		Integer memberId = sessionMember.getMemberId();
+		
 		//檢查是否更新成功，決定後續更新狀態
 		Boolean check_success =false;
 		
@@ -359,54 +383,14 @@ public class OrderController {
 		    //3.更新物流狀態:已到貨(shipStatus=4)
 		    orderSvc.alterShipStatus(Integer.valueOf(orderNo), (byte)4);
 	    }
-	   	    
-	    List<OrderSummaryDTO> list =orderSvc.getOrderSummary();
+	   	    	
+		List<OrderSummaryDTO> list =orderSvc.getOrderSummaryByMemId(memberId);
 		model.addAttribute("OrderSumDTO",list);
+		
 			
 		return "order/mem_order";
 	}
 
-
-	
-	
-	@GetMapping("/")
-	public String toIndex() {
-		return "index";
-	}
-	
-	@GetMapping("/processing")
-	public String tab_processing() {
-		return "order/processing";
-	}
-	
-	@GetMapping("/delivery")
-	public String tab_delivery() {
-		return "order/delivery";
-	}
-	
-	@GetMapping("/finished")
-	public String tab_finished() {
-		return "order/finished";
-	}
-	
-	@GetMapping("/return_product")
-	public String tab_return_prod() {
-		return "order/return_product";
-	}
-	
-	
-	
-//	@GetMapping("/admin/order_statistics")
-//	public String to_order_statistics() {
-//		return "admin/order_statistics";
-//	}
-	
-//	@GetMapping("/admin/return_order")
-//	public String return_order_page() {
-//		return "admin/return_order";
-//	}
-	
-	
 
 	
 //時間轉換的方法	

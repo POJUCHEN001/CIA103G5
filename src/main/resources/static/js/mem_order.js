@@ -135,6 +135,8 @@ $("div.order-container").on("click", "button.submit-comment", function () {
 
             // 自動關閉燈箱
             $("#ratingModal").modal("hide");
+			
+			$("a.order-finished").click();
         })
         .catch((err) => {
             console.error("提交評論時出錯:", err);
@@ -214,6 +216,7 @@ $("div.order-container").on("click", "button.view-comment", function () {
 	            console.error("Fetch error:", err);
 	        });
 	  
+			
   
 });
 

@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.cia103g5.user.member.dto.SessionMemberDTO;
 import com.cia103g5.user.order.model.OrdersService;
 import com.cia103g5.user.order.model.ReturnInfo;
 import com.cia103g5.user.order.model.dto.AdminOrderTransferDTO;
 import com.cia103g5.user.order.model.dto.ShowReturnOrderDTO;
 import com.cia103g5.user.order.model.dto.StatisticDTO;
 import com.cia103g5.user.orderDetails.model.OrderDetailService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/order/admin")
@@ -49,18 +52,24 @@ public class AdminOrderController {
 		return "admin/order_statistics";
 	}
 	
+	
+	//會員的退貨明細
 	@GetMapping("/statistic/detail/{orderNo}")
-	public String toReturnDetailPage(ModelMap model,@PathVariable("orderNo")Integer orderNo) {
+	public String toReturnDetailPage(ModelMap model,@PathVariable("orderNo")String orderNo) {
+		Integer no =null;
+		if(orderNo.trim()!=null) {
+			no =Integer.valueOf(orderNo);
+		}		
 		
 		//裝著這個訂單中所有有退的商品編號
-		List<Integer> returnProdNo =detailSvc.getOneOrderAllReturnProdNo(orderNo);
+		List<Integer> returnProdNo =detailSvc.getOneOrderAllReturnProdNo(no);
 		model.addAttribute("prodNoList",returnProdNo);
 		
 //		for(Integer prodno :returnProdNo) {
 //			System.out.println("訂單編號: "+orderNo+"所有有退的商品編號:"+prodno);	
 //		}
 		
-		Map<Integer,ReturnInfo> infoMap =detailSvc.getOneOrderAllReturnInfo(orderNo); 
+		Map<Integer,ReturnInfo> infoMap =detailSvc.getOneOrderAllReturnInfo(no); 
 		model.addAttribute("infoMap",infoMap);//infoMap的每個物件的key是prodno
 		
 //		for (Map.Entry<Integer, ReturnInfo> entry : infoMap.entrySet()) {
@@ -84,17 +93,51 @@ public class AdminOrderController {
 		
 		
 		
-		Map<Integer,String> photoMap =detailSvc.getOneOrderAllReturnPic(orderNo);
+		Map<Integer,String> photoMap =detailSvc.getOneOrderAllReturnPic(no);
 		model.addAttribute("photoMap",photoMap);//photoMap的每個base64的key是prodno
 		
 //		for (Map.Entry<Integer, String> entry : photoMap.entrySet()) {
 //		    System.out.println("photoMap Key: " + entry.getKey() + ", Value: " + entry.getValue());
 //		}
-	
 		
+			return "order/return_detail";
 		
-		return "order/return_detail";
 	}
+	
+	//管理員的退貨明細
+	@GetMapping("/statistic/detail/{orderNo}/byadmin")
+	public String ReturnDetailPageByAdmin(ModelMap model,@PathVariable("orderNo")String orderNo) {
+		Integer no =null;
+		if(orderNo.trim()!=null) {
+			no =Integer.valueOf(orderNo);
+		}
+		
+		//裝著這個訂單中所有有退的商品編號
+		List<Integer> returnProdNo =detailSvc.getOneOrderAllReturnProdNo(no);
+		model.addAttribute("prodNoList",returnProdNo);
+		
+		Map<Integer,ReturnInfo> infoMap =detailSvc.getOneOrderAllReturnInfo(no); 
+		model.addAttribute("infoMap",infoMap);//infoMap的每個物件的key是prodno		
+
+		Integer totalReturnAmount =0;
+		
+		for(Map.Entry<Integer,ReturnInfo> entry : infoMap.entrySet()) {
+			Integer productPrice =entry.getValue().getPrice();
+			Integer returnAquantity =entry.getValue().getQuantity();
+			totalReturnAmount+=productPrice*returnAquantity;
+		}
+		
+		model.addAttribute("total",totalReturnAmount);
+				
+		
+		Map<Integer,String> photoMap =detailSvc.getOneOrderAllReturnPic(no);
+		model.addAttribute("photoMap",photoMap);//photoMap的每個base64的key是prodno
+
+		
+			return "admin/return_detail";		
+		
+	}
+	
 	
 	
 	@GetMapping("/return_order")

@@ -20,6 +20,7 @@
     <!-- 會員基本資料 -->
     <link href="/css/membercenter.css" rel="stylesheet">
 
+	 <link rel="stylesheet" th:href="@{/css/chat.css}"> 
     <style>
       
 
@@ -234,13 +235,56 @@
         <label for="verificationCode">驗證碼</label> <input type="text"id="verificationCode" placeholder="輸入驗證碼">
         <button id="verifyCodeBtn">確認驗證碼</button>
       </div>
+
+      
+      <!-- 測試用 -->
+<!--     <div style="margin-right:30px;"> -->
+<!--    			<button type="button" class="btn chat_btn" id="chat_with_ft" style="background-color:lightblue;color:white;"> -->
+<!--    			聊聊 -->
+<!--    			</button> -->
+<!--    			<input type="hidden"  class="ft" name="ftId" value="7"> -->
+<!--    		</div> -->
+   		
+<!--    		<br> -->
+   		
+   		
+<!--       	 <div id="chat-widget" th:fragment="chatroom" style="z-index:100;"> -->
+<!-- 				       <div id="chat-header" onclick="toggleChat()"> -->
+<!-- 				           <span id="return-icon" onclick="goBackToUserList(event)">←</span> -->
+<!-- 				           <span id="header-title"></span> -->
+<!-- 				       </div> -->
+<!-- 				       <div id="chat-body"> -->
+<!-- 				           聊天對象列表 -->
+<!-- 				           <div id="user-list" class="mem_block"> -->
+<!-- 				               <ul> -->
+<!-- 				               </ul> -->
+<!-- 				           </div> -->
+<!-- 				           聊天視窗 -->
+<!-- 				           <div id="chat-window" style="display: none;"> -->
+<!-- 				               <div id="chat-display"> -->
+<!-- 				                   聊天訊息將顯示在這裡 -->
+<!-- 				               </div> -->
+<!-- 				               <div id="chat-input"> -->
+<!-- 				                   <input type="text" id="message-input" placeholder="輸入訊息..." /> -->
+<!-- 				                   <button class="send-msg" onclick="sendMessage()" id="sendbtn">送出</button> -->
+<!-- 				               </div> -->
+<!-- 				           </div> -->
+<!-- 				       </div> -->
+<!-- 			   </div> -->
+    
+
 	  </div>
+
     </main>
     
     <script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/sidebars.js"></script>
     <script src="/js/membercenter.js"></script>
+
+<!--     <script th:src="@{/js/mem_chat.js}"></script>測試用 -->
+
     <script src="/js/header.js"></script>
+
     <script>
       
 

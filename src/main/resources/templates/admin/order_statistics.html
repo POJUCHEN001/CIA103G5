@@ -1,34 +1,198 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>修卜人生 - 論壇系統</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>占卜平台管理</title>
+    <!-- 引入 Font Awesome 和其他必要的樣式 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
    	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">    
    	 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" th:href="@{/css/style.css}"> 
     <link rel="stylesheet" th:href="@{/css/order_statistic.css}"> 
+    <style>
+        /* 網頁樣式 */
+        *{
+        	margin:0;
+        	padding:0;
+        }
+        
+        #wrapper{
+        	display:flex;
+        }
+        
+        #content-wrapper{
+         width:100%;
+        }
+        
+        .recent-actions {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            height: 600px;
+            margin-right: 20px;
+        }
+
+        .search-suggestions {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: #fff;
+            position: absolute;
+            z-index: 1000;
+            width: 337px;
+            text-align: left;
+        }
+
+        .search-suggestions li {
+            padding: 6px;
+            cursor: pointer;
+        }
+
+        .search-suggestions li:hover {
+            background-color: #f0f0f0;
+        }
+
+        .navbar-nav {
+            list-style: none;
+            padding: 0;
+        }
+
+        .navbar-nav .nav-item {
+            margin: 10px 0;
+        }
+
+        .navbar-nav .nav-item a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 4px;
+        }
+
+        .navbar-nav .nav-item a:hover {
+            background-color: #2c3e50;
+        }
+
+        .navbar-nav .collapse {
+            display: none;
+            margin-left: 20px;
+        }
+
+        .navbar-nav .collapsed {
+            display: block;
+        }
+
+        .topbar {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .sidebar-admin {
+            background-color: #4e73df;
+            color: white;
+            padding: 15px;
+            width: 250px;
+        }
+
+        .sidebar-admin .sidebar-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-admin .sidebar-brand-icon {
+            font-size: 2rem;
+            margin-right: 10px; 
+        }
+
+        .container-fluid {
+            padding: 20px;
+        }
+
+        .footer-links {
+            margin-top: 10px;
+        }
+
+        .footer-links a {
+            color: #007bff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-	<div th:replace="index::header"></div>
-	
-		<div class="container">
-	        <div class="row">
-	         <aside class="col-md-3 sidebar">
-            	<i class="fa-solid fa-bars"></i>    
-                <h5 style="padding:10px 10px 10px 20px;font-weight:700;">訂單管理</h5>   
-                <ul style="list-style: none;padding:0;">      
-                    <li class="side_list" style="padding:10px 10px 10px 20px;" ><a href="#" style="text-decoration: none; color: rgb(99, 97, 97);">訂單統計</a></li><!--列出每個占卜師每月結算的訂單(金額、筆數)，可選擇日期-->                                
-          
-           			
+    <div id="wrapper">
+        <!-- 側邊欄 -->
+        <div class="sidebar-admin">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text">占卜平台管理</div>
+            </div>
 
-                </ul>
-            </aside>
-	
-			
-			<main class=" main-content">			
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>儀表板</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link toggle" href="javascript:void(0);">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>用戶管理</span>
+                    </a>
+                    <ul class="collapse">
+                        <li><a href="/user/list">用戶列表</a></li>
+                        <li><a href="/user/reports">檢舉列表</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link toggle" href="javascript:void(0);">
+                        <i class="fas fa-fw fa-cart-shopping"></i>
+                        <span>訂單管理</span>
+                    </a>
+                    <ul class="collapse">
+                        <li><a th:href="@{/order/admin/query_order}">查詢訂單</a></li>
+                        <li><a th:href="@{/order/admin/statistic}">訂單統計</a></li>
+                        <li><a th:href="@{/order/admin/return_order}">退貨處理</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 主要內容區 -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+<!--                 <div class="topbar"> -->
+<!--                     <input type="text" placeholder="輸入搜尋相關功能..."> -->
+<!--                 </div> -->
+                <div class="container-fluid">
+                    <h4><b>平台訂單統計</b></h4>
+                    <!-- 可填充主頁內容 -->
+                    
+                <main class=" main-content">			
 					<div class="top-container">
 																	
 						<form class="query-part" method="post" action="#">	
@@ -61,7 +225,7 @@
 							</div>
 							
 							<div class="date-query-btn">
-								<button type="button" class="btn date-query" id="statis_query" style="background-color:#1e6bd5;">查詢</button>
+								<button type="button" class="btn date-query" id="statis_query" style="background-color:#1e6bd5;color:white;">查詢</button>
 								
 							</div>										
 												
@@ -95,18 +259,31 @@
 					
 				</main>
 			
-			
-		</div>
-    </div>
-    
-    <footer th:replace="index::footer"></footer>
+                   
+                    
+                </div>
+            </div>
 
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+            <!-- 頁腳 -->
+            <footer class="sticky-footer bg-white">
+                <div class="text-center">
+                    <span>Copyright &copy; Fix Life 2024. All rights reserved.</span>
+                </div>
+                <div class="footer-links text-center">
+                    <a href="/about">關於我們</a>
+                    <a href="/terms">服務條款</a>
+                    <a href="/privacy">隱私政策</a>
+                    <a href="/contact">聯絡我們</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- 可選的外部 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
  <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-<!--  <script th:src="@{/js/product.js}"></script> -->
-<!--  <script th:src="@{/js/flatpickr.js}"></script> -->
  <script th:src="@{/js/admin_order_statistic.js}"></script>
   <!-- DataTables 設定 -->
     <script>
@@ -138,7 +315,22 @@
             },
         });
     });
+    
+    // 展開/收起側邊欄功能
+    document.querySelectorAll('.toggle').forEach(toggle => {
+        toggle.addEventListener('click', function () {
+            const collapse = this.nextElementSibling;
+            if (collapse.classList.contains('collapsed')) {
+                collapse.classList.remove('collapsed');
+                collapse.style.display = 'none';
+            } else {
+                collapse.classList.add('collapsed');
+                collapse.style.display = 'block';
+            }
+        });
+    });
 
     </script>
+
 </body>
 </html>

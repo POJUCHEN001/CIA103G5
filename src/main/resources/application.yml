@@ -71,6 +71,14 @@ server:
 #  level:
 #    org.springframework: DEBUG
 
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          socket: DEBUG
+        messaging:
+          simp: DEBUG
 
   
 
