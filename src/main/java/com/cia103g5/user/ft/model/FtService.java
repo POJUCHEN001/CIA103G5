@@ -60,7 +60,8 @@ public class FtService {
 
     // 查詢占卜師編號(依據會員編號)
     public Integer findFtIdByMemberId(Integer memberId){
-        // 回傳占卜師編號，若沒有占卜師編號回傳-1(即沒有占卜師身分)
+      
+        // 回傳占卜師編號，若沒有占卜師編號回傳0(即沒有占卜師身分)
         return ftRepository.findFtIdByMemId(memberId).orElse(0);
     }
 
