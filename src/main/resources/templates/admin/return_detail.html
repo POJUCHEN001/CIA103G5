@@ -1,159 +1,198 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fixlife 會員中心</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>占卜平台管理</title>
+    <!-- 引入 Font Awesome 和其他必要的樣式 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" th:href="@{/css/style.css}"> 
+    <link rel="stylesheet" th:href="@{/css/return_detail.css}"> 
+    <style>
+        /* 網頁樣式 */
+        *{
+        	margin:0;
+        	padding:0;
+        }
+        
+        #wrapper{
+        	display:flex;
+        }
+        
+        #content-wrapper{
+         width:100%;
+        }
+        
+        .recent-actions {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            height: 600px;
+            margin-right: 20px;
+        }
 
-<link rel="canonical"
-	href="https://getbootstrap.com/docs/5.1/examples/headers/">
-<link rel="canonical"
-	href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
+        .search-suggestions {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: #fff;
+            position: absolute;
+            z-index: 1000;
+            width: 337px;
+            text-align: left;
+        }
 
-<!-- Custom styles for this template -->
-<link href="/css/headers.css" rel="stylesheet">
+        .search-suggestions li {
+            padding: 6px;
+            cursor: pointer;
+        }
 
-<!-- Bootstrap core CSS -->
-<link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+        .search-suggestions li:hover {
+            background-color: #f0f0f0;
+        }
 
-<!-- Custom styles for sidevar -->
-<link href="/css/sidebars.css" rel="stylesheet">
+        .navbar-nav {
+            list-style: none;
+            padding: 0;
+        }
 
-<link href="/css/membercenter.css" rel="stylesheet">
+        .navbar-nav .nav-item {
+            margin: 10px 0;
+        }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        .navbar-nav .nav-item a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 4px;
+        }
 
-<link rel="stylesheet" th:href="@{/css/style.css}"> 
-<link rel="stylesheet" th:href="@{/css/return_detail.css}"> 
+        .navbar-nav .nav-item a:hover {
+            background-color: #2c3e50;
+        }
 
-<style>
-</style>
+        .navbar-nav .collapse {
+            display: none;
+            margin-left: 20px;
+        }
+
+        .navbar-nav .collapsed {
+            display: block;
+        }
+
+        .topbar {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .sidebar-admin {
+            background-color: #4e73df;
+            color: white;
+            padding: 15px;
+            width: 250px;
+            height:100vh;
+        }
+
+        .sidebar-admin .sidebar-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-admin .sidebar-brand-icon {
+            font-size: 2rem;
+            margin-right: 10px; 
+        }
+
+        .container-fluid {
+            padding: 20px;
+        }
+
+        .footer-links {
+            margin-top: 10px;
+        }
+
+        .footer-links a {
+            color: #007bff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
+    <div id="wrapper">
+        <!-- 側邊欄 -->
+        <div class="sidebar-admin">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div>
+                <div class="sidebar-brand-text">占卜平台管理</div>
+            </div>
 
-	<header class="p-3 mb-3 border-bottom">
-		<div class="container">
-			<div
-				class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-				<a href="/"
-					class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-					<h1>修卜人生</h1>
-				</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>儀表板</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link toggle" href="javascript:void(0);">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>用戶管理</span>
+                    </a>
+                    <ul class="collapse">
+                        <li><a href="/user/list">用戶列表</a></li>
+                        <li><a href="/user/reports">檢舉列表</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link toggle" href="javascript:void(0);">
+                        <i class="fas fa-fw fa-cart-shopping"></i>
+                        <span>訂單管理</span>
+                    </a>
+                    <ul class="collapse">
+                        <li><a th:href="@{/order/admin/query_order}">查詢訂單</a></li>
+                        <li><a th:href="@{/order/admin/statistic}">訂單統計</a></li>
+                        <li><a th:href="@{/order/admin/return_order}">退貨處理</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
 
-				<ul
-					class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-					<li><a href="#" class="nav-link px-2 link-secondary">想找占卜師</a></li>
-					<li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li>
-					<li><a href="#" class="nav-link px-2 link-dark">占卜論壇</a></li>
-					<li><a href="#" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li>
-					<li><a href="register" class="nav-link px-2 link-dark">會員註冊</a></li>
-					<li><a href="login" class="nav-link px-2 link-dark">會員登入</a></li>
-				</ul>
-
-				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-					<input type="search" class="form-control" placeholder="Search..."
-						aria-label="Search">
-				</form>
-
-				<div class="dropdown text-end">
-					<a href="#"
-						class="d-block link-dark text-decoration-none dropdown-toggle"
-						id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-						<img id="photo-icon" src="/svg/user-solid.svg" alt="mdo"
-						width="32" height="32" class="rounded-circle">
-					</a>
-					<ul class="dropdown-menu text-small"
-						aria-labelledby="dropdownUser1">
-						<li><a class="dropdown-item" href="membercenter">會員中心</a></li>
-						<li><a class="dropdown-item" href="ftcenter">占卜師中心</a></li>
-						<li><a class="dropdown-item" href="#">購物車</a></li>
-						<li><a class="dropdown-item" href="#">客服中心</a></li>
-						<li><hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item logout-link" href="" id="logout"
-							name="logout">登出 </a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</header>
-
-	<!-- <div class="b-example-divider"></div> -->
-	<div class="container-all">
-		  		<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;margin-right:0 !important;" >
-			    <a href="membercenter" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-			      <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-			      <span class="fs-5 fw-semibold">會員中心</span>
-			    </a>
-			    <ul class="list-unstyled ps-0">
-			      <li class="mb-1">
-			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-			          會員中心
-			        </button>
-			        <div class="collapse show" id="home-collapse">
-			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-			            <li><a href="membercenter" class="link-dark rounded">會員基本資料</a></li>
-			            <!-- <li><a href="#" class="link-dark rounded">修改會員資料</a></li> -->
-			            <!-- <li><a href="#" class="link-dark rounded">預約查詢</a></li> -->
-			          </ul>
-			        </div>
-			      </li>
-			      <li class="mb-1">
-			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-			          預約查詢
-			        </button>
-			        <div class="collapse" id="dashboard-collapse">
-			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-			            <li><a href="#" class="link-dark rounded">預約查詢</a></li>
-			            <li><a href="#" class="link-dark rounded">歷史預約查詢</a></li>
-			            <!-- <li><a href="#" class="link-dark rounded">Monthly</a></li> -->
-			            <!-- <li><a href="#" class="link-dark rounded">Annually</a></li> -->
-			          </ul>
-			        </div>
-			      </li>
-			      <li class="mb-1">
-			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-			          訂單查詢
-			        </button>
-			        <div class="collapse" id="orders-collapse">
-			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-			            <li><a th:href="@{/order/mem_order}" class="link-dark rounded">訂單查詢</a></li>
-			            <!-- <li><a href="#" class="link-dark rounded">訂單狀態查詢</a></li> -->
-			<!--             <li><a href="#" class="link-dark rounded">歷史訂單查詢</a></li> -->
-			          </ul>
-			        </div>
-			      </li>
-			      <li class="mb-1">
-			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-			          收藏
-			        </button>
-			        <div class="collapse" id="orders-collapse">
-			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-			            <li><a href="#" class="link-dark rounded">商品收藏</a></li>
-			            <li><a href="#" class="link-dark rounded">占卜師收藏</a></li>
-			            <li><a href="#" class="link-dark rounded">文章收藏</a></li>
-			          </ul>
-			        </div>
-			      </li>
-			      <li class="border-top my-3"></li>
-			      <li class="mb-1">
-			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-			          Account
-			        </button>
-			        <div class="collapse" id="account-collapse">
-			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-			            <li><a href="resetpassword" class="link-dark rounded">變更密碼</a></li>
-			            <li><a href="#" class="link-dark rounded">刪除帳號</a></li>
-			            <!-- <li><a href="#" class="link-dark rounded">客服中心</a></li> -->
-			            <li><a href="#" class="link-dark rounded logout-link" id="logout" name="logout">登出</a></li>
-			          </ul>
-			        </div>
-			      </li>
-			    </ul>
-			  </div>
-
-		<main class="main" style="padding:0 100px 0 10px;">
-			<main class="col-md-9 main-content" style="display:block;margin:0 !important;padding:0 !important;">
+        <!-- 主要內容區 -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content" style="height:90vh;">
+<!--                 <div class="topbar"> -->
+<!--                     <input type="text" placeholder="輸入搜尋相關功能..."> -->
+<!--                 </div> -->
+                <div class="container-fluid">
+                    <h4><b>平台訂單統計</b></h4>
+                    <!-- 可填充主頁內容 -->
+                    
+	              <main class=" main-content">			
+				
 					<div class="return-details">
 				        <h1>退貨明細</h1>
 				
@@ -187,25 +226,60 @@
 						        </div>
 						    </div>
 						</div>
-
+	
 						
 										
 				        <!-- 總退款金額 -->
-				        <div class="total-refund-amount">
+				        <div class="total-refund-amount" style="background-color:#4e73df;color:white;">
 				            總退款金額：<span th:text="'$'+${total}"></span>
 				        </div>
 				    </div>
-			
+					
 			</main>
 			
-			
-		</main>
-	</div>
-	<script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="/js/sidebars.js"></script>
-	<script src="/js/ftcenter.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
- 	<script th:src="@{/js/product.js}"></script>
+                   
+                    
+                </div>
+            </div>
+
+            <!-- 頁腳 -->
+            <footer class="sticky-footer bg-white">
+                <div class="text-center">
+                    <span>Copyright &copy; Fix Life 2024. All rights reserved.</span>
+                </div>
+                <div class="footer-links text-center">
+                    <a href="/about">關於我們</a>
+                    <a href="/terms">服務條款</a>
+                    <a href="/privacy">隱私政策</a>
+                    <a href="/contact">聯絡我們</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- 可選的外部 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
+<script th:src="@{/js/product.js}"></script>
+
+  <!-- DataTables 設定 -->
+    <script>
+    
+    // 展開/收起側邊欄功能
+    document.querySelectorAll('.toggle').forEach(toggle => {
+        toggle.addEventListener('click', function () {
+            const collapse = this.nextElementSibling;
+            if (collapse.classList.contains('collapsed')) {
+                collapse.classList.remove('collapsed');
+                collapse.style.display = 'none';
+            } else {
+                collapse.classList.add('collapsed');
+                collapse.style.display = 'block';
+            }
+        });
+    });
+
+    </script>
+
 </body>
 </html>

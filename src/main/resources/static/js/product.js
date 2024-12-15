@@ -156,9 +156,25 @@ $("button.add ").on("click", function(e) {
 										<td>
 										<form method="post" action="/product/delete_product">
 											<input type="hidden" name="prodno" value="${productVO.prodNo}">
-											<button type="button" class="btn delete" style="background-color:#ed0540;color:white;">刪除</button>
+											<button type="button" class="btn delete" style="background-color:#ed0540;color:white;" data-bs-toggle="modal" data-bs-target="#Modal1">刪除</button>
+												
+											<!-- Modal -->
+											<div class="modal fade" id="Modal1" tabindex="-1" aria-labelledby="Modal1" aria-hidden="true">
+											  <div class="modal-dialog">
+											    <div class="modal-content">						
+											      <div class="modal-body">
+											      	<div style="margin:30px 0;">
+											      		 確認要刪除該商品嗎?	
+											      	</div>									       
+											        <button type="button" class="btn btn-primary yes" style="background-color:#007bff;margin-right:10px;">確定</button>
+											        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color:#ebebeb;color:#007bff;">取消</button>
+											      </div>
+										
+											    </div>
+											  </div>
+											</div>
 										</form>
-										</td>
+									</td>
 									</tr>
 									`;
 									
@@ -237,8 +253,23 @@ $("button.add ").on("click", function(e) {
 										<td>
 										<form method="post" action="/product/delete_product">
 											<input type="hidden" name="prodno" value="${productVO.prodNo}">
-											<button type="button" class="btn delete" style="background-color:#ed0540;color:white;">刪除</button>
-										</form>
+											<button type="button" class="btn delete" style="background-color:#ed0540;color:white;" data-bs-toggle="modal" data-bs-target="#Modal2">刪除</button>
+											<!-- Modal -->
+													<div class="modal fade" id="Modal2" tabindex="-1" aria-labelledby="Modal2" aria-hidden="true">
+													  <div class="modal-dialog">
+													    <div class="modal-content">						
+													      <div class="modal-body">
+													      	<div style="margin:30px 0;">
+													      		 確認要刪除該商品嗎?	
+													      	</div>									       
+													        <button type="button" class="btn btn-primary yes" style="background-color:#007bff;margin-right:10px;">確定</button>
+													        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color:#ebebeb;color:#007bff;">取消</button>
+													      </div>
+												
+													    </div>
+													  </div>
+													</div>
+											</form>
 										</td>
 									</tr>
 									`;
@@ -257,17 +288,40 @@ $("button.add ").on("click", function(e) {
 	
 	//刪除的二次確認
 //	document.addEventListener("click", function (event) { 
-//		let prodNo = event.target.closest("form").querySelector("input").value;   
+//		  
 //		if(event.target.classList.contains("yes")){
-//				console.log(event.target.closest("form").querySelector("input").value);
-//				const formToSubmit = document.querySelector(`form input[value="${prodNo}"]`).closest("form");
-//				console.log(formToSubmit);
+//			let prodNo = event.target.closest("form").querySelector("input").value;
+//			console.log(prodNo); 
+//			const formToSubmit =event.target.closest("form");
+//			console.log(formToSubmit);
 //				//formToSubmit.submit();
-////				event.target.closest("form").submit();
+//				
 //			}else{
 //				event.preventDefault();
 //			}
 //	    
 //	});
+
+	// 全局監聽刪除按鈕點擊事件
+	$(document).on("click", ".btn.delete", function () {
+	    // 找到當前點擊的刪除按鈕，對應的 modal
+	    let modalId = $(this).data("bs-target"); // 取得 data-bs-target 對應的 modal ID
+	    let form = $(this).closest("form"); // 找到按鈕對應的 form 表單
+		let prodNo =form.find("input").val();
+		console.log(form);
+		console.log(modalId);
+		console.log(prodNo);
+		
+		
+	    // 在 modal 確認按鈕上綁定提交事件
+	    $(modalId).find(".yes").off("click").on("click", function () {
+	        form.submit(); // 提交該表單
+	        $(modalId).modal("hide"); // 關閉燈箱
+	    });
+	
+	    // 打開燈箱
+	    $(modalId).modal("show");
+	});
+
 
 

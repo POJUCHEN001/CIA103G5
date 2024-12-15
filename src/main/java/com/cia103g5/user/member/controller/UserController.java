@@ -107,9 +107,9 @@ public class UserController {
             // 根據會員編號查詢占卜師編號
             Integer ftId = ftService.findFtIdByMemberId(member.getMemberId());
             // 如果不是占卜師
-            if (ftId <= 0){
-                ftId = null;
-            }
+//            if (ftId <= 0){
+//                ftId = null;
+//            }
 
             // 登入成功，將會員資訊存入 Session
             // 從查詢結果 MemberVO 存入前端必要的資訊 到DTO
@@ -150,12 +150,14 @@ public class UserController {
                     "message", "登入成功",
                     "redirectURL", redirectURL,
                     "member", Map.of(
+                    		"memberId", member.getMemberId(),
                             "account", member.getAccount(),
                             "name", member.getName(),
                             "nickname", member.getNickname(),
                             "email", member.getEmail(),
                             "phone", member.getPhone(),
-                            "gender", member.getGender()
+                            "gender", member.getGender(),
+                            "ftId", ftId
                     )
             ));
             

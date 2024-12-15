@@ -45,7 +45,9 @@ public class OrderAPIController {
 	TimeTransfer timeTransfer;
 	//占卜師複合查詢訂單
 	@PostMapping("/query/composite")
-	public ResponseEntity<?> queryByComposite(@RequestBody OrderQureyDTO query){
+	public ResponseEntity<?> queryByComposite(@RequestBody OrderQureyDTO query,HttpSession session){
+		SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
+		Integer ftId = sessionMember.getFtId();			
 		
 		Timestamp startDate=null;
 		Timestamp endDate=null;
@@ -75,7 +77,7 @@ public class OrderAPIController {
 			shipStatus =Byte.valueOf(query.getShipStatus());
 		}
 		
-		List<TransferOrderDTO> list =orderSvc.getOrdersByCompositeQuery(startDate, endDate, memId, orderNo, orderState, shipStatus);
+		List<TransferOrderDTO> list =orderSvc.getOrdersByCompositeQueryByFtId(startDate, endDate, memId, orderNo, orderState, shipStatus, ftId);
 		
 		 return ResponseEntity.ok(Map.of(
 			        "data", list, // 返回查詢結果

@@ -72,7 +72,7 @@ div.return-details {
     bottom: 15px;
     right: 15px;
     font-size: 16px;
-    color: red;
+    color: #4e73df;
     font-weight: bold;
 }
 
@@ -81,11 +81,13 @@ div.return-details {
 	float:right;
 	width:200px;
     font-size: 18px;
-    color: red;
+    color:white;
+    background-color:#4e73df;
     font-weight: bold;
     padding: 5px 10px;
-    background-color:white;
     border-radius:10px;
+    display:flex;
+    justify-content:center;
 }
 
 

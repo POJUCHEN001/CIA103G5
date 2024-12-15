@@ -157,12 +157,12 @@
 
     <main class="main">
 
-      	 <div id="chat-widget_ft" th:fragment="chatroom">
+      	 <div id="chat-widget_ft" th:fragment="chatroom" style="height:45px;">
 				       <div id="chat-header_ft" onclick="toggleChat()">
-				           <span id="return-icon_ft" onclick="goBackToUserList(event)">←</span>
+				           <span id="return-icon_ft" onclick="goBackToUserList(event)" style="display:none;">←</span>
 				           <span id="header-title_ft"></span>
 				       </div>
-				       <div id="chat-body_ft">
+				       <div id="chat-body_ft" style="display:none;">
 				           <!-- 聊天對象列表 -->
 				           <div id="user-list_ft" class="mem_block">
 				               <ul>

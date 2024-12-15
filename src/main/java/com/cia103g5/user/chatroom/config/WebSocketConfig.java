@@ -13,16 +13,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic", "/queue"); // 啟用主題和隊列
+    	config.enableSimpleBroker("/custom");
         config.setApplicationDestinationPrefixes("/app"); // 應用消息的前綴
-        config.setUserDestinationPrefix("/user"); // 如果有用戶目標需要這行
+
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
     	registry.addEndpoint("/ws/member")
-//    			.addInterceptors(new HttpSessionIdHandshakeInterceptor())
-//    			.setHandshakeHandler(new CustomHandshakeHandler())
 		    	.setHandshakeHandler(new CustomHandshakeHandler()) // 使用自訂 HandshakeHandler
     			.withSockJS(); // 配置 WebSocket 端點
     	
@@ -31,13 +29,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
               .withSockJS();
 
     }
-    
-  
+      
 
-    @Bean
-    public HttpSessionIdHandshakeInterceptor httpSessionIdHandshakeInterceptor() {
-        return new HttpSessionIdHandshakeInterceptor(); // 將 HttpSession 傳遞到 WebSocket
-    }
+//    @Bean
+//    public HttpSessionIdHandshakeInterceptor httpSessionIdHandshakeInterceptor() {
+//        return new HttpSessionIdHandshakeInterceptor(); // 將 HttpSession 傳遞到 WebSocket
+//    }
     
 
     @Bean
