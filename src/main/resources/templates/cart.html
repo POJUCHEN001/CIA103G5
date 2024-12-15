@@ -43,27 +43,42 @@
 <body>
     <div class="container cart-container">
         <h2>購物車裡面有</h2>
-        <!-- 商品列表 -->
-        <div id="cartItems">
-            <!-- 使用 Thymeleaf 動態生成 -->
-            <div class="cart-item" th:each="item : ${cartItems}">
-                <img th:src="'data:image/jpeg;base64,' + ${#strings.bytesToString(item.primaryImage)}" alt="商品圖片">
-                <span th:text="${item.prodName}">商品名稱</span>
-                <span th:text="'NT$' + ${item.price}">商品價格</span>
-                <div class="input-group" style="width: 100px;">
-                    <button class="btn btn-outline-secondary btn-sm decrement-btn" th:data-prod-id="${item.prodNo}">-</button>
-                    <input type="text" class="form-control text-center" th:value="${item.quantity}" readonly>
-                    <button class="btn btn-outline-secondary btn-sm increment-btn" th:data-prod-id="${item.prodNo}">+</button>
-                </div>
-                <button class="btn btn-danger btn-sm remove-btn" th:data-prod-id="${item.prodNo}">🗑</button>
-            </div>
-        </div>
 
-        <!-- 總計 -->
-        <div class="cart-summary mt-4">
-            <div>總共：(<span id="totalQuantity" th:text="${cartItems.?size()}">0</span>) 件商品</div>
-            <div>NT$<span id="totalPrice" th:text="${cartItems.?sum(item -> item.quantity * item.price)}">0</span></div>
-            <button class="btn btn-primary w-100 mt-2" id="checkoutBtn">去結帳</button>
+        <!-- 顯示購物車商品 -->
+        <div th:if="${cartItems == null or cartItems.isEmpty()}">
+            <p>您的購物車目前是空的！</p>
+        </div>
+        
+        <div th:if="${cartItems != null and !cartItems.isEmpty()}">
+            <div id="cartItems">
+                <!-- 使用 Thymeleaf 動態生成商品項目 -->
+                <div class="cart-item" th:each="item : ${cartItems}">
+                    <img th:src="'data:image/jpeg;base64,' + ${item.primaryImage}" alt="商品圖片">
+                    <span th:text="${item.prodName}">商品名稱</span>
+                    <span th:text="'NT$' + ${item.price}">商品價格</span>
+                    <div class="input-group" style="width: 100px;">
+                        <form th:action="@{/cart/decrement/{userId}/{prodNo}(userId=${userId}, prodNo=${item.prodNo})}" method="post">
+                            <button type="submit" class="btn btn-outline-secondary btn-sm">-</button>
+                        </form>
+                        <input type="text" class="form-control text-center" th:value="${item.quantity}" readonly>
+                        <form th:action="@{/cart/increment/{userId}/{prodNo}(userId=${userId}, prodNo=${item.prodNo})}" method="post">
+                            <button type="submit" class="btn btn-outline-secondary btn-sm">+</button>
+                        </form>
+                    </div>
+                    <form th:action="@{/cart/remove/{userId}/{prodNo}(userId=${userId}, prodNo=${item.prodNo})}" method="post" style="margin-left: 10px;">
+                        <button type="submit" class="btn btn-danger btn-sm">🗑</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 總計 -->
+            <div class="cart-summary mt-4">
+                <div>總共：(<span th:text="${cartItems.size()}">0</span>) 件商品</div>
+                <div>NT$<span th:text="${cartItems.stream().mapToInt(item -> item.quantity * item.price).sum()}">0</span></div>
+                <form th:action="@{/cart/checkout/{userId}(userId=${userId})}" method="post">
+                    <button type="submit" class="btn btn-primary w-100 mt-2">去結帳</button>
+                </form>
+            </div>
         </div>
     </div>
 

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,12 @@ public class StoreServiceImpl implements StoreService {
 	    @Override
 	    public Page<ProductVO> getAllAvailableProducts(Pageable pageable) {
 	        Page<ProductVO> products = storeRepository.findByStatus((byte) 1, pageable);
-	        return (products == null || products.isEmpty()) ? Page.empty() : products;
+
+	        if (products == null || products.isEmpty()) {
+	            return Page.empty();
+	        }
+
+	        return products; // 不過濾 null，如果確定不會返回 null
 	    }
 
 	  

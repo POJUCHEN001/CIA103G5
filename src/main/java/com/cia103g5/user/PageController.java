@@ -67,10 +67,10 @@ public class PageController {
     	return "chat/ft_chat";
     }
     
-    @GetMapping("/store")
-    public String storePage() {
-    	return "store";
-    }
+//    @GetMapping("/store")
+//    public String storePage() {
+//    	return "store";
+//    }
 
     
 

@@ -1,8 +1,13 @@
 package com.cia103g5.user.store.controller;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,50 +20,96 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cia103g5.user.product.model.ProductVO;
 import com.cia103g5.user.product.model.StoreServiceImpl;
+import com.cia103g5.user.productCollection.model.ProductCollectionServiceImpl;
+import com.cia103g5.user.productCollection.model.ProductCollectionVO;
+import com.cia103g5.user.productImage.model.ProductImageService;
+import com.cia103g5.user.productImage.model.ProductImageVO;
+
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
-@RequestMapping("/store")
+@RequestMapping("/store") // 前綴路徑 /store
 public class StoreController {
 
-	private final StoreServiceImpl storeServiceImpl;
-
+    @Autowired
+    StoreServiceImpl storeServiceImpl;
 	@Autowired
-	public StoreController(StoreServiceImpl storeServiceImpl) {
-		this.storeServiceImpl = storeServiceImpl;
-	}
-
-	@GetMapping("/available")
-	public Page<ProductVO> getAllAvailableProducts(Pageable pageable) {
-		return storeServiceImpl.getAllAvailableProducts(pageable);
-	}
-
+	ProductImageService prodimgSvc;
+	@Autowired
+	ProductCollectionServiceImpl productCollectionService;
+	
+//	@GetMapping("/")
+//	public String toIndex() {
+//		return "index";
+//	}
+	
 	@GetMapping("/products")
-	public String showProductList(@RequestParam(defaultValue = "0") int page, Model model) {
-	    int pageSize = 10;
+	public String showAvailableProducts(@RequestParam(defaultValue = "0") int page, 
+	                                    @RequestParam(required = false) Integer memId, 
+	                                    Model model) {
+	    int pageSize = 10; // 每頁顯示的商品數量
 	    Pageable pageable = PageRequest.of(page, pageSize);
-	    Page<ProductVO> storePage = storeServiceImpl.getAllAvailableProducts(pageable);
+	    Page<ProductVO> productPage = storeServiceImpl.getAllAvailableProducts(pageable);
 
-	    int totalPages = storePage.getTotalPages();
-	    if (page >= totalPages) {
-	        page = totalPages - 1; 
-	    } else if (page < 0) {
-	        page = 0; 
+	    if (productPage.isEmpty()) {
+	        model.addAttribute("message", "目前沒有商品上架。");
+	    } else {
+	        model.addAttribute("products", productPage.getContent());
 	    }
 
-	
-	    System.out.println("商品數據：" + storePage.getContent());
-	    
-	    model.addAttribute("products", storePage.getContent());
-	    model.addAttribute("totalPages", totalPages);
+	    // 如果有傳遞用戶 ID，獲取用戶的收藏記錄
+	    if (memId != null) {
+	        List<ProductCollectionVO> collections = productCollectionService.findByMemId(memId);
+	        model.addAttribute("collections", collections);
+	    }
+
+	    model.addAttribute("totalPages", productPage.getTotalPages());
 	    model.addAttribute("currentPage", page);
 	    model.addAttribute("pageSize", pageSize);
+
+	    return "store"; 
+	}
+
+	
+    @GetMapping("/image/{prodNo}")
+    public void showProductImage(@PathVariable("prodNo") Integer prodNo, HttpServletResponse response) throws IOException {
+        ProductImageVO productImage = prodimgSvc.findPrimaryImageByProdNo(prodNo);
+        ServletOutputStream out = response.getOutputStream();
+
+        if (productImage != null && productImage.getProdPic() != null) {
+            byte[] imageBytes = productImage.getProdPic();
+            response.setContentType("image/jpeg");
+            out.write(imageBytes);
+        } else {
+            // 如果沒有主圖片，顯示默認圖片
+            Resource defaultImage = new ClassPathResource("static/img/default.png");
+            InputStream inputStream = defaultImage.getInputStream();
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+            byte[] defaultImageBytes = bufferedInputStream.readAllBytes();
+            response.setContentType("image/png");
+            out.write(defaultImageBytes);
+        }
+        out.close();
+    }
+
+
+
+	@GetMapping("/search")
+	public String searchProducts(@RequestParam String keyword, Model model) {
+	    List<ProductVO> searchResults = storeServiceImpl.searchProducts(keyword);
+
+	  
+	    if (searchResults.isEmpty()) {
+	        model.addAttribute("message", "沒有找到相關商品。");
+	    }
+
+	 
+	    model.addAttribute("products", searchResults);
+
 	    return "store";
 	}
 
-	@GetMapping("/search")
-	public List<ProductVO> searchProducts(@RequestParam String keyword) {
-		return storeServiceImpl.searchProducts(keyword);
-	}
 
 	@GetMapping("/productdetail/{id}")
 	public String productDetail(@PathVariable("id") Integer id, Model model) {
