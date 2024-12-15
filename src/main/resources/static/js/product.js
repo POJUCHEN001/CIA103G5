@@ -133,7 +133,10 @@ $("button.add ").on("click", function(e) {
 				               }
 				               return res.json();
 				           }).then(res => {
+								
+								if(!res.isEmpty){
 								$("tbody.table-group-divider").empty();
+								
 								res.data.forEach((productVO)=>{
 									let tr =`
 									<tr>
@@ -180,6 +183,11 @@ $("button.add ").on("click", function(e) {
 									
 									$("tbody.table-group-divider").append(tr);
 								});
+								
+							}else{
+								alert("查無資料，請重新查詢");
+							}
+								
 			           }).catch(error => {
 			               console.error("Error:", error.message);
 			               $("#result").html(`<p style="color:red;">${error.message}</p>`);

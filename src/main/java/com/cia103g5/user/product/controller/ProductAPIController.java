@@ -32,8 +32,8 @@ public class ProductAPIController {
 	//根據狀態查的API
 		@PostMapping("/query/status")
 		public ResponseEntity<?> queryByStatus(@RequestParam("status")String status,HttpSession session){
-//			SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
-//			Integer ftId = sessionMember.getFtId();
+			SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
+			Integer ftId = sessionMember.getFtId();
 						
 			if(status.length()==0 || status=="") {
 				  return ResponseEntity.badRequest().body(Map.of(
@@ -43,7 +43,7 @@ public class ProductAPIController {
 			}
 			
 			//前端先抓住選擇狀態，將文字轉成對應數字傳入
-			List<ProductVO> list = productService.getAllProductByStatusAndFtId(Byte.valueOf(status),1);			
+			List<ProductVO> list = productService.getAllProductByStatusAndFtId(Byte.valueOf(status),ftId);			
 			 Map<Integer,LocalDate>  timemap =prodcontroller.transferTime(list);
 			
 			  // 返回空集合時，明確告知前端
@@ -58,8 +58,8 @@ public class ProductAPIController {
 		//複合查詢的API
 		@PostMapping("/query/composite")
 		public ResponseEntity<?> queryByComposite(@RequestBody ProductQueryDTO query,HttpSession session){ 
-//			SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
-//			Integer ftId = sessionMember.getFtId();
+			SessionMemberDTO sessionMember = (SessionMemberDTO)session.getAttribute("loggedInMember");
+			Integer ftId = sessionMember.getFtId();
 			
 			
 			//預設傳入空字串將值設為null，反之則取得其傳入的值->空字串不可轉型成其他型態!
@@ -80,7 +80,7 @@ public class ProductAPIController {
 			}
 			
 			
-			List<ProductVO> list =productService.findProductsByMutiConditionByFtId(status, prodName, prodNo, 1);				
+			List<ProductVO> list =productService.findProductsByMutiConditionByFtId(status, prodName, prodNo, ftId);				
 					
 			Map<Integer,LocalDate>  timemap =prodcontroller.transferTime(list);
 			
