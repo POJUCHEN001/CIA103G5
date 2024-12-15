@@ -123,7 +123,7 @@ async function loadMemberProfile() {
 
 			if (member.photo) {
 				profilePhoto.src = `data:image/${member.photoFormat};base64,${member.photo}`;
-				profilePhotoIcon.src = `data:image/${member.photoFormat};base64,${member.photo}`;
+//				profilePhotoIcon.src = `data:image/${member.photoFormat};base64,${member.photo}`;
 			} else {
 				profilePhoto.src = "/img/default-photo.png"; // 預設照片
 			}
@@ -196,6 +196,7 @@ const editModal = document.getElementById("edit-modal");
 const closeModalBtn = document.getElementById("close-modal-btn");
 const editForm = document.getElementById("edit-form");
 
+
 // 點擊「修改基本資料」按鈕，顯示彈窗並填入資料
 editInfoBtn.addEventListener('click', () => {
 	// 取得當前會員資料
@@ -210,7 +211,7 @@ editInfoBtn.addEventListener('click', () => {
 	document.getElementById("edit-name").value = document.getElementById("name").textContent || "";
 	document.getElementById("edit-nickname").value = document.getElementById("nickname").textContent || "";
 	document.getElementById("edit-phone").value = document.getElementById("phone").textContent || "";
-	if(!document.getElementById("bankAccount").textContent == "尚未設置"){
+	if(document.getElementById("bankAccount").textContent != "尚未設置"){
 		document.getElementById("edit-bankAccount").value = document.getElementById("bankAccount").textContent || "";
 	}
 
@@ -310,6 +311,7 @@ document.querySelectorAll('.logout-link').forEach(logoutLink => {
 				// 清除 sessionStorage 中的帳號
 				sessionStorage.removeItem("loggedInAccount");
 				sessionStorage.removeItem("memberInfo");
+				sessionStorage.removeItem("isLogin");
 
 				// 跳轉到登入頁面
 				window.location.href = "/login";
