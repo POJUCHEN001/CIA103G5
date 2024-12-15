@@ -17,7 +17,7 @@
 		login_el.style.display = 'none';
 	}
 	
-	// 檢查是否為占卜師身分
+	// 檢查是否為占卜師身分，再顯示占卜師中心
 	if (isFortuneTeller === '0'){
 		dropdown_ftcenter_el.style.display = 'none';
 	}
