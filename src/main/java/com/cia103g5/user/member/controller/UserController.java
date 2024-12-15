@@ -158,7 +158,7 @@ public class UserController {
                             "nickname", member.getNickname(),
                             "email", member.getEmail(),
                             "phone", member.getPhone(),
-                            "gender", member.getGender(),
+                            "gender", member.getGender(), 
                             "ftId", ftId
                     ),
                     "ftId", ftId,
