@@ -26,7 +26,9 @@
 </style>
 </head>
 <body>
-
+	<!-- 引用 header -->
+	<div th:replace="~{fragments/header :: header}"></div>
+	<!-- 
 	<header class="p-3 mb-3 border-bottom">
 		<div class="container">
 			<div
@@ -72,7 +74,7 @@
 			</div>
 		</div>
 	</header>
-
+ -->
 	<!-- <div class="b-example-divider"></div> -->
 	<div class="container-all">
 		<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;" th:fragment="sidebar">
@@ -220,6 +222,7 @@
 	<script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="/js/sidebars.js"></script>
 	<script src="/js/ftcenter.js"></script>
+	<script src="/js/header.js"></script>
 	<script>
 		
 	</script>

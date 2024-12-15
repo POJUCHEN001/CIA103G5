@@ -14,20 +14,23 @@
     <!-- Bootstrap core CSS -->
     <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for sidevar -->
+    <!-- Custom styles for sidebar -->
     <link href="/css/sidebars.css" rel="stylesheet">
     
     <!-- 會員基本資料 -->
     <link href="/css/membercenter.css" rel="stylesheet">
 
-	 <link rel="stylesheet" th:href="@{/css/chat.css}"> 
     <style>
       
 
     </style>
   </head>
   <body>
-
+  
+  	<!-- 引用 header -->
+	<div th:replace="~{fragments/header :: header}"></div>
+  
+<!-- 
     <header class="p-3 mb-3 border-bottom">
       <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -40,8 +43,8 @@
             <li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li>
             <li><a href="/forum" class="nav-link px-2 link-dark">占卜論壇</a></li>
             <li><a href="#" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li>
-<!--            <li><a href="register" class="nav-link px-2 link-dark">會員註冊</a></li>-->
-<!--            <li><a href="login" class="nav-link px-2 link-dark">會員登入</a></li>-->
+           <li><a href="register" class="nav-link px-2 link-dark">會員註冊</a></li>
+           <li><a href="login" class="nav-link px-2 link-dark">會員登入</a></li>
           </ul>
   
           <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
@@ -64,6 +67,8 @@
         </div>
       </div>
     </header>
+    
+ -->
   
     <!-- <div class="b-example-divider"></div> -->
 
@@ -221,55 +226,21 @@
       </div>
 
       <!-- 燈箱 -->
-      <div class="modal-overlay" id="modalOverlay"></div>
-      <div class="modal" id="verificationModal">
+      
+      <div class="modal-overlay" id="modalOverlay">
+      <div class="modal2" id="verificationModal">
         <h3>驗證碼已寄發</h3>
         <p>驗證碼已寄送至您的電子郵件，請輸入驗證碼完成註冊。</p>
-        <label for="verificationCode">驗證碼</label> <input type="text"
-                                                            id="verificationCode" placeholder="輸入驗證碼">
+        <label for="verificationCode">驗證碼</label> <input type="text"id="verificationCode" placeholder="輸入驗證碼">
         <button id="verifyCodeBtn">確認驗證碼</button>
       </div>
-      
-      <!-- 測試用 -->
-<!--     <div style="margin-right:30px;"> -->
-<!--    			<button type="button" class="btn chat_btn" id="chat_with_ft" style="background-color:lightblue;color:white;"> -->
-<!--    			聊聊 -->
-<!--    			</button> -->
-<!--    			<input type="hidden"  class="ft" name="ftId" value="7"> -->
-<!--    		</div> -->
-   		
-<!--    		<br> -->
-   		
-   		
-<!--       	 <div id="chat-widget" th:fragment="chatroom" style="z-index:100;"> -->
-<!-- 				       <div id="chat-header" onclick="toggleChat()"> -->
-<!-- 				           <span id="return-icon" onclick="goBackToUserList(event)">←</span> -->
-<!-- 				           <span id="header-title"></span> -->
-<!-- 				       </div> -->
-<!-- 				       <div id="chat-body"> -->
-<!-- 				           聊天對象列表 -->
-<!-- 				           <div id="user-list" class="mem_block"> -->
-<!-- 				               <ul> -->
-<!-- 				               </ul> -->
-<!-- 				           </div> -->
-<!-- 				           聊天視窗 -->
-<!-- 				           <div id="chat-window" style="display: none;"> -->
-<!-- 				               <div id="chat-display"> -->
-<!-- 				                   聊天訊息將顯示在這裡 -->
-<!-- 				               </div> -->
-<!-- 				               <div id="chat-input"> -->
-<!-- 				                   <input type="text" id="message-input" placeholder="輸入訊息..." /> -->
-<!-- 				                   <button class="send-msg" onclick="sendMessage()" id="sendbtn">送出</button> -->
-<!-- 				               </div> -->
-<!-- 				           </div> -->
-<!-- 				       </div> -->
-<!-- 			   </div> -->
-    
+	  </div>
     </main>
+    
     <script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/sidebars.js"></script>
     <script src="/js/membercenter.js"></script>
-<!--     <script th:src="@{/js/mem_chat.js}"></script>測試用 -->
+	<script src="/js/header.js"></script>
     <script>
       
 
