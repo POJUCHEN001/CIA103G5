@@ -95,7 +95,7 @@
 				window.location.href = "/login";
 			} else {
 				const result = await response.json();
-				// alert(result.message || "登出失敗，請稍後再試");
+				console.log(result.message || "登出失敗，請稍後再試");
 			}
 // 		} catch (error) {
 // 			console.error("登出發生錯誤：", error);
