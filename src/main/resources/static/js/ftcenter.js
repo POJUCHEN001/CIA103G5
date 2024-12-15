@@ -80,7 +80,8 @@ async function loadMemberProfile() {
                 alert("未登入，請前往登入");
                 window.location.href = "/login"; // 重導到登入頁面
             } else if (response.status === 404) {
-                alert("未找到占卜師資料，請確認您的權限");
+                alert("您沒有訪問權限");
+				window.location.href = "/membercenter"; // 重導到登入頁面
             } else {
                 throw new Error('無法獲取占卜師資料');
             }
@@ -96,6 +97,7 @@ async function loadMemberProfile() {
     } catch (error) {
         console.error("獲取占卜師資料時發生錯誤：", error);
         alert("沒有訪問權限或未登入");
+		window.location.href = "/membercenter"; // 重導到登入頁面
     }
 }
 
@@ -255,42 +257,4 @@ document.getElementById('update-photo-btn').addEventListener('click', async () =
         }
     });
     photoInput.click();
-});
-
-// 會員登入頭像
-
-
-
-// 登出功能
-document.querySelectorAll('.logout-link').forEach(logoutLink => {
-    logoutLink.addEventListener('click', async function(event) {
-        event.preventDefault(); // 阻止默認行為，如跳轉鏈接
-
-        try {
-            const response = await fetch('/membersAPI/logout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                // alert(result.message || "登出成功");
-
-                // 清除 sessionStorage 中的帳號
-                sessionStorage.removeItem("loggedInAccount");
-                sessionStorage.removeItem("memberInfo");
-
-                // 跳轉到登入頁面
-                window.location.href = "/login";
-            } else {
-                const result = await response.json();
-                // alert(result.message || "登出失敗，請稍後再試");
-            }
-        } catch (error) {
-            console.error("登出發生錯誤：", error);
-            alert("系統發生錯誤，請稍後再試");
-        }
-    });
 });

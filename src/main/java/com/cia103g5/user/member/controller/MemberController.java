@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cia103g5.user.ft.model.FtService;
 import com.cia103g5.user.member.dto.MemberUpdateRequestDTO;
 import com.cia103g5.user.member.model.MemberService;
 import com.cia103g5.user.member.model.MemberVO;
@@ -32,13 +33,16 @@ public class MemberController {
 
 	@Autowired
 	private MemberService service;
+	
+	@Autowired
+	private FtService ftService;
 
 	// 會員登出
 	@PostMapping("/logout")
 	public ResponseEntity<Map<String, String>> logoutMember(HttpSession session) {
 		if (session != null) {
-	        session.invalidate(); // 清除 Session
-	    }
+			session.invalidate(); // 清除 Session
+		}
 		return ResponseEntity.ok(Map.of("message", "登出成功"));
 	}
 
@@ -75,6 +79,28 @@ public class MemberController {
 		return ResponseEntity.ok(memberInfo);
 	}
 
+	// 在 header 顯示會員或占卜師照片
+	@GetMapping("/info-photo")
+	public ResponseEntity<Map<String, Object>> gePhotoIcon(HttpSession session) {
+		// 從sessionMemberDTO裡面取得存入的
+		SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
+		Integer ftId = (Integer)session.getAttribute("ftId");
+		Integer memberId = sessionMember.getMemberId();
+		
+		byte[] photo = null;
+		if(ftId>0) {
+			photo = ftService.findFtByFtId(ftId).getPhoto();
+		} else {
+			photo = service.findMemberById(memberId).getPhoto();			
+		}
+		String encodedPhoto = Base64.getEncoder().encodeToString(photo);
+		
+		Map<String, Object> memberInfo = new HashMap<>();
+		memberInfo.put("photo", encodedPhoto);
+
+		return ResponseEntity.ok(memberInfo);
+	}
+
 	// 更新會員資料
 	@PatchMapping("/updateinfo/{account}")
 	public ResponseEntity<String> updateMemberInfo(HttpSession session,
@@ -107,8 +133,8 @@ public class MemberController {
 
 	// 修改會員登入密碼
 	@PostMapping("changepassword")
-	public ResponseEntity<Map<String, Object>> updateMemberPassword(
-			@RequestBody Map<String, String> passwordRequest, HttpSession session) {
+	public ResponseEntity<Map<String, Object>> updateMemberPassword(@RequestBody Map<String, String> passwordRequest,
+			HttpSession session) {
 
 		SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
 		Integer memberId = sessionMember.getMemberId();
@@ -120,25 +146,19 @@ public class MemberController {
 		if (currentPassword == null || newPassword == null || currentPassword.isEmpty() || newPassword.isEmpty()) {
 			return ResponseEntity.badRequest().body(Map.of("message", "密碼更新失敗", "error", "請提供完整的密碼信息"));
 		}
-		
+
 		try {
 			// 更新密碼
 			service.updatePassword(memberId, currentPassword, newPassword);
 			// 清除 Session
-            session.invalidate();
+			session.invalidate();
 			// 返回成功響應，由 AOP 清理會話
-			return ResponseEntity.ok(
-					Map.of("message", "密碼更新成功，請重新登入")
-			);
+			return ResponseEntity.ok(Map.of("message", "密碼更新成功，請重新登入"));
 		} catch (IllegalArgumentException e) {
-			return ResponseEntity.badRequest().body(
-					Map.of("message", "密碼更新失敗", "error", e.getMessage())
-			);
+			return ResponseEntity.badRequest().body(Map.of("message", "密碼更新失敗", "error", e.getMessage()));
 		} catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-	                Map.of("message", "密碼更新失敗，請稍後再試")
-	        );
-	    }
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", "密碼更新失敗，請稍後再試"));
+		}
 	}
 
 	// 重新寄送驗證信
@@ -150,15 +170,14 @@ public class MemberController {
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.badRequest().body(Map.of("message", "驗證碼發送失敗", "error", e.getMessage()));
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(Map.of("message", "系統錯誤，請稍後再試"));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", "系統錯誤，請稍後再試"));
 		}
 	}
 
 	// 驗證用戶驗證碼
 	@PostMapping("/validate-verification-code")
 	public ResponseEntity<Map<String, Object>> validateVerificationCode(@RequestParam String email,
-																		@RequestParam String code) {
+			@RequestParam String code) {
 		try {
 			boolean isValid = service.validateVerificationCode(email, code);
 			if (isValid) {
@@ -171,11 +190,9 @@ public class MemberController {
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.badRequest().body(Map.of("message", "驗證失敗", "error", e.getMessage()));
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(Map.of("message", "系統錯誤，請稍後再試"));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", "系統錯誤，請稍後再試"));
 		}
 	}
-
 
 	// 查詢會員
 	@GetMapping("/{id}")

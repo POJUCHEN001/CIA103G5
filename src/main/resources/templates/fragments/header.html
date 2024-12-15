@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title th:text="${pageTitle}">Fix Life</title>
+<!-- Custom styles for header -->
+<link href="/css/headers.css" rel="stylesheet">
+
+<!-- Bootstrap core CSS -->
+<link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div th:fragment="~{fragments/header :: header}">
+        <header class="p-3 mb-3 border-bottom">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                        <h1>修卜人生</h1>
+                    </a>
+
+                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                        <li><a href="#" class="nav-link px-2 link-secondary">想找占卜師</a></li>
+                        <li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li>
+                        <li><a href="/forum" class="nav-link px-2 link-dark">占卜論壇</a></li>
+                        <li><a href="https://tarot.huanlan.org/" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li>
+                        <li><a href='/register' class="nav-link px-2 link-dark" id="register_el">會員註冊</a></li>
+                        <li><a href="/login" class="nav-link px-2 link-dark" id="login_el">會員登入</a></li>
+                    </ul>
+
+                    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                        <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+                    </form>
+
+                    <div class="dropdown text-end">
+                        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img id="userAvatar" src="svg/user-solid.svg" alt="mdo" width="32" height="32" class="rounded-circle">
+                        </a>
+                        <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                            <li><a class="dropdown-item" href="/membercenter">會員中心</a></li>
+                            <li><a class="dropdown-item" href="/ftcenter" id="dropdown-ftcenter">占卜師中心</a></li>
+                            <li><a class="dropdown-item" href="#">購物車</a></li>
+                            <li><a class="dropdown-item" href="#">客服中心</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item logout-link" href="#">登出 </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+	<script>
+	
+	// 載入會員頭像
+	document.addEventListener('DOMContentLoaded', function () {
+        fetch('/membersAPI/info-photo')
+            .then(response => response.ok ? response.json() : null)
+            .then(data => {
+                if (data && data.photo) {
+                    const userAvatar = document.getElementById('userAvatar');
+                    userAvatar.src = `data:image/png;base64,${data.photo}`;
+                }
+            })
+            .catch(() => {
+                // 不處理錯誤，默認保持訪客頭像
+            });
+    });
+	
+	
+	// 登出按鈕
+	document.querySelectorAll('.logout-link').forEach(logoutLink => {
+	logoutLink.addEventListener('click', async function(event) {
+		event.preventDefault(); // 阻止默認行為，如跳轉鏈接
+
+// 		try {
+			const response = await fetch('/membersAPI/logout', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+
+			if (response.ok) {
+				const result = await response.json();
+				// alert(result.message || "登出成功");
+
+				// 清除 sessionStorage 中的帳號
+				sessionStorage.removeItem("loggedInAccount");
+				sessionStorage.removeItem("memberInfo");
+				sessionStorage.removeItem("isLogin");
+
+				// 跳轉到登入頁面
+				window.location.href = "/login";
+			} else {
+				const result = await response.json();
+				// alert(result.message || "登出失敗，請稍後再試");
+			}
+// 		} catch (error) {
+// 			console.error("登出發生錯誤：", error);
+// 		}
+		});
+	});
+	
+		
+	
+	</script>
+</body>
+</html>
