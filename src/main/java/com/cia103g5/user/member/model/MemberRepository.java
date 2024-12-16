@@ -3,6 +3,7 @@ package com.cia103g5.user.member.model;
 import java.util.List;
 import java.util.Optional;
 
+import com.cia103g5.user.member.dto.MemberManageDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -54,6 +55,10 @@ public interface MemberRepository extends JpaRepository<MemberVO, Integer> {
     // 根據email查會員
 	Optional<MemberVO> findByEmail(String email);
 
-    
-    
+    // 列出所有會員
+	@Query("SELECT new com.cia103g5.user.member.dto.MemberManageDTO(" +
+			"m.memberId, m.name, m.account, m.email, m.registeredTime, m.points, m.status) " +
+			"FROM MemberVO m WHERE m.status = :status")
+	List<MemberManageDTO> findMembersByStatus(@Param("status") Integer status);
+
 }

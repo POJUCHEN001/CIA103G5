@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import com.cia103g5.user.member.dto.MemberManageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -161,6 +162,11 @@ public class MemberService {
 		return repository.findAll();
 	}
 
+	// 查詢所有會員(後台會員管理)
+	public List<MemberManageDTO> getAllMember(Integer status){
+		return repository.findMembersByStatus( status);
+	}
+
 	// 更新會員照片
 	public void updateMemberPhoto(Integer memberId, MultipartFile photo) {
 		MemberVO member = repository.findById(memberId)
@@ -170,11 +176,11 @@ public class MemberService {
 	}
 
 	// 變更會員狀態
-	public void updateMemberStatus(Integer memberId, Integer status) {
-		int updateRows = repository.updateMemberStatus(status, memberId);
-		if (updateRows > 0) {
-
-		}
+	public void updateMemberStatus(Integer memberId) {
+		MemberVO member = repository.findById(memberId)
+				.orElseThrow(() -> new MemberNotFoundException("會員帳號不存在"));
+		member.setStatus(0);
+		repository.save(member);
 	}
 
 	// 查詢會員（依 ID）
