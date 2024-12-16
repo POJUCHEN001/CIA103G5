@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,13 +78,38 @@
               <input type="checkbox" value="remember-me"> Remember me
             </label>
           </div>
-          <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-          <button class="w-100 btn btn-lg btn-primary" type="" style='background: lightgray'>Forget</button>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">登入</button>
+<!--           <a class="w-100 btn btn-lg btn-primary mt-2" id="forget-password" role="button" style='background: lightgray'>Forget Password</a> -->
+          <button type="button" class="w-100 btn btn-lg btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
+            忘記密碼
+        </button>
           <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
         </form>
     </main>
+    
+    <!-- 忘記密碼的 Modal -->
+	<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body">
+	                <form id="forgotPasswordForm">
+	                    <div class="mb-3">
+	                        <label for="forgotEmail" class="form-label">Email Address</label>
+	                        <input type="email" class="form-control" id="forgotEmail" name="email" placeholder="Enter your email" required>
+	                    </div>
+	                    <button type="submit" class="btn btn-primary w-100">發送連結至信箱</button>
+	                </form>
+	            </div>
+	        </div>
+	    </div>
+	</div>
     <script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="/js/header.js"></script>
+	<script src="/js/forget-password.js"></script>
     <script>
       window.addEventListener("DOMContentLoaded", () => {
         // 從 sessionStorage 取得註冊後的帳號

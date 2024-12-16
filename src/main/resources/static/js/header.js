@@ -26,7 +26,13 @@
 	// 載入會員頭像
 	document.addEventListener('DOMContentLoaded', function () {
         fetch('/membersAPI/info-photo')
-            .then(response => response.ok ? response.json() : null)
+            .then(response => 		{
+		            if (!response.ok) {
+		                // 如果回應不是成功狀態，返回 null
+		                return null;
+		            }
+		            return response.json();
+		        })
             .then(data => {
                 if (data && data.photo) {
                     const userAvatar = document.getElementById('userAvatar');
