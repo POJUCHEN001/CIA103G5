@@ -1,6 +1,8 @@
 package com.cia103g5.user.order.model.dto;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 //取得退貨相關資訊的DTO
@@ -55,8 +57,24 @@ public class ShowReturnOrderDTO {
 		this.ftId = ftId;
 	}
 
-	public Byte getPayment() {
-		return payment;
+	public String getPayment() {
+		String returnString =null;
+		
+		switch(payment) {
+		case 0:
+			returnString="信用卡";
+			break;
+		case 1:
+			returnString="ATM轉帳";
+			break;
+		case 2:
+			returnString="超商繳費";
+			break;
+		case 3 :
+			returnString="貨到付款";			
+		}
+		
+		return returnString;
 	}
 
 	public void setPayment(Byte payment) {
@@ -71,8 +89,15 @@ public class ShowReturnOrderDTO {
 		this.orderState = orderState;
 	}
 
-	public Date getEndedTime() {
-		return endedTime;
+	public LocalDate getEndedTime() {
+		LocalDate returndate =null;
+		if(endedTime!=null) {
+		returndate =endedTime.toInstant()
+                .atZone(ZoneId.systemDefault()) // 使用系統預設時區
+                .toLocalDate();
+		}
+		
+		return returndate;
 	}
 
 	public void setEndedTime(Date endedTime) {

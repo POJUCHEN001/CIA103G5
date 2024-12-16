@@ -200,8 +200,8 @@
 								<label style="padding:0 0 3px 0;font-weight:bold;">選擇查詢日期</label>
 							</div>
 							<div class="year">							
-								<select class="year" th:each="year : ${yearList}">
-									<option th:text="${year}"></option>
+								<select class="year" >
+									  <option th:each="year : ${yearList}" th:text="${year}"></option>
 								</select>
 								<label>年</label>
 							</div>

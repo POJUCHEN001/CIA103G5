@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/FixLife_CIA103?serverTimezone=Asia/Taipei
+    url: jdbc:mysql://localhost:3306/fixlife_cia103?serverTimezone=Asia/Taipei
     username: root
     password: 666666
     driver-class-name: com.mysql.cj.jdbc.Driver

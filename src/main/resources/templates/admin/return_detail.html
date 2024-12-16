@@ -105,7 +105,7 @@
             color: white;
             padding: 15px;
             width: 250px;
-            height:100vh;
+            height:auto;
         }
 
         .sidebar-admin .sidebar-brand {
@@ -183,7 +183,7 @@
 
         <!-- 主要內容區 -->
         <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content" style="height:90vh;">
+            <div id="content" style="height:100vh;">
 <!--                 <div class="topbar"> -->
 <!--                     <input type="text" placeholder="輸入搜尋相關功能..."> -->
 <!--                 </div> -->
@@ -192,7 +192,7 @@
                     <!-- 可填充主頁內容 -->
                     
 	              <main class=" main-content">			
-				
+					<button type="button" class="btn" style="background-color:#007bff;"><a  style="color:white !important;text-decoration:none;" th:href="@{/order/admin/return_order}">返回退貨訂單</a></button>
 					<div class="return-details">
 				        <h1>退貨明細</h1>
 				
@@ -243,7 +243,7 @@
             </div>
 
             <!-- 頁腳 -->
-            <footer class="sticky-footer bg-white">
+            <footer class="sticky-footer bg-white" style="margin-top:150px;">
                 <div class="text-center">
                     <span>Copyright &copy; Fix Life 2024. All rights reserved.</span>
                 </div>

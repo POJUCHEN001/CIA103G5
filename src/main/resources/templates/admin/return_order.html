@@ -216,7 +216,7 @@
 					             <td class="memid" name="memid" th:text="${DTO.memId}"></td>
 					              <td class="ftid" name="ftid" th:text="${DTO.ftId}"></td>				            
 					       		 <td class="payment" name="payment" th:text="${DTO.payment}"></td>
-					       		 <td class="return_status">待處理</td>		          	            			 
+					       		 <td class="return_status" th:text="${DTO.orderState == 3 ? '已完成' : '待處理' }">待處理</td>		          	            			 
 					       		 <td class="applytime" name="applytime" th:text="${DTO.applyTime}"></td>
 					       		 <td class="endedtime" name="endedtime" th:text="${DTO.endedTime!=null ? DTO.endedTime : '-'}"></td>		
 					       		 <td><a style="text-decoration:none;" th:href="@{/order/admin/statistic/detail/{orderNo}/byadmin(orderNo=${DTO.orderNo})}">查看</a></td>
