@@ -29,9 +29,9 @@
                         <li><a href="/back-end/ftskills" class="nav-link px-2 custom-link">後台專長管理</a></li>
                     </ul>
 
-                    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                        <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-                    </form>
+<!--                     <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"> -->
+<!--                         <input type="search" class="form-control" placeholder="Search..." aria-label="Search"> -->
+<!--                     </form> -->
 
                     <div class="dropdown text-end">
                         <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -91,8 +91,8 @@
 				sessionStorage.removeItem("memberInfo");
 				sessionStorage.removeItem("isLogin");
 
-				// 跳轉到登入頁面
-				window.location.href = "/login";
+				// 使用後端返回的 redirectURL 進行跳轉
+				window.location.href = result.redirectURL;
 			} else {
 				const result = await response.json();
 				console.log(result.message || "登出失敗，請稍後再試");

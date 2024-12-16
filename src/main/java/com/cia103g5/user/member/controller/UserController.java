@@ -96,7 +96,7 @@ public class UserController {
 
     // 會員登入
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> loginMember(@RequestBody Map<String, String> data, HttpSession session) {
+    public ResponseEntity<Map<String, Object>> loginMember(@RequestBody Map<String, String> data, HttpSession session, HttpServletRequest request) {
 
         // 取得請求參數
         String account = data.get("account");
@@ -108,10 +108,7 @@ public class UserController {
 
             // 根據會員編號查詢占卜師編號 回傳若為0 即沒有占卜師身分
             Integer ftId = ftService.findFtIdByMemberId(member.getMemberId());
-            // 如果不是占卜師
-//            if (ftId <= 0){
-//                ftId = null;
-//            }
+
 
             // 登入成功，將會員資訊存入 Session
             // 從查詢結果 MemberVO 存入前端必要的資訊 到DTO
@@ -120,7 +117,6 @@ public class UserController {
                     member.getName(),
                     member.getNickname(),
                     member.getStatus(),
-//                    isFortuneTeller ? ftId : null, // 如果不是占卜師，設為 null
                     ftId
             );
             
@@ -132,14 +128,26 @@ public class UserController {
             session.setAttribute("ftId", ftId);
 
             // 處理 redirectURL
+            // 動態取得 context path 並拼接首頁路徑
+    		String baseURL = request.getScheme() + "://" +    // 協議 (http 或 https)
+                    request.getServerName() +       // 主機名 ( localhost 或域名)
+                    ":" + request.getServerPort() + // 埠號 (8080)
+                    request.getContextPath();       // Context Path (/專案名稱)
+    		
+    		
             String redirectURL = (String) session.getAttribute("redirectURL");
             if (redirectURL != null && !redirectURL.isEmpty()) {
                 session.removeAttribute("redirectURL"); // 清理 session 中的 URL
+                redirectURL = baseURL + redirectURL;
             } else {
-//                redirectURL = request.getContextPath() + "/membercenter"); // 導向會員中心
-                redirectURL = "/membercenter"; // 預設重導向 URL
+            	if(ftId > 0) {
+            		redirectURL = baseURL + "/ftcenter";
+            	} else {
+            		redirectURL = baseURL + "/membercenter";
+            	}
             }
 
+            
             System.out.println(session);
             Enumeration<String> attributeNames = session.getAttributeNames();
             while (attributeNames.hasMoreElements()) {
@@ -148,6 +156,8 @@ public class UserController {
                 System.out.println("Attribute Name: " + attributeName + ", Value: " + attributeValue);
             }
 
+            
+            
             return ResponseEntity.ok(Map.of(
                     "message", "登入成功",
                     "redirectURL", redirectURL,
