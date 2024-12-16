@@ -1,6 +1,26 @@
 /**
  * 
  */
+const forgotPasswordModal = document.getElementById('forgotPasswordModal');
+
+// 顯示 Modal 時
+forgotPasswordModal.addEventListener('show.bs.modal', () => {
+    forgotPasswordModal.removeAttribute('inert');
+    const firstFocusable = forgotPasswordModal.querySelector('input, button, [tabindex]:not([tabindex="-1"])');
+    if (firstFocusable) {
+        firstFocusable.focus();
+    }
+});
+
+// 隱藏 Modal 時
+forgotPasswordModal.addEventListener('hide.bs.modal', () => {
+    forgotPasswordModal.setAttribute('inert', '');
+    const triggerButton = document.querySelector('[data-bs-target="#forgotPasswordModal"]');
+    if (triggerButton) {
+        triggerButton.focus();
+    }
+});
+
 
 document.getElementById('forgotPasswordForm').addEventListener('submit', async function(event) {
     event.preventDefault(); // 防止表單默認提交
