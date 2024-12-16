@@ -274,5 +274,14 @@ public class MemberService {
 			throw new IllegalArgumentException(fieldName + " cannot be null or empty.");
 		}
 	}
+	
+	// 根據會員編號更新會員點數
+	 public void updateMemberPoints(Integer memberId, Integer points){
+	  MemberVO member = repository.findById(memberId)
+	    .orElseThrow(() -> new MemberNotFoundException("會員帳號不存在"));
+	  member.setPoints(points);
+	  repository.save(member);
+	 }
+	
 
 }
