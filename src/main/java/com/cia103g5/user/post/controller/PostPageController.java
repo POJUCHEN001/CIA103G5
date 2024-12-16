@@ -30,7 +30,6 @@ import com.cia103g5.user.post.repository.PostCommentRepository;
 import com.cia103g5.user.post.repository.PostPicRepository;
 import com.cia103g5.user.post.repository.PostRepository;
 import com.cia103g5.user.post.service.PostService;
-
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -61,15 +60,7 @@ public class PostPageController {
 	 * 作為主模板。 layout.html 中的片段選擇會根據 page 變數來決定。
 	 */
 	@GetMapping("/articles")
-	public String showArticles(Model model, HttpSession session) {
-		Integer memberId = (Integer) session.getAttribute("memberId");
-		Optional<MemberVO> member = memberRepository.findById(memberId);
-		if (member.isPresent()) {
-			model.addAttribute("authorName", member.get().getNickname());
-		} else {
-			model.addAttribute("authorName", member.get().getName());	
-		}
-		
+	public String showArticles(Model model) {
 		model.addAttribute("page", "articles"); // 設定 page 變數為 "articles"，讓 layout.html 加載 articles 的片段
 		System.out.println("Page set to articles"); // 日誌輸出確認 page 設定為 "articles"
 		return "layout"; // 返回 layout.html 作為主模板，該模板會包含 articles 的內容
