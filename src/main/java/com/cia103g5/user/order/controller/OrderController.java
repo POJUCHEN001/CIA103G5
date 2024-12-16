@@ -96,6 +96,7 @@ public class OrderController {
 		
 		if(orderSvc.alterOrderState(orderId,(byte)3)) {
 			orderSvc.alterShipStatus(orderId, (byte)5);
+			orderSvc.updateEndedTimeForFinishedOrder(orderId);
 			success=true;
 			message="Order canceled successfully";
 		}else {
