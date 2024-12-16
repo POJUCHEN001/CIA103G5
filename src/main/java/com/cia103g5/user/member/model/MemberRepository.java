@@ -53,7 +53,7 @@ public interface MemberRepository extends JpaRepository<MemberVO, Integer> {
 	                                           @Param("account") String account);
 
     // 根據email查會員
-	Optional<MemberVO> findByEmail(String email);
+    Optional<MemberVO> findByEmail(String email);
 
     // 列出所有會員
 	@Query("SELECT new com.cia103g5.user.member.dto.MemberManageDTO(" +

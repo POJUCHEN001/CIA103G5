@@ -186,6 +186,15 @@ public class UserController {
         }
     }
 
+    // 忘記密碼
+//    @PostMapping("/forgot-password")
+//    public ResponseEntity<Map<String, Object>> forgotPassword(@RequestParam String email){
+//    // 1. 驗證該 Email 是否存在
+//    	MemberVO member = service.isEmailExists(email);
+//    if (member.getEmail().isEmpty()) {
+//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "該 Email 不存在"));
+//    }
+//    }
 
     // 占卜師註冊資料
     @PostMapping("/ft-register")

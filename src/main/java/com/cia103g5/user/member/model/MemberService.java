@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import com.cia103g5.user.member.dto.MemberManageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -182,6 +183,13 @@ public class MemberService {
 		member.setStatus(0);
 		repository.save(member);
 	}
+	
+	// 查詢Email是否存在
+//	public MemberVO isEmailExists(String email) {	
+//		MemberVO member = repository.findByEmail(email)
+//				.orElseThrow(() -> new RuntimeException("Email不存在: " + email + "is not found!"));
+//		return repository.findByEmail(email);
+//	}
 
 	// 查詢會員（依 ID）
 	public MemberVO findMemberById(Integer memberId) {
@@ -204,6 +212,7 @@ public class MemberService {
 	public boolean doesAccountExist(String account) {
 		return repository.findByAccount(account).isPresent();
 	}
+	
 
 	// 通用方法：處理照片
 	private void processPhoto(MemberVO member, MultipartFile photo) {
