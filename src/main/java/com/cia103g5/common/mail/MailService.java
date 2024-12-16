@@ -59,6 +59,17 @@ public class MailService {
 		// 返回生成的驗證碼，用於儲存進redis
 		return verificationCode;
 	}
-	// 以上建立了 SimpleMailMessage 物件，並將相關資訊設置進去。然後呼叫 JavaMailSender 的 send 方法就能發送了。
-	// 目前 Mail 的主旨是固定格式 寫在了properties 裡面 (mail.)
+
+	
+	public void sendResetPasswordMessage(String email, String subject, String text) {
+		// 發送郵件
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(email);
+		message.setSubject(subject);
+		message.setText(text);
+		
+		 // 發送郵件
+        mailSender.send(message);
+	}
+	
 }
