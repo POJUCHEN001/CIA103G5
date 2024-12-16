@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+#chat-widget.hide{
+	display:none;
+}
+
+
 #chat-widget {
     position: fixed;
     bottom: 0;

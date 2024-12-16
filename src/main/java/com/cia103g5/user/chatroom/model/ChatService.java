@@ -110,7 +110,7 @@ public class ChatService {
 		return member;
 	}
 	
-	//存入新加入列表的聊天對象(會員加入時對象時，同時也在占卜師這裡加入)-->修改邏輯:加入對象時，同時也存入nickname
+	//存入新加入列表的聊天對象(會員加入時對象時，同時也在占卜師這裡加入(會員和占卜師都是存memId))-->修改邏輯:加入對象時，同時也存入nickname
 	public void saveFriendList(Integer memId,Integer ftId) {
 		  if (memId == null || ftId == null) {
 		        throw new IllegalArgumentException("memId 和 ftId 不能為 null");
