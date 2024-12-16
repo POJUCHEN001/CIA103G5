@@ -38,43 +38,66 @@
             color: white;
             font-weight: bold;
         }
+        .merchant-header {
+            background-color: #f4b183;
+            color: #fff;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container cart-container">
-        <h2>購物車裡面有</h2>
+        <h2>您的購物車</h2>
 
-        <!-- 顯示購物車商品 -->
-        <div th:if="${cartItems == null or cartItems.isEmpty()}">
+        <!-- 判斷購物車是否為空 -->
+        <div th:if="${cartItemsByFtId == null or cartItemsByFtId.isEmpty()}">
             <p>您的購物車目前是空的！</p>
         </div>
-        
-        <div th:if="${cartItems != null and !cartItems.isEmpty()}">
-            <div id="cartItems">
-                <!-- 使用 Thymeleaf 動態生成商品項目 -->
-                <div class="cart-item" th:each="item : ${cartItems}">
+
+        <!-- 根據商家分組顯示購物車商品 -->
+        <div th:if="${cartItemsByFtId != null and not cartItemsByFtId.isEmpty()}">
+            <div th:each="entry : ${cartItemsByFtId}">
+                <!-- 商家標題 -->
+                <div class="merchant-header">
+                    <span th:text="'商家 ID: ' + ${entry.key}">商家ID</span>
+                </div>
+
+                <!-- 商品列表 -->
+                <div th:each="item : ${entry.value}" class="cart-item">
                     <img th:src="'data:image/jpeg;base64,' + ${item.primaryImage}" alt="商品圖片">
                     <span th:text="${item.prodName}">商品名稱</span>
                     <span th:text="'NT$' + ${item.price}">商品價格</span>
-                    <div class="input-group" style="width: 100px;">
-                        <form th:action="@{/cart/decrement/{userId}/{prodNo}(userId=${userId}, prodNo=${item.prodNo})}" method="post">
+                    <div class="input-group" style="width: 120px;">
+                        <!-- 減少數量 -->
+                        <form th:action="@{/cart/decrement/{userId}/{prodNo}(userId=${userId}, prodNo=${item.prodNo})}" method="post" style="display:inline;">
                             <button type="submit" class="btn btn-outline-secondary btn-sm">-</button>
                         </form>
+                        <!-- 數量顯示 -->
                         <input type="text" class="form-control text-center" th:value="${item.quantity}" readonly>
-                        <form th:action="@{/cart/increment/{userId}/{prodNo}(userId=${userId}, prodNo=${item.prodNo})}" method="post">
+                        <!-- 增加數量 -->
+                        <form th:action="@{/cart/increment/{userId}/{prodNo}(userId=${userId}, prodNo=${item.prodNo})}" method="post" style="display:inline;">
                             <button type="submit" class="btn btn-outline-secondary btn-sm">+</button>
                         </form>
                     </div>
-                    <form th:action="@{/cart/remove/{userId}/{prodNo}(userId=${userId}, prodNo=${item.prodNo})}" method="post" style="margin-left: 10px;">
+                    <!-- 刪除商品 -->
+                    <form th:action="@{/cart/remove/{userId}/{prodNo}(userId=${userId}, prodNo=${item.prodNo})}" method="post" style="display:inline;">
                         <button type="submit" class="btn btn-danger btn-sm">🗑</button>
                     </form>
                 </div>
             </div>
 
-            <!-- 總計 -->
+            <!-- 總結區域 -->
             <div class="cart-summary mt-4">
-                <div>總共：(<span th:text="${cartItems.size()}">0</span>) 件商品</div>
-                <div>NT$<span th:text="${cartItems.stream().mapToInt(item -> item.quantity * item.price).sum()}">0</span></div>
+                <div>總共：(<span th:text="${cartItemsByFtId.values().stream().flatMap(list -> list.stream()).count()}">0</span>) 件商品</div>
+                <div>
+                    NT$<span th:text="${cartItemsByFtId.values().stream()
+                        .flatMap(list -> list.stream())
+                        .mapToInt(item -> item.quantity * item.price)
+                        .sum()}">0</span>
+                </div>
                 <form th:action="@{/cart/checkout/{userId}(userId=${userId})}" method="post">
                     <button type="submit" class="btn btn-primary w-100 mt-2">去結帳</button>
                 </form>
@@ -82,72 +105,6 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            const userId = 1; // 假設用戶 ID 已知，實際中應動態獲取
-            
-            // 增加數量
-            $(".increment-btn").click(function () {
-                const prodNo = $(this).data("prod-id");
-                const quantityInput = $(this).siblings("input");
-                let quantity = parseInt(quantityInput.val());
-                updateCartItem(prodNo, ++quantity);
-            });
-
-            // 減少數量
-            $(".decrement-btn").click(function () {
-                const prodNo = $(this).data("prod-id");
-                const quantityInput = $(this).siblings("input");
-                let quantity = parseInt(quantityInput.val());
-                if (quantity > 1) {
-                    updateCartItem(prodNo, --quantity);
-                }
-            });
-
-            // 刪除商品
-            $(".remove-btn").click(function () {
-                const prodNo = $(this).data("prod-id");
-                $.ajax({
-                    url: `/api/cart/${userId}/${prodNo}`,
-                    type: "DELETE",
-                    success: function () {
-                        alert("商品已刪除");
-                        location.reload();
-                    },
-                    error: function () {
-                        alert("刪除失敗，請稍後再試");
-                    }
-                });
-            });
-
-            // 更新購物車商品數量
-            function updateCartItem(prodNo, quantity) {
-                $.ajax({
-                    url: `/api/cart/${userId}`,
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify({
-                        prodNo: prodNo,
-                        quantity: quantity
-                    }),
-                    success: function () {
-                        location.reload(); // 刷新頁面
-                    },
-                    error: function () {
-                        alert("更新失敗，請稍後再試");
-                    }
-                });
-            }
-
-            // 結帳
-            $("#checkoutBtn").click(function () {
-                alert("結帳功能尚未實現");
-            });
-        });
-    </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="./vendors/jquery/jquery-3.7.1.min.js"></script>
-        <script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

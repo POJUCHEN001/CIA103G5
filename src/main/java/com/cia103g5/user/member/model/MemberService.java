@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
+import com.cia103g5.user.member.dto.MemberManageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -161,6 +163,11 @@ public class MemberService {
 		return repository.findAll();
 	}
 
+	// 查詢所有會員(後台會員管理)
+	public List<MemberManageDTO> getAllMember(Integer status){
+		return repository.findMembersByStatus( status);
+	}
+
 	// 更新會員照片
 	public void updateMemberPhoto(Integer memberId, MultipartFile photo) {
 		MemberVO member = repository.findById(memberId)
@@ -170,12 +177,19 @@ public class MemberService {
 	}
 
 	// 變更會員狀態
-	public void updateMemberStatus(Integer memberId, Integer status) {
-		int updateRows = repository.updateMemberStatus(status, memberId);
-		if (updateRows > 0) {
-
-		}
+	public void updateMemberStatus(Integer memberId) {
+		MemberVO member = repository.findById(memberId)
+				.orElseThrow(() -> new MemberNotFoundException("會員帳號不存在"));
+		member.setStatus(0);
+		repository.save(member);
 	}
+	
+	// 查詢Email是否存在
+//	public MemberVO isEmailExists(String email) {	
+//		MemberVO member = repository.findByEmail(email)
+//				.orElseThrow(() -> new RuntimeException("Email不存在: " + email + "is not found!"));
+//		return repository.findByEmail(email);
+//	}
 
 	// 查詢會員（依 ID）
 	public MemberVO findMemberById(Integer memberId) {
@@ -198,6 +212,7 @@ public class MemberService {
 	public boolean doesAccountExist(String account) {
 		return repository.findByAccount(account).isPresent();
 	}
+	
 
 	// 通用方法：處理照片
 	private void processPhoto(MemberVO member, MultipartFile photo) {
@@ -268,5 +283,14 @@ public class MemberService {
 			throw new IllegalArgumentException(fieldName + " cannot be null or empty.");
 		}
 	}
+	
+	// 根據會員編號更新會員點數
+	 public void updateMemberPoints(Integer memberId, Integer points){
+	  MemberVO member = repository.findById(memberId)
+	    .orElseThrow(() -> new MemberNotFoundException("會員帳號不存在"));
+	  member.setPoints(points);
+	  repository.save(member);
+	 }
+	
 
 }
