@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cia103g5.user.ft.model.FtService;
+import com.cia103g5.user.ft.model.FtVO;
 import com.cia103g5.user.product.model.ProductVO;
 import com.cia103g5.user.product.model.StoreServiceImpl;
 import com.cia103g5.user.productCollection.model.ProductCollectionServiceImpl;
@@ -38,6 +40,8 @@ public class StoreController {
 	ProductImageService prodimgSvc;
 	@Autowired
 	ProductCollectionServiceImpl productCollectionService;
+	@Autowired
+	private FtService ftService;
 	
 //	@GetMapping("/")
 //	public String toIndex() {
@@ -114,6 +118,12 @@ public class StoreController {
 	@GetMapping("/productdetail/{id}")
 	public String productDetail(@PathVariable("id") Integer id, Model model) {
 		ProductVO product = storeServiceImpl.getProductById(id);
+		
+		//取得該商品的占卜師的memId
+		FtVO ftVO =product.getFtId();
+		String memIdOfFt =String.valueOf(ftVO.getMember().getMemberId());
+		model.addAttribute("memIdOfFt",memIdOfFt);
+		
 		model.addAttribute("product", product);
 		return "productdetail";
 	}

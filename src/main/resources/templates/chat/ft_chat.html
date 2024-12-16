@@ -34,80 +34,81 @@
   
     <!-- <div class="b-example-divider"></div> -->
 <div class="container-all">
- 	<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;" th:fragment="sidebar">
-			<a href="/ftcenter"
-				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-				<svg class="bi me-2" width="30" height="24">
-					<use xlink:href="#bootstrap" /></svg> <span class="fs-5 fw-semibold">占卜師中心</span>
-			</a>
-			<ul class="list-unstyled ps-0">
-				<li class="mb-1">
-					<button class="btn btn-toggle align-items-center rounded collapsed"
-						data-bs-toggle="collapse" data-bs-target="#home-collapse"
-						aria-expanded="true">占卜師中心</button>
-					<div class="collapse show" id="home-collapse">
-						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a href="/ftcenter" class="link-dark rounded">基本資料</a></li>
-							<li><a href="#" class="link-dark rounded">占卜服務設置</a></li>
-							<!-- <li><a href="#" class="link-dark rounded">預約查詢</a></li> -->
-						</ul>
-					</div>
-				</li>
-				<li class="mb-1">
-					<button class="btn btn-toggle align-items-center rounded collapsed"
-						data-bs-toggle="collapse" data-bs-target="#dashboard-collapse"
-						aria-expanded="false">預約查詢</button>
-					<div class="collapse" id="dashboard-collapse">
-						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a href="/reservations/ft/query" class="link-dark rounded">預約查詢</a></li>
-							<li><a href="/reservations/ft/manage" class="link-dark rounded">預約評價</a></li>
-							<li><a href="/reaervations/ft/statistics" class="link-dark rounded">預約統計</a></li>
-							<li><a href="/reservations/ft/financial" class="link-dark rounded">交易紀錄</a></li>
-						</ul>
-					</div>
-				</li>
-				<li class="mb-1">
-					<button class="btn btn-toggle align-items-center rounded collapsed"
-						data-bs-toggle="collapse" data-bs-target="#orders-collapse"
-						aria-expanded="false">商品訂單查詢</button>
-					<div class="collapse" id="orders-collapse">
-						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a th:href="@{/order/ft_order}"  class="link-dark rounded">訂單管理</a></li>
-							<li><a th:href="@{/order/ft_order/statistics}" class="link-dark rounded">訂單統計</a></li>
-						</ul>
-					</div>
-				</li>
+		<div th:replace="ftcenter :: sidebar"></div>
+<!--  	<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;" th:fragment="sidebar"> -->
+<!-- 			<a href="/ftcenter" -->
+<!-- 				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom"> -->
+<!-- 				<svg class="bi me-2" width="30" height="24"> -->
+<!-- 					<use xlink:href="#bootstrap" /></svg> <span class="fs-5 fw-semibold">占卜師中心</span> -->
+<!-- 			</a> -->
+<!-- 			<ul class="list-unstyled ps-0"> -->
+<!-- 				<li class="mb-1"> -->
+<!-- 					<button class="btn btn-toggle align-items-center rounded collapsed" -->
+<!-- 						data-bs-toggle="collapse" data-bs-target="#home-collapse" -->
+<!-- 						aria-expanded="true">占卜師中心</button> -->
+<!-- 					<div class="collapse show" id="home-collapse"> -->
+<!-- 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> -->
+<!-- 							<li><a href="/ftcenter" class="link-dark rounded">基本資料</a></li> -->
+<!-- 							<li><a href="#" class="link-dark rounded">占卜服務設置</a></li> -->
+<!-- 							<li><a href="#" class="link-dark rounded">預約查詢</a></li> -->
+<!-- 						</ul> -->
+<!-- 					</div> -->
+<!-- 				</li> -->
+<!-- 				<li class="mb-1"> -->
+<!-- 					<button class="btn btn-toggle align-items-center rounded collapsed" -->
+<!-- 						data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" -->
+<!-- 						aria-expanded="false">預約查詢</button> -->
+<!-- 					<div class="collapse" id="dashboard-collapse"> -->
+<!-- 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> -->
+<!-- 							<li><a href="/reservations/ft/query" class="link-dark rounded">預約查詢</a></li> -->
+<!-- 							<li><a href="/reservations/ft/manage" class="link-dark rounded">預約評價</a></li> -->
+<!-- 							<li><a href="/reaervations/ft/statistics" class="link-dark rounded">預約統計</a></li> -->
+<!-- 							<li><a href="/reservations/ft/financial" class="link-dark rounded">交易紀錄</a></li> -->
+<!-- 						</ul> -->
+<!-- 					</div> -->
+<!-- 				</li> -->
+<!-- 				<li class="mb-1"> -->
+<!-- 					<button class="btn btn-toggle align-items-center rounded collapsed" -->
+<!-- 						data-bs-toggle="collapse" data-bs-target="#orders-collapse" -->
+<!-- 						aria-expanded="false">商品訂單查詢</button> -->
+<!-- 					<div class="collapse" id="orders-collapse"> -->
+<!-- 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> -->
+<!-- 							<li><a th:href="@{/order/ft_order}"  class="link-dark rounded">訂單管理</a></li> -->
+<!-- 							<li><a th:href="@{/order/ft_order/statistics}" class="link-dark rounded">訂單統計</a></li> -->
+<!-- 						</ul> -->
+<!-- 					</div> -->
+<!-- 				</li> -->
 				
-				<li class="mb-1">
-					<button class="btn btn-toggle align-items-center rounded collapsed"
-						data-bs-toggle="collapse" data-bs-target="#orders-collapse"
-						aria-expanded="false">商城管理</button>
-					<div class="collapse" id="orders-collapse">
-						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a  th:href="@{/product/queryAllProduct}" class="link-dark rounded">商品管理</a></li>
-							<li><a th:href="@{/product/product_statistics}" class="link-dark rounded">銷售統計</a></li>
-							<li><a th:href="@{/chatroom/ft}" class="link-dark rounded">訊息專區</a></li>
-						</ul>
-					</div>
-				</li>
+<!-- 				<li class="mb-1"> -->
+<!-- 					<button class="btn btn-toggle align-items-center rounded collapsed" -->
+<!-- 						data-bs-toggle="collapse" data-bs-target="#orders-collapse" -->
+<!-- 						aria-expanded="false">商城管理</button> -->
+<!-- 					<div class="collapse" id="orders-collapse"> -->
+<!-- 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> -->
+<!-- 							<li><a  th:href="@{/product/queryAllProduct}" class="link-dark rounded">商品管理</a></li> -->
+<!-- 							<li><a th:href="@{/product/product_statistics}" class="link-dark rounded">銷售統計</a></li> -->
+<!-- 							<li><a th:href="@{/chatroom/ft}" class="link-dark rounded">訊息專區</a></li> -->
+<!-- 						</ul> -->
+<!-- 					</div> -->
+<!-- 				</li> -->
 
-				<li class="border-top my-3"></li>
-				<li class="mb-1">
-					<button class="btn btn-toggle align-items-center rounded collapsed"
-						data-bs-toggle="collapse" data-bs-target="#account-collapse"
-						aria-expanded="false">Account</button>
-					<div class="collapse" id="account-collapse">
-						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-							<li><a href="resetpassword" class="link-dark rounded">變更密碼</a></li>
-							<li><a href="#" class="link-dark rounded">刪除帳號</a></li>
-							<li><a href="#" class="link-dark rounded">客服中心</a></li>
-							<li><a class="dropdown-item logout-link" href="#"
-								id="logout" name="logout">登出 </a></li>
-						</ul>
-					</div>
-				</li>
-			</ul>
-		</div>
+<!-- 				<li class="border-top my-3"></li> -->
+<!-- 				<li class="mb-1"> -->
+<!-- 					<button class="btn btn-toggle align-items-center rounded collapsed" -->
+<!-- 						data-bs-toggle="collapse" data-bs-target="#account-collapse" -->
+<!-- 						aria-expanded="false">Account</button> -->
+<!-- 					<div class="collapse" id="account-collapse"> -->
+<!-- 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> -->
+<!-- 							<li><a href="resetpassword" class="link-dark rounded">變更密碼</a></li> -->
+<!-- 							<li><a href="#" class="link-dark rounded">刪除帳號</a></li> -->
+<!-- 							<li><a href="#" class="link-dark rounded">客服中心</a></li> -->
+<!-- 							<li><a class="dropdown-item logout-link" href="#" -->
+<!-- 								id="logout" name="logout">登出 </a></li> -->
+<!-- 						</ul> -->
+<!-- 					</div> -->
+<!-- 				</li> -->
+<!-- 			</ul> -->
+<!-- 		</div> -->
  
 
     <main class="main">

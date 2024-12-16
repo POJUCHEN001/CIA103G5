@@ -22,17 +22,21 @@ function toggleChat() {
 	   const userList = document.getElementById('user-list_ft');
 	   const chatWindow = document.getElementById('chat-window_ft');
 	   const returnIcon = document.getElementById('return-icon_ft');
+	   let chatDisplay = document.querySelector("#chat-display_ft");
 
-	//fetch API 顯示會員的聊天對象
+	   chatDisplay.scrollTop = chatDisplay.scrollHeight;//滾動到底部
+	   
+	//若聊天標頭沒有名字才去fetch API 顯示會員的聊天對象(代表尚未點擊任何對象)
+	if(headerTitle.innerText==""){
 	       fetch(`/chat/list`)
 	           .then(res => {
-	               // 檢查是否為 200 OK
+
 	               if (res.ok) {
-	                   return res.json(); // 將響應轉為 JSON
+	                   return res.json(); 
 	               } else {
-	                   // 處理非 200 狀態碼的響應
+
 	                   return res.text().then(error => {
-	                       throw new Error(error); // 拋出錯誤供 catch 處理
+	                       throw new Error(error); 
 	                   });
 	               }
 	           })
@@ -64,30 +68,33 @@ function toggleChat() {
 	               console.error("Error fetching fortuneteller info:", error);
 	               alert(error.message); // 彈出錯誤提示
 	           });
-		
+			}
 		
         // 如果處於聊天窗口，顯示返回符號
         if (document.getElementById('chat-window_ft').style.display === 'flex') {
             returnIcon.style.display = 'block';
         }
-        isMinimized = false;
+        isMinimized = false;//設定狀態為展開
+		
     }
 }
 
-//點擊聊天對象後，變成聊天室窗，變更標題樣式、增加返回符號
+//直接在列表中點擊聊天對象，切換為聊天視窗畫面->變更標題樣式、增加返回符號
 function openChat(user) {
     const headerTitle = document.getElementById('header-title_ft');
     const userList = document.getElementById('user-list_ft');
     const chatWindow = document.getElementById('chat-window_ft');
     const returnIcon = document.getElementById('return-icon_ft');
+	let chatDisplay = document.querySelector("#chat-display_ft");
 
     headerTitle.innerText = `${user}`; // 更新標題
     returnIcon.style.display = 'block'; // 顯示返回符號
     userList.style.display = 'none';
     chatWindow.style.display = 'flex';
+	chatDisplay.scrollTop = chatDisplay.scrollHeight;//滾動到底部
 }
 
-//回到列表頁的方法(返回上頁後，斷離websocket連線)
+//<<回到列表頁的方法>>切換畫面為列表、抓取個人所有對象
 function goBackToUserList(event) {
     // 阻止觸發 header 的收縮/展開功能
     event.stopPropagation();
@@ -145,15 +152,22 @@ function goBackToUserList(event) {
 
 		let list =document.getElementById("user-list_ft");
 		
-		//點擊人名，跳轉到該聊天視窗、建立連線
+		//在列表中點擊人名->跳轉到該聊天視窗、建立連線
 		list.addEventListener("click",function(e){
 			if (e.target.tagName === 'LI') {
 		       // 取得 <li> 的名字
 		       const liName = e.target.childNodes[0].nodeValue.trim();
-		       console.log('點擊的名字:', liName);
+//		       console.log('點擊的名字:', liName);
 				
 			   openChat(liName);
-			   connect(liName);
+			   
+			   if (currentChatTarget==liName) {//視窗名字等於當前聊天對象時，則不重新連線
+			             console.log("重新展開視窗，但不重新連線");
+			         } else {
+			             console.log("尚未連線，準備建立連線");
+						 connect(liName);
+			         }
+
 			   }					
 			
 		});
@@ -162,6 +176,13 @@ function goBackToUserList(event) {
 		let currentChatTarget = null; // 當前聊天對象
 
 		function connect(name) {
+			// 如果已經連線並且正在和同一個對象聊天，就不重新連線
+			  if (stompClient !== null && stompClient.connected && currentChatTarget === name) {
+			      console.log(`已經連接到 ${name}，不重複連線`);
+			      return; // 直接返回，避免重複連線
+			  }
+			
+			
 		    // 如果已經有連線，先斷開
 		    if (stompClient !== null) {
 		        console.log('正在切換聊天對象，斷開當前連線');
@@ -180,24 +201,31 @@ function goBackToUserList(event) {
 
 		        let selfnickname = getSelfNickName();
 
-		        // 訂閱歷史訊息、對方的即時訊息的通道->/custom/sender(會員):receiver(自己)
+		        // 訂閱對方的即時訊息的通道->/custom/sender(會員):receiver(自己)
 		        stompClient.subscribe('/custom/' + name + ':' + selfnickname, function (message) {
-		            console.log('收到歷史或對方的即時訊息:', message.body);
+//		            console.log('收到歷史或對方的即時訊息:', message.body);
 		            const historyMsg = JSON.parse(message.body);
+					if(Array.isArray(historyMsg)){//若是對方要取得歷史訊息，則返回不接收
+						return;
+					}else{
+						showMessage(historyMsg);
+					}
+
+		        });
+		        
+
+				//訂閱自己的即時訊息、歷史訊息的通道->/custom/sender(自己):receiver(對方)
+		        stompClient.subscribe('/custom/' + selfnickname + ':' + name, function (message) {
+//		            console.log('收到自己的即時消息:', message.body);
+					const historyMsg = JSON.parse(message.body);
 		            if (Array.isArray(historyMsg)) {
 		                historyMsg.forEach(msg => showMessage(msg));
 		            } else {
 		                showMessage(historyMsg);
 		            }
 		        });
-
-		        getHistory(); // 訂閱完成後請求歷史訊息
-
-				//自己的即時訊息的通道->/custom/sender(自己):receiver(對方)
-		        stompClient.subscribe('/custom/' + selfnickname + ':' + name, function (message) {
-		            console.log('收到自己的即時消息:', message.body);
-		            showMessage(JSON.parse(message.body));
-		        });
+				
+				getHistory(); // 訂閱完成後請求歷史訊息
 		    });
 		}
 
@@ -206,48 +234,16 @@ function goBackToUserList(event) {
 		    if (stompClient !== null) {
 		        stompClient.disconnect(() => {
 		            console.log('WebSocket 已斷開');
+					let chatDisplay = document.querySelector("#chat-display_ft");
+					chatDisplay.innerHTML="";
 		        });
 		    }
 		    stompClient = null;
 		    currentChatTarget = null;
+			hasFetchedHistory = false; // 重置歷史訊息標誌
 		}
 
 				
-				//<顯示訊息的方法>
-//				function showMessage(message){
-//					   if (message) {
-//						
-//						   let chatDisplay =document.querySelector("#chat-display_ft");
-//					       // 建立新的訊息元素
-//					       const messageElement = document.createElement('div');
-//					       messageElement.textContent = `${message.message}`;
-//					       messageElement.style.marginBottom = '10px';
-//					       messageElement.style.padding = '10px';
-//					       messageElement.style.backgroundColor = '#e6f7ff'; /* 訊息背景顏色 */
-//					       messageElement.style.borderRadius = '5px';
-//						   messageElement.style.width='50%';
-//						   
-//						   let selfnickname =getSelfNickName();
-//						   if (message.sender === selfnickname) {
-//					              // 如果是自己，訊息在右側
-//					              messageElement.style.backgroundColor = '#e6f7ff'; // 蓝色背景
-//					              messageElement.style.alignSelf = 'flex-end';
-//					          } else {
-//					              // 如果是會員，訊息在左側
-//					              messageElement.style.backgroundColor = '#fff2e6'; // 橙色背景
-//					              messageElement.style.alignSelf = 'flex-start';
-//					          }
-//							  			   
-//					       chatDisplay.appendChild(messageElement);
-//						   chatDisplay.scrollTop = chatDisplay.scrollHeight; 
-//						    
-//						    // 清空輸入框
-//							const input = document.getElementById('message-input_ft');
-//						    input.value = '';						   
-//
-//				}
-//						
-//			 }
 			 
 			function showMessage(message) {
 			    if (message) {
@@ -341,22 +337,28 @@ function goBackToUserList(event) {
 			 });
 			 
 			 
+			 let hasFetchedHistory = false; // 新增 flag 變數
 			 //取得歷史紀錄的方法
 			 function getHistory(){
+				// 如果已經獲取過歷史訊息，就不再觸發
+				    if (hasFetchedHistory) {
+				        console.log("歷史訊息已獲取，不再重複請求");
+				        return;
+				    }
 
 				const memname =document.getElementById('header-title_ft').innerText;
 				let selfnickname =getSelfNickName();
 					//用物件裝傳送的訊息(sender:會員、receiver:自己)-->跟會員發出一樣的請求，取得同一份
 					const sendobj ={
 						"type" : "history",
-						"sender" :memname,
-						"receiver" :selfnickname,
+						"sender" :selfnickname,
+						"receiver" :memname,
 						"message": "",
 						"sendTime":""
 					}
 					
 					stompClient.send('/app/history',{},JSON.stringify(sendobj));
-						
+					hasFetchedHistory = true; // 設置為已經獲取過歷史訊息
 			 }
 			 
 			 
