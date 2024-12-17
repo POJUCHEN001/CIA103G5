@@ -1,7 +1,8 @@
 /**
  * 
  */
-
+document.addEventListener('DOMContentLoaded', function () {
+	
 	// 取得HTML上的元素
 	const register_el = document.getElementById("register_el");
 	const login_el = document.getElementById("login_el");
@@ -22,6 +23,7 @@
 		dropdown_ftcenter_el.style.display = 'none';
 	}
 		
+});
 		
 	// 載入會員頭像
 	document.addEventListener('DOMContentLoaded', function () {
