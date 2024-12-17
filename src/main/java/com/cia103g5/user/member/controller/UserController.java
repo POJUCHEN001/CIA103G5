@@ -84,6 +84,7 @@ public class UserController {
     public ResponseEntity<Map<String, Object>> validateVerificationCode(@RequestParam String email,
                                                                         @RequestParam String code) {
         try {
+        	System.out.println(email);
             boolean isValid = service.validateVerificationCode(email, code);
             if (isValid) {
                 // 驗證碼正確，更新會員信箱狀態

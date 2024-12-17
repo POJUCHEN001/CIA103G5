@@ -130,6 +130,7 @@ public class ProductController {
 		
 //		尚未取得ft_id，先不指定占卜師會員。取得ft_id後，使用以下方法，取得單一占卜師的所有商品
 		List<ProductVO> list =prodSvc.getFtAllProductExcludeDelete(ftId); 
+//		List<ProductVO> list =prodSvc.getAllExcludeDelete();
 		
 		//轉換所有商品時間、單獨存入model中(map的形式)
 		Map<Integer,LocalDate> timemap =transferTime(list);

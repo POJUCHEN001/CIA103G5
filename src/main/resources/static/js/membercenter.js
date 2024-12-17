@@ -60,6 +60,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		  alert("無法重新寄送驗證碼，請稍後再試！");
 		}
 	  }
+	  
+	// 驗證驗證碼
+	const verifyCode = document.getElementById("verificationCode").value;
+		async function sendVerifyCode(verifyCode){
+			try{
+				const reponse = await fetch(`/membersAPI/validate-verification-code`, {
+					method: "POST",
+				});
+			}catch(error){}
+		}
 
   // 初始化頁面
   fetchMemberInfo();
