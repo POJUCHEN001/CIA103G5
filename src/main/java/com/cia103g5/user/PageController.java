@@ -71,6 +71,11 @@ public class PageController {
 //    public String storePage() {
 //    	return "store";
 //    }
+    
+    @GetMapping("/reset-password")
+    public String resetPasswordBySendEmail() {
+    	return "reset-password";
+    }
 
     
 

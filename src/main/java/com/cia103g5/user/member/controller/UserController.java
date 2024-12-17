@@ -10,18 +10,15 @@ import com.cia103g5.user.member.model.MemberVO;
 import com.cia103g5.user.member.model.MemberPasswordTokenService;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
+
 import java.util.Enumeration;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -216,10 +213,11 @@ public class UserController {
     
     // 忘記密碼寄送連結
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestParam String email, HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> forgotPassword(@RequestBody Map<String, String> requestEmail, HttpServletRequest request) {
     	// 使用 MemberService 查詢 Email 是否存在
+    	String email = requestEmail.get("email");
     	if (!service.isEmailExists(email)) {
-    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("該 Email 不存在");
+    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "該 Email 不存在"));
     	}
     	
     	// 獲取會員資訊
@@ -227,7 +225,9 @@ public class UserController {
     	
     	// 生成密碼重設 Token
     	String token = UUID.randomUUID().toString();
+    	System.out.println("生成的Token: " + token);
     	String redisKey = "password_reset:" + token;
+    	System.out.println("RedisKey: " + redisKey);
     	
     	// 存入 Redis，設置 30 分鐘過期
     	saveTokenService.set(redisKey, member.getMemberId().toString(), 30 * 60);
@@ -240,18 +240,23 @@ public class UserController {
     	
     	// 發送郵件
     	String resetLink = baseURL + "/reset-password?token=" + token;
+    	System.out.println("郵件裡面的連結: " + resetLink);
     	mailService.sendResetPasswordMessage(
     			email,
     			"重設密碼",
     			"點擊以下連結以重設密碼：\n" + resetLink + "\n該連結30分鐘內有效。");
     	
-    	return ResponseEntity.ok("密碼重設連結已發送至您的信箱");
+    	return ResponseEntity.ok(Map.of("message", "密碼重設連結已發送至您的信箱"));
     }
     
     // 驗證Token 並且重設密碼
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
-        // 從 Redis 中檢查 Token
+    public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> request) {
+    	
+    	String token = request.get("token");
+        String newPassword = request.get("newPassword");
+        
+    	// 從 Redis 中檢查 Token
         String redisKey = "password_reset:" + token;
         String redisMemberId = saveTokenService.get(redisKey);
 
