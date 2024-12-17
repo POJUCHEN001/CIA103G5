@@ -52,17 +52,17 @@ public class CheckOutController {
     }
 
     // 結帳頁面
-    @GetMapping("/{userId}")
-    public String checkoutPage(@PathVariable Integer userId, Model model, HttpSession session) {
-        session.setAttribute("redirectUrl", "/checkout/" + userId);
+    @GetMapping("/{memberId}")
+    public String checkoutPage(@PathVariable Integer memberId, Model model, HttpSession session) {
+        session.setAttribute("redirectUrl", "/checkout/" + memberId);
 
-        Map<Integer, List<CartVO>> cartItemsByFtId = cartService.getCartItemsGroupedByFtId(userId);
+        Map<Integer, List<CartVO>> cartItemsByFtId = cartService.getCartItemsGroupedByFtId(memberId);
         double totalAmount = cartItemsByFtId.values().stream()
                 .flatMap(List::stream)
                 .mapToDouble(item -> item.getPrice() * item.getQuantity())
                 .sum();
 
-        MemberVO member = memberService.findMemberById(userId);
+        MemberVO member = memberService.findMemberById(memberId);
         model.addAttribute("cartItemsByFtId", cartItemsByFtId);
         model.addAttribute("totalAmount", totalAmount);
         model.addAttribute("member", member);
@@ -71,13 +71,13 @@ public class CheckOutController {
     }
 
     // 提交訂單
-    @PostMapping("/confirm/{userId}")
-    public String confirmOrder(@PathVariable Integer userId, @RequestParam("pointsUsed") int pointsUsed,
+    @PostMapping("/confirm/{memberId}")
+    public String confirmOrder(@PathVariable Integer memberId, @RequestParam("pointsUsed") int pointsUsed,
                                @RequestParam("paymentMethod") Byte paymentMethod, Model model) {
         try {
             // 獲取購物車內容
-            Map<Integer, List<CartVO>> cartItemsByFtId = cartService.getCartItemsGroupedByFtId(userId);
-            MemberVO member = memberService.findMemberById(userId);
+            Map<Integer, List<CartVO>> cartItemsByFtId = cartService.getCartItemsGroupedByFtId(memberId);
+            MemberVO member = memberService.findMemberById(memberId);
             int userPoints = member.getPoints();
 
             if (pointsUsed > userPoints) {
@@ -85,7 +85,7 @@ public class CheckOutController {
                 return "checkout";
             }
 
-            double totalAmount = cartService.calculateTotalAmount(userId);
+            double totalAmount = cartService.calculateTotalAmount(memberId);
             double shippingFee = 60.0;
             double finalAmount = totalAmount - pointsUsed +shippingFee;
 
@@ -144,10 +144,10 @@ public class CheckOutController {
             }
 
             // 更新會員點數
-            memberService.updateMemberPoints(userId, remainingPoints);
+            memberService.updateMemberPoints(memberId, remainingPoints);
 
             // 清空購物車
-            cartService.clearCart(userId);
+            cartService.clearCart(memberId);
 
             model.addAttribute("orders", createdOrders);
             model.addAttribute("finalAmount", finalAmount);
