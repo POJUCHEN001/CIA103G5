@@ -218,11 +218,10 @@ public class ReservationServiceSpring {
 		statistics.put("cancelledReservations", reservations.stream().filter(r -> r.getRsvStatus() == 2).count());
 		statistics.put("pendingReservations", reservations.stream().filter(r -> r.getRsvStatus() == 0).count());
 
-		
 		statistics.put("pendingComReservations", reservations.stream().filter(
 				r -> r.getRsvStatus() == 1 && r.getPayment() == 1 && r.getAvailableTimeNo().getEndTime().isAfter(now))
 				.count());
-		
+
 		double totalEarnings = reservations.stream().filter(r -> r.getRsvStatus() == 1)
 				.mapToDouble(r -> r.getPrice() - (r.getPrice() * 0.05)).sum();
 		statistics.put("totalEarnings", totalEarnings);
@@ -362,6 +361,16 @@ public class ReservationServiceSpring {
 	public void submitRating(Integer rsvNo, Integer memberId, Integer rating, String ratingContent) {
 		ReservationVO reservation = reservationRepository.findById(rsvNo)
 				.orElseThrow(() -> new RuntimeException("Reservation not found"));
+
+		if (!reservation.getMemberId().getMemberId().equals(memberId)) {
+			throw new RuntimeException("您無權為此預約提供評分");
+		}
+
+		LocalDateTime now = LocalDateTime.now();
+		if (reservation.getAvailableTimeNo().getEndTime().isAfter(now)) {
+			throw new RuntimeException("無法為尚未完成的預約提供評分");
+		}
+
 		reservation.setRating(rating);
 		reservation.setRatingContent(ratingContent);
 		reservationRepository.save(reservation);
@@ -377,9 +386,15 @@ public class ReservationServiceSpring {
 			throw new RuntimeException("您無權為此預約提供回饋");
 		}
 
-		// Verify reservation status and payment
-		if (reservation.getRsvStatus() != 1 || reservation.getPayment() != 1) {
-			throw new RuntimeException("無法為未付款或未完成的預約提供回饋");
+//		if (reservation.getRsvStatus() != 1 || reservation.getPayment() != 1) {
+//			throw new RuntimeException("無法為未付款或未完成的預約提供回饋");
+//		}
+
+		LocalDateTime now = LocalDateTime.now();
+		// Verify reservation status, payment, and completion
+		if (reservation.getRsvStatus() != 1 || reservation.getPayment() != 1
+				|| reservation.getAvailableTimeNo().getEndTime().isAfter(now)) {
+			throw new RuntimeException("無法為未付款、未完成或尚未結束的預約提供回饋");
 		}
 
 		reservation.setFtFeedback(feedback);
