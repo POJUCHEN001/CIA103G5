@@ -29,4 +29,11 @@ public interface MemReservationRepository extends JpaRepository<ReservationVO, I
 	@Query(value = "select mem_id from reservation where available_time_no = ?1", nativeQuery = true)
 	Optional<Integer> findSingleMemIdByAvailableTimeNo(Integer availableTimeNo);
 	
+	// 改預約表格的付款狀態 0 -> 1
+	@Transactional
+	@Modifying
+	@Query(value = "update reservation set payment = 1 where available_time_no = ?1", nativeQuery = true)
+	void updatePaymentByAvailableTimeNo(Integer availableTimeNo);
+
+	
 }

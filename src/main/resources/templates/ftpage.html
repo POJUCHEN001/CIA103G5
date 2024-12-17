@@ -188,7 +188,8 @@ body {
 							th:text="${ft.price != null ? ft.price : '-'}"></span> 元 / 小時
 					</p>
 					<div class="btn-container">
-						<button class="btn" th:text="${ft.isFavorite ? '取消收藏' : '收藏占卜師'}"
+						<button class="btn" th:if="${session.loggedInMember != null}"
+							th:text="${ft.isFavorite ? '取消收藏' : '收藏占卜師'}"
 							th:classappend="${ft.isFavorite ? 'btn-danger' : 'btn-primary'}"
 							th:data-ft-id="${ft.ftId}"
 							th:data-company-name="${ft.companyName}"
