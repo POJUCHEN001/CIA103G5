@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cia103g5.user.availabletime.model.AvailableTimeVO;
 import com.cia103g5.user.reservation.model.ReservationVO;
 
 public interface MemReservationRepository extends JpaRepository<ReservationVO, Integer> {
@@ -34,6 +36,17 @@ public interface MemReservationRepository extends JpaRepository<ReservationVO, I
 	@Modifying
 	@Query(value = "update reservation set payment = 1 where available_time_no = ?1", nativeQuery = true)
 	void updatePaymentByAvailableTimeNo(Integer availableTimeNo);
-
+	
+	// 改預約表格的成立狀態 0 -> 2 (傳入VO)
+	@Modifying
+    @Transactional
+    @Query("update ReservationVO r SET r.rsvStatus = 2 where r.availableTimeNo = :availableTimeVO")
+    Integer updateRsvStatusByAvailableTime(@Param("availableTimeVO") AvailableTimeVO availableTimeVO);
+	
+	// 根據 AvailableTimeVO 刪除對應的 ReservationVO
+    @Modifying
+    @Transactional
+    @Query("delete from ReservationVO r where r.availableTimeNo = :availableTimeNo")
+    void deleteByAvailableTimeVO(@Param("availableTimeNo") AvailableTimeVO availableTimeVO);
 	
 }

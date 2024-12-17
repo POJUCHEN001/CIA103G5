@@ -146,8 +146,8 @@ public class FtAvailableTimeController {
 		Integer ftId = loggedInMember.getFtId();
 		Integer memId = memReservationService.getSingleMemIdByAvailableTimeNo(availableTimeNo);
 		
-		// 更新 availableTime 狀態為 4（時間內未付款）
-				availableTimeService.updateStatusByMem(availableTimeNo, 4);
+		// 更新 availableTime 狀態為 4（時間內未付款，避開排程器檢查）
+		availableTimeService.updateStatusByMem(availableTimeNo, 4);
 				
 		return ResponseEntity.ok(Map.of("status", "success"));
 		
