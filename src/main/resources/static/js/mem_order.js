@@ -318,7 +318,7 @@ $("a.order-finished").on("click",function(){
 										
 																		
 																		
-													        	 		<button class="btn " style="background-color:#ed0540;color:white;">再次購買</button>
+													        	 		<button class="btn " style="background-color:#ed0540;color:white;display:none;">再次購買</button>
 													        	 	</div>		        	 	
 													                
 													        	</div>	          			     		            
@@ -391,7 +391,7 @@ $("a.order-canceled").on("click",function(){
 													        		</div>		        	 	
 													        	 	<div class="cancel-button">
 													        	 		<input type="hidden">
-													        	 		<button class="btn" style="background-color:#ed0540;color:white;">重新購買</button>
+													        	 		<button class="btn" style="background-color:#ed0540;color:white;display:none;">重新購買</button>
 													        	 	</div>		        	 	
 													                
 													        	</div>	          			     		            
@@ -784,10 +784,12 @@ $("div.order-container").on("click", "button.cancel-order", function () {
         })
         .then(data => {
             if (data.success) {
-                $(this).text("重新訂購"); // 修改按鈕文本
-                $(this).css("background-color", "#ed0540"); // 修改按鈕背景色
-				$(this).css("color", "white");
+//                $(this).text("重新訂購"); // 修改按鈕文本
+//                $(this).css("background-color", "#ed0540"); // 修改按鈕背景色
+//				$(this).css("color", "white");
+				$(this).css("display","none");
                 alert("您已成功取消訂單!");
+				$("a.delivery").click();
             } else {
                 alert("取消訂單失敗!");
             }
@@ -827,6 +829,7 @@ $("div.order-container").on("click", "button.submit-finished", function () {
         .then(data => {
             if (data.success) {             
                 alert("訂單完成!");
+				$("a.receiving").click();
 //				$(this).closest("div.order-card").remove();			
 				
             } else {
@@ -840,33 +843,6 @@ $("div.order-container").on("click", "button.submit-finished", function () {
 });
 
 
-	   
-	   
-	   //綁定評價區塊的送出按紐，fetch 更新的API
-//	$("#submitRating").on("click",function(){
-//		//取得評分數、取得評分內容
-//		
-//		fetch(`/order/mem_order/addCommet`, {
-//					     method: 'POST',
-//					     headers: {
-//					         'Content-Type': 'application/json', 
-//					     },
-//						 
-//					 }).then(res => {
-//			             if (!res.ok) {
-//			                 throw new Error(`HTTP error! Status: ${res.status}`);
-//			             }
-//			             return res.json();
-//			         })
-//					 .then(data=>{
-//						
-//							
-//						})
-//						
-//				       })
-//		
-//		
-//	});   
 
 $(document).ready(function () {
     checkAndShowNoOrdersMessage(); // 頁面加載完成後檢查

@@ -11,7 +11,7 @@
 	href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
 
 <!-- Custom styles for this template -->
-<link href="/css/headers.css" rel="stylesheet">
+<link th:href="@{/css/headers.css}" rel="stylesheet">
 
 <!-- Bootstrap core CSS -->
 <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -47,8 +47,8 @@
 <!-- 					<li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li> -->
 <!-- 					<li><a href="#" class="nav-link px-2 link-dark">占卜論壇</a></li> -->
 <!-- 					<li><a href="/forum"   class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li> -->
-<!-- <!-- 					<li><a href="register" class="nav-link px-2 link-dark">會員註冊</a></li> --> -->
-<!-- <!-- 					<li><a href="login" class="nav-link px-2 link-dark">會員登入</a></li> --> -->
+<!-- <!-- 					<li><a href="register" class="nav-link px-2 link-dark">會員註冊</a></li> --> 
+<!-- <!-- 					<li><a href="login" class="nav-link px-2 link-dark">會員登入</a></li> --> 
 <!-- 				</ul> -->
 
 <!-- 				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"> -->
@@ -120,7 +120,7 @@
 <!-- 			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> -->
 <!-- 			            <li><a th:href="@{/order/mem_order}" class="link-dark rounded">訂單查詢</a></li> -->
 <!-- 			            <li><a href="#" class="link-dark rounded">訂單狀態查詢</a></li> -->
-<!-- 			<!--             <li><a href="#" class="link-dark rounded">歷史訂單查詢</a></li> --> -->
+<!-- 			<!--             <li><a href="#" class="link-dark rounded">歷史訂單查詢</a></li> --> 
 <!-- 			          </ul> -->
 <!-- 			        </div> -->
 <!-- 			      </li> -->
@@ -155,6 +155,10 @@
 
 		<main class="main" style="padding:0 100px 0 10px;">
 			<main class="col-md-9 main-content" style="display:block;margin:0 !important;padding:0 !important;">
+				<form method="get" th:action="@{/order/mem_order}">
+					<button class="btn" style="background-color:#1e6bd5;color:white;">返回我的訂單</button>
+				</form>
+				
 				<div class="return-container">
 			        <h2 class="form-title">填寫退貨資訊</h2>
 			
@@ -210,7 +214,7 @@
 								                <input type="number" 
 								                       th:name="'items[' + ${detail.compositekey.productVO.prodNo} + '].quantity'" 
 								                       th:id="'quantity-' + ${detail.compositekey.productVO.prodNo}" 
-								                       class="form-control quantity" min="1">
+								                       class="form-control quantity" min="1" th:attr="max=${detail.quantity}">
 								            </div>
 								            <div class="form-group">
 								                <label th:for="'photo-' + ${detail.compositekey.productVO.prodNo}">上傳證明圖片</label>
@@ -263,6 +267,6 @@
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
  	<script th:src="@{/js/product.js}"></script>
  	<script th:src="@{/js/return_good.js}"></script>
- 	 <script src="/js/header.js"></script>
+ 	 <script th:src="@{/js/header.js}"></script>
 </body>
 </html>

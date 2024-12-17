@@ -186,7 +186,7 @@
 						    	    	
 						        <tr>
 						             <td style="width:140px;">
-						                <img th:src="@{/product/showPic} + '?prodno=' + ${orderDeatilVO.compositekey.productVO.prodNo}" style="width:80px;height:80px" class="photo" name="photo" >
+						               <a th:href="@{/store/productdetail/{id}(id=${orderDeatilVO.compositekey.productVO.prodNo})}"> <img th:src="@{/product/showPic} + '?prodno=' + ${orderDeatilVO.compositekey.productVO.prodNo}" style="width:80px;height:80px" class="photo" name="photo" ></a>
 						            </td>
 						            <td class="prodname" th:text="${orderDeatilVO.compositekey.productVO.prodName}">塔羅牌教學書</td>			            
 						            <td class="amount" style="width:90px;" th:text="'X '+${orderDeatilVO.quantity}">X 1</td>
