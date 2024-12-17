@@ -1,6 +1,7 @@
 /**
  * 
  */
+
 document.addEventListener('DOMContentLoaded', function () {
 	
 	// 取得HTML上的元素
