@@ -230,29 +230,43 @@ public class ReservationServiceSpring {
 		MemberVO member = getMemberVO(memberId);
 		financialData.put("bankAccount", member.getBankAccount());
 
+		// Filter paid reservations
+		List<ReservationVO> paidReservations = reservations.stream().filter(r -> r.getPayment() == 1)
+				.collect(Collectors.toList());
+
+		
+		
 		// Calculate monthly spending
-		LocalDateTime now = LocalDateTime.now();
-		int monthlySpending = reservations.stream().filter(
-				r -> r.getPaymentTime().getMonth() == now.getMonth() && r.getPaymentTime().getYear() == now.getYear())
-				.mapToInt(ReservationVO::getPrice).sum();
-		financialData.put("monthlySpending", monthlySpending);
+        LocalDateTime now = LocalDateTime.now();
+        int monthlySpending = paidReservations.stream()
+                .filter(r -> r.getPaymentTime().getMonth() == now.getMonth() && r.getPaymentTime().getYear() == now.getYear())
+                .mapToInt(ReservationVO::getPrice)
+                .sum();
+        financialData.put("monthlySpending", monthlySpending);
 
-		// Calculate yearly spending
-		int yearlySpending = reservations.stream().filter(r -> r.getPaymentTime().getYear() == now.getYear())
-				.mapToInt(ReservationVO::getPrice).sum();
-		financialData.put("yearlySpending", yearlySpending);
+        // Calculate yearly spending
+        int yearlySpending = paidReservations.stream()
+                .filter(r -> r.getPaymentTime().getYear() == now.getYear())
+                .mapToInt(ReservationVO::getPrice)
+                .sum();
+        financialData.put("yearlySpending", yearlySpending);
+		
 
-		// Get transaction details
-		List<Map<String, Object>> transactions = reservations.stream().map(r -> {
-			Map<String, Object> transaction = new HashMap<>();
-			transaction.put("date", r.getPaymentTime());
-			transaction.put("amount", r.getPrice());
-			transaction.put("fortuneTeller", r.getFtId().getNickname());
-			return transaction;
-		}).collect(Collectors.toList());
-		financialData.put("transactions", transactions);
+        
+     // Get transaction details (only for paid reservations)
+        List<Map<String, Object>> transactions = paidReservations.stream().map(r -> {
+            Map<String, Object> transaction = new HashMap<>();
+            transaction.put("date", r.getPaymentTime());
+            transaction.put("amount", r.getPrice());
+            transaction.put("fortuneTeller", r.getFtId().getNickname());
+            return transaction;
+        }).collect(Collectors.toList());
+        financialData.put("transactions", transactions);
 
-		return financialData;
+        return financialData;
+        
+        
+
 	}
 
 	public Map<String, Object> getFtFinancialData(Integer ftId) {
@@ -264,9 +278,13 @@ public class ReservationServiceSpring {
 				.orElseThrow(() -> new RuntimeException("Fortune Teller not found"));
 		financialData.put("bankAccount", fortuneTeller.getBankAccount());
 
+		// Filter paid reservations
+		List<ReservationVO> paidReservations = reservations.stream().filter(r -> r.getPayment() == 1)
+				.collect(Collectors.toList());
+
 		// Calculate monthly earnings with 5% platform fee
 		LocalDateTime now = LocalDateTime.now();
-		double monthlyEarnings = reservations.stream()
+		double monthlyEarnings = paidReservations.stream()
 				.filter(r -> r.getPaymentTime().getMonth() == now.getMonth()
 						&& r.getPaymentTime().getYear() == now.getYear())
 				.mapToDouble(r -> r.getPrice() * 0.95) // Apply 5% platform fee
@@ -274,7 +292,7 @@ public class ReservationServiceSpring {
 		financialData.put("monthlyEarnings", monthlyEarnings);
 
 		// Calculate yearly earnings with 5% platform fee
-		double yearlyEarnings = reservations.stream().filter(r -> r.getPaymentTime().getYear() == now.getYear())
+		double yearlyEarnings = paidReservations.stream().filter(r -> r.getPaymentTime().getYear() == now.getYear())
 				.mapToDouble(r -> r.getPrice() * 0.95) // Apply 5% platform fee
 				.sum();
 		financialData.put("yearlyEarnings", yearlyEarnings);
@@ -297,8 +315,8 @@ public class ReservationServiceSpring {
 		financialData.put("monthLabels", monthLabels);
 		financialData.put("monthlyEarningsData", monthlyEarningsData);
 
-		// Get transaction details
-		List<Map<String, Object>> transactions = reservations.stream().map(r -> {
+		// Get transaction details (only for paid reservations)
+		List<Map<String, Object>> transactions = paidReservations.stream().map(r -> {
 			Map<String, Object> transaction = new HashMap<>();
 			transaction.put("date", r.getPaymentTime());
 			transaction.put("type", "收入");
@@ -339,26 +357,23 @@ public class ReservationServiceSpring {
 
 	@Transactional
 	public void submitFeedback(Integer rsvNo, Integer ftId, String feedback, String note) {
-	    ReservationVO reservation = reservationRepository.findById(rsvNo)
-	        .orElseThrow(() -> new RuntimeException("找不到預約"));
-	    
-	    // Verify that this fortune teller is associated with this reservation
-	    if (!reservation.getFtId().getFtId().equals(ftId)) {
-	        throw new RuntimeException("您無權為此預約提供回饋");
-	    }
-	    
-	    // Verify reservation status and payment
-	    if (reservation.getRsvStatus() != 1 || reservation.getPayment() != 1) {
-	        throw new RuntimeException("無法為未付款或未完成的預約提供回饋");
-	    }
-	    
-	    reservation.setFtFeedback(feedback);
-	    reservation.setNote(note);
-	    reservationRepository.save(reservation);
+		ReservationVO reservation = reservationRepository.findById(rsvNo)
+				.orElseThrow(() -> new RuntimeException("找不到預約"));
+
+		// Verify that this fortune teller is associated with this reservation
+		if (!reservation.getFtId().getFtId().equals(ftId)) {
+			throw new RuntimeException("您無權為此預約提供回饋");
+		}
+
+		// Verify reservation status and payment
+		if (reservation.getRsvStatus() != 1 || reservation.getPayment() != 1) {
+			throw new RuntimeException("無法為未付款或未完成的預約提供回饋");
+		}
+
+		reservation.setFtFeedback(feedback);
+		reservation.setNote(note);
+		reservationRepository.save(reservation);
 	}
-
-
-
 
 	public Map<String, Object> getReservationStatistics() {
 		List<ReservationVO> reservations = reservationRepository.findAll();
