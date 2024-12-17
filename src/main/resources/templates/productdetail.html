@@ -112,6 +112,13 @@
             background-color: #e020b0;
             color: #fff;
         }
+        
+        .product-stock {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #28a745; 
+}
+        
         @media (max-width: 768px) {
             .product-grid {
                 grid-template-columns: repeat(2, 1fr); /* 平板顯示 2 欄 */
@@ -187,6 +194,11 @@
                     </div>
                     <h3 class="product-price" th:text="'$' + ${product.price}">商品價格</h3>
                     
+                    <!-- 新增顯示庫存量 -->
+					<p class="product-stock" style="color: #28a745; font-size: 18px;">
+  					  剩餘庫存：<span th:text="${product.availableQuantity}">0</span> 件
+					</p>
+                    
                     <!-- 購買數量控制 -->
                     <div class="quantity-control">
                         <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
@@ -250,11 +262,29 @@
         }
 
         // 加入購物車功能
-        function addToCart() {
-            const quantity = parseInt(document.getElementById('quantity').value);
-            alert('已將 ' + quantity + ' 件商品加入購物車');
-            // 調用後端的 API 來處理加入購物車的邏輯
+function addToCart() {
+    const quantity = parseInt(document.getElementById('quantity').value);
+    const productId = window.location.pathname.split('/').pop(); // 獲取商品ID
+    const userId = 123; // 假設從 session 或其他方式獲取用戶ID
+
+    // 使用 AJAX 發送資料到後端
+    $.ajax({
+        url: `/cart/${userId}`,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            prodNo: productId,
+            quantity: quantity
+        }),
+        success: function(response) {
+            alert('成功加入購物車！');
+        },
+        error: function(error) {
+            alert('加入購物車失敗：' + error.responseText);
         }
+    });
+}
+
 
         // 直接購買功能
         function buyNow() {
