@@ -23,11 +23,13 @@
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" />
+<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css" /> -->
 <link rel="stylesheet" th:href="@{/css/style.css}">
 <link rel="stylesheet" th:href="@{/css/statisticTable.css}">
 
 <style>
+
+
 </style>
 </head>
 <body>
@@ -149,8 +151,8 @@
 <!-- 		</div> -->
 
 		<main class="main">
-				
-					<table class="table table-hover " id="myTable">
+					<h4>商品統計</h4>
+					<table class="table table-hover " id="myTable" style="margin-bottom:45px !important;width:90%;">
 					    <thead class="thead">
 					        <tr class="table-light">
 					            <th>商品編號</th>
@@ -177,6 +179,12 @@
 					    </tbody>
 					</table>
 				
+				
+<!--     			<div id="chartContainer" style="height: 300px; width: 90%;margin-bottom:100px;"></div> -->
+					<div style="width:90%;height:60%;margin-bottom:100px;">
+					  <canvas id="myChart" style="width:60% !important;height:80%;"></canvas>
+					</div>
+					
 			
 		</main>
 	</div>
@@ -187,41 +195,91 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
       
   <!-- DataTables CSS & JS -->
- <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<!--  <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script> -->
  <script th:src="@{/js/product.js}"></script>
-   <script src="/js/header.js"></script>
- 
+ <script src="/js/header.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <!-- DataTables 設定 -->
     <script>
-    $(document).ready(function () {
-        $('#myTable').DataTable({
-            lengthMenu: [5, 10, 20],
-            searching: true,
-            paging: true,
-            ordering: true,
-            language: {
-                processing: "處理中...",
-                loadingRecords: "載入中...",
-                lengthMenu: "顯示 _MENU_ 筆結果",
-                zeroRecords: "沒有符合的結果",
-                info: "顯示第 _START_ 至 _END_ 筆結果，共 <font color='red'>_TOTAL_</font> 筆",
-                infoEmpty: "顯示第 0 至 0 筆結果，共 0 筆",
-                infoFiltered: "(從 _MAX_ 筆結果中過濾)",
-                search: "搜尋:",
-                paginate: {
-                    first: "第一頁",
-                    previous: "上一頁",
-                    next: "下一頁",
-                    last: "最後一頁",
-                },
-                aria: {
-                    sortAscending: ": 升冪排列",
-                    sortDescending: ": 降冪排列",
-                },
-            },
-        });
+//     $(document).ready(function () {
+//         // 初始化 DataTable
+//         $('#myTable').DataTable({
+//             lengthMenu: [5, 10, 20],
+//             searching: true,
+//             paging: true,
+//             ordering: true,
+//             language: {
+//                 lengthMenu: "顯示 _MENU_ 筆結果",
+//                 zeroRecords: "沒有符合的結果",
+//                 info: "顯示第 _START_ 至 _END_ 筆結果，共 _TOTAL_ 筆",
+//                 search: "搜尋:",
+//                 paginate: {
+//                     previous: "上一頁",
+//                     next: "下一頁"
+//                 }
+//             },
+//         });
+
+       
+//     });
+
+
+	document.addEventListener("DOMContentLoaded", function () {
+    // 初始化一個空的 dataPoints 陣列
+    const labels = [];
+    const soldQuantities = [];
+
+    // 遍歷表格中的每一行，提取商品名稱和銷售數量
+    document.querySelectorAll("#myTable tbody tr").forEach(row => {
+        const prodName = row.querySelector(".prodname").textContent.trim();
+        const soldQuantity = parseInt(row.querySelector(".soldquantity").textContent.trim(), 10);
+
+        // 添加到陣列中
+        if (prodName && !isNaN(soldQuantity)) {
+            labels.push(prodName);
+            soldQuantities.push(soldQuantity);
+        }
     });
 
+    // 設定 Chart.js 資料
+    const ctx = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels, // 商品名稱
+            datasets: [{
+                label: '商品銷售數量',
+                data: soldQuantities, // 銷售數量
+                backgroundColor: 'rgba(54, 162, 235, 0.6)', // 條形圖顏色
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: '銷售數量'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: '商品名稱'
+                    }
+                }
+            }
+        }
+    });
+});
+
+    
     </script>
+
+
 </body>
 </html>

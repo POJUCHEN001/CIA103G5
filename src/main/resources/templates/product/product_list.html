@@ -174,7 +174,9 @@
 			
 			 <!-- 主要內容區 -->
 			<main class="col-md-9 main-content" style="display:flex;padding:0!important;flex-direction:column;">
-				
+				<div style="margin-bottom:15px;">
+					<h4>商品管理</h4>
+				</div>
 				<div style="display:inline-block;">
 							<button class="btn" type="button" style="background-color:#1e6bd5;color:white;margin-right:15px;"><a th:href="@{/product/queryAllProduct}" style="text-decoration:none;color:white;">查看所有商品</a></button>				
 							<button class="btn" type="button" style="background-color:#1e6bd5;color:white;"><a th:href="@{/product/add_product}" style="text-decoration:none;color:white;">新增商品 +</a></button>
@@ -182,9 +184,7 @@
 					</div>
 					
 					<div class="top-container" style="flex:1;margin-top:25px !important;">				
-										
-						<p id="result"></p>
-						
+																
 						<form class="query-part" method="post" action="#" style="margin-left:0 !important;">														
 							<div class="query-prodstatus">
 								<label>商品狀態:</label>
