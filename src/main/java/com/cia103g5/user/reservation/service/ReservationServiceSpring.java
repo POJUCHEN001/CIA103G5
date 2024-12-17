@@ -234,38 +234,29 @@ public class ReservationServiceSpring {
 		List<ReservationVO> paidReservations = reservations.stream().filter(r -> r.getPayment() == 1)
 				.collect(Collectors.toList());
 
-		
-		
 		// Calculate monthly spending
-        LocalDateTime now = LocalDateTime.now();
-        int monthlySpending = paidReservations.stream()
-                .filter(r -> r.getPaymentTime().getMonth() == now.getMonth() && r.getPaymentTime().getYear() == now.getYear())
-                .mapToInt(ReservationVO::getPrice)
-                .sum();
-        financialData.put("monthlySpending", monthlySpending);
+		LocalDateTime now = LocalDateTime.now();
+		int monthlySpending = paidReservations.stream().filter(
+				r -> r.getPaymentTime().getMonth() == now.getMonth() && r.getPaymentTime().getYear() == now.getYear())
+				.mapToInt(ReservationVO::getPrice).sum();
+		financialData.put("monthlySpending", monthlySpending);
 
-        // Calculate yearly spending
-        int yearlySpending = paidReservations.stream()
-                .filter(r -> r.getPaymentTime().getYear() == now.getYear())
-                .mapToInt(ReservationVO::getPrice)
-                .sum();
-        financialData.put("yearlySpending", yearlySpending);
-		
+		// Calculate yearly spending
+		int yearlySpending = paidReservations.stream().filter(r -> r.getPaymentTime().getYear() == now.getYear())
+				.mapToInt(ReservationVO::getPrice).sum();
+		financialData.put("yearlySpending", yearlySpending);
 
-        
-     // Get transaction details (only for paid reservations)
-        List<Map<String, Object>> transactions = paidReservations.stream().map(r -> {
-            Map<String, Object> transaction = new HashMap<>();
-            transaction.put("date", r.getPaymentTime());
-            transaction.put("amount", r.getPrice());
-            transaction.put("fortuneTeller", r.getFtId().getNickname());
-            return transaction;
-        }).collect(Collectors.toList());
-        financialData.put("transactions", transactions);
+		// Get transaction details (only for paid reservations)
+		List<Map<String, Object>> transactions = paidReservations.stream().map(r -> {
+			Map<String, Object> transaction = new HashMap<>();
+			transaction.put("date", r.getPaymentTime());
+			transaction.put("amount", r.getPrice());
+			transaction.put("fortuneTeller", r.getFtId().getNickname());
+			return transaction;
+		}).collect(Collectors.toList());
+		financialData.put("transactions", transactions);
 
-        return financialData;
-        
-        
+		return financialData;
 
 	}
 
@@ -305,7 +296,7 @@ public class ReservationServiceSpring {
 			LocalDateTime month = now.minusMonths(i);
 			monthLabels.add(month.format(DateTimeFormatter.ofPattern("yyyy-MM")));
 
-			double monthEarnings = reservations.stream()
+			double monthEarnings = paidReservations.stream()
 					.filter(r -> r.getPaymentTime().getMonth() == month.getMonth()
 							&& r.getPaymentTime().getYear() == month.getYear())
 					.mapToDouble(r -> r.getPrice() * 0.95).sum();
@@ -314,6 +305,24 @@ public class ReservationServiceSpring {
 
 		financialData.put("monthLabels", monthLabels);
 		financialData.put("monthlyEarningsData", monthlyEarningsData);
+
+		// Get monthly labels and data for chart (last 6 months)
+//		List<String> monthLabels = new ArrayList<>();
+//		List<Double> monthlyEarningsData = new ArrayList<>();
+//
+//		for (int i = 5; i >= 0; i--) {
+//			LocalDateTime month = now.minusMonths(i);
+//			monthLabels.add(month.format(DateTimeFormatter.ofPattern("yyyy-MM")));
+//
+//			double monthEarnings = reservations.stream()
+//					.filter(r -> r.getPaymentTime().getMonth() == month.getMonth()
+//							&& r.getPaymentTime().getYear() == month.getYear())
+//					.mapToDouble(r -> r.getPrice() * 0.95).sum();
+//			monthlyEarningsData.add(monthEarnings);
+//		}
+//
+//		financialData.put("monthLabels", monthLabels);
+//		financialData.put("monthlyEarningsData", monthlyEarningsData);
 
 		// Get transaction details (only for paid reservations)
 		List<Map<String, Object>> transactions = paidReservations.stream().map(r -> {
