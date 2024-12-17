@@ -196,6 +196,7 @@ public class ReservationViewController {
 			model.addAttribute("completedReservations", statistics.get("completedReservations"));
 			model.addAttribute("cancelledReservations", statistics.get("cancelledReservations"));
 			model.addAttribute("pendingReservations", statistics.get("pendingReservations"));
+			model.addAttribute("pendingComReservations", statistics.get("pendingComReservations"));
 			model.addAttribute("totalSpent", statistics.get("totalSpent"));
 			model.addAttribute("skillLabels", statistics.get("skillLabels"));
 			model.addAttribute("skillCounts", statistics.get("skillCounts"));
@@ -226,6 +227,8 @@ public class ReservationViewController {
 				model.addAttribute("completedReservations", statistics.get("completedReservations"));
 				model.addAttribute("cancelledReservations", statistics.get("cancelledReservations"));
 				model.addAttribute("pendingReservations", statistics.get("pendingReservations"));
+				model.addAttribute("pendingComReservations", statistics.get("pendingComReservations"));
+
 				model.addAttribute("totalEarnings", statistics.get("totalEarnings"));
 				model.addAttribute("skillLabels", statistics.get("skillLabels"));
 				model.addAttribute("skillCounts", statistics.get("skillCounts"));
