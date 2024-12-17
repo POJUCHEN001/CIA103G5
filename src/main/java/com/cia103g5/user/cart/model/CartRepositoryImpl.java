@@ -22,32 +22,32 @@ public class CartRepositoryImpl implements CartRepository{
     }
 
     @Override
-    public void saveCartItem(Integer userId, CartVO cartItem) {
-        String redisKey = "cart:" + userId;
+    public void saveCartItem(Integer memberId, CartVO cartItem) {
+        String redisKey = "cart:" + memberId;
         hashOperations.put(redisKey, String.valueOf(cartItem.getProdNo()), cartItem);
     }
 
     @Override
-    public List<CartVO> findCartByUserId(Integer userId) {
-        String redisKey = "cart:" + userId;
+    public List<CartVO> findCartBymemberId(Integer memberId) {
+        String redisKey = "cart:" + memberId;
         return new ArrayList<>(hashOperations.values(redisKey));
     }
 
     @Override
-    public CartVO findCartItem(Integer userId, Integer prodNo) {
-        String redisKey = "cart:" + userId;
+    public CartVO findCartItem(Integer memberId, Integer prodNo) {
+        String redisKey = "cart:" + memberId;
         return hashOperations.get(redisKey, String.valueOf(prodNo));
     }
 
     @Override
-    public void deleteCartItem(Integer userId, Integer prodNo) {
-        String redisKey = "cart:" + userId;
+    public void deleteCartItem(Integer memberId, Integer prodNo) {
+        String redisKey = "cart:" + memberId;
         hashOperations.delete(redisKey, String.valueOf(prodNo));
     }
 
     @Override
-    public void clearCart(Integer userId) {
-        String redisKey = "cart:" + userId;
+    public void clearCart(Integer memberId) {
+        String redisKey = "cart:" + memberId;
         redisTemplate.delete(redisKey);
     }
     

@@ -4,13 +4,13 @@ import java.util.List;
 
 public interface CartRepository {
 	
-    void saveCartItem(Integer userId, CartVO cartItem);
+    void saveCartItem(Integer memberId, CartVO cartItem);
     
-    List<CartVO> findCartByUserId(Integer userId);
+    List<CartVO> findCartBymemberId(Integer memberId);
     
-    CartVO findCartItem(Integer userId, Integer prodNo);
+    CartVO findCartItem(Integer memberId, Integer prodNo);
     
-    void deleteCartItem(Integer userId, Integer prodNo);
+    void deleteCartItem(Integer memberId, Integer prodNo);
     
-    void clearCart(Integer userId);
+    void clearCart(Integer memberId);
 }

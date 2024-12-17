@@ -4,21 +4,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.cia103g5.user.cart.model.CartServiceImpl;
 import com.cia103g5.user.cart.model.CartVO;
-import com.cia103g5.user.member.model.MemberService;
-import com.cia103g5.user.member.model.MemberVO;
+import com.cia103g5.user.product.model.ProductService;
+import com.cia103g5.user.product.model.ProductVO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -27,63 +24,58 @@ import jakarta.servlet.http.HttpSession;
 public class CartController {
 
     private final CartServiceImpl cartService;
-    
+    private final ProductService productService;
+
     @Autowired
-    private MemberService memberService;
-    
-    @Autowired
-    public CartController(CartServiceImpl cartService) {
+    public CartController(CartServiceImpl cartService, ProductService productService) {
         this.cartService = cartService;
+        this.productService = productService;
     }
 
-    // 顯示購物車內容，並根據 ftId 分組
-    @GetMapping("/{userId}")
-    public String getCartItems(@PathVariable Integer userId, Model model, HttpSession session) {
-        session.setAttribute("redirectUrl", "/cart/" + userId);
-
-        
-        // 使用分組方法將商品按 ftId 分組
-        Map<Integer, List<CartVO>> cartItemsByFtId = cartService.getCartItemsGroupedByFtId(userId);
-
+    // 顯示購物車內容
+    @GetMapping("/{memberId}")
+    public String getCartItems(@PathVariable Integer memberId, Model model) {
+        Map<Integer, List<CartVO>> cartItemsByFtId = cartService.getCartItemsGroupedByFtId(memberId);
         model.addAttribute("cartItemsByFtId", cartItemsByFtId);
-        model.addAttribute("userId", userId);
-        return "cart"; 
+        model.addAttribute("memberId", memberId);
+        return "cart";
     }
 
-    @PostMapping("/{userId}")
-    public String addOrUpdateCartItem(@PathVariable Integer userId, @ModelAttribute CartVO cartItem, Model model, HttpSession session) {
-        try {
-            session.setAttribute("redirectUrl", "/cart/" + userId);
-            cartService.addOrUpdateCartItem(userId, cartItem);
-            return "redirect:/cart/" + userId;
-        } catch (Exception e) {
-            model.addAttribute("error", "無法添加或更新購物車項目：" + e.getMessage());
-            return "error";
+    // 加入購物車
+    @PostMapping("/add/{memberId}/{prodNo}")
+    public String addToCart(@PathVariable Integer memberId, @PathVariable Integer prodNo,
+                            @RequestParam("quantity") Integer quantity, Model model) {
+        ProductVO product = productService.getOneProduct(prodNo);
+
+        if (product != null) {
+            CartVO cartItem = new CartVO();
+            cartItem.setProdNo(product.getProdNo());
+            cartItem.setProdName(product.getProdName());
+            cartItem.setQuantity(quantity);
+            cartItem.setPrice(product.getPrice());
+
+            cartService.addOrUpdateCartItem(memberId, cartItem);
         }
+        return "redirect:/store/products";
     }
 
-    @PostMapping("/remove/{userId}/{prodNo}")
-    public String removeCartItem(@PathVariable Integer userId, @PathVariable Integer prodNo, Model model, HttpSession session) {
-        try {
-            session.setAttribute("redirectUrl", "/cart/" + userId);
-            cartService.removeCartItem(userId, prodNo);
-            return "redirect:/cart/" + userId;
-        } catch (Exception e) {
-            model.addAttribute("error", "無法移除購物車項目：" + e.getMessage());
-            return "error";
-        }
-    }
+    // 直接購買，將商品數據傳遞到結帳頁面
+    @PostMapping("/buynow/{memberId}/{prodNo}")
+    public String buyNow(@PathVariable Integer memberId, @PathVariable Integer prodNo,
+                         @RequestParam("quantity") Integer quantity, Model model, HttpSession session) {
+        ProductVO product = productService.getOneProduct(prodNo);
 
-    @PostMapping("/clear/{userId}")
-    public String clearCart(@PathVariable Integer userId, Model model, HttpSession session) {
-        try {
-            session.setAttribute("redirectUrl", "/cart/" + userId);
-            cartService.clearCart(userId);
-            return "redirect:/cart/" + userId;
-        } catch (Exception e) {
-            model.addAttribute("error", "無法清空購物車：" + e.getMessage());
-            return "error";
+        if (product != null) {
+            CartVO cartItem = new CartVO();
+            cartItem.setProdNo(product.getProdNo());
+            cartItem.setProdName(product.getProdName());
+            cartItem.setQuantity(quantity);
+            cartItem.setPrice(product.getPrice());
+
+            session.setAttribute("buyNowItem", cartItem);
+            model.addAttribute("buyNowItem", cartItem);
+            model.addAttribute("memberId", memberId);
         }
+        return "redirect:/checkout/{memberId}";
     }
-    
 }

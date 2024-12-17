@@ -7,18 +7,17 @@ public class CartVO implements Serializable {
     private Integer prodNo; // 商品 ID
     private String prodName; // 商品名稱
     private Integer quantity; // 購買數量
-    private Double price; // 商品價格
+    private Integer price; // 商品價格
     private Integer ftId;
-    private byte[] primaryImage; // 主圖片
+   
 
     public CartVO() {}
 
-    public CartVO(Integer prodNo, String prodName, Integer quantity, Double price,Integer ftId, byte[] primaryImage) {
+    public CartVO(Integer prodNo, String prodName, Integer quantity, Integer price,Integer ftId) {
         this.prodNo = prodNo;
         this.prodName = prodName;
         this.quantity = quantity;
         this.price = price;
-        this.primaryImage = primaryImage;
         this.ftId = ftId;
     }
 
@@ -47,21 +46,14 @@ public class CartVO implements Serializable {
         this.quantity = quantity;
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public byte[] getPrimaryImage() {
-        return primaryImage;
-    }
-
-    public void setPrimaryImage(byte[] primaryImage) {
-        this.primaryImage = primaryImage;
-    }
     public Integer getFtId() {
         return ftId;
     }

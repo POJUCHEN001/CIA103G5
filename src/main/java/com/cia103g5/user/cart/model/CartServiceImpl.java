@@ -11,21 +11,32 @@ import org.springframework.stereotype.Service;
 @Service
 public class CartServiceImpl implements CartService {
 
-	 private final CartRepository cartRepository;
+	 private final CartRepositoryImpl cartRepository;
 
 	    @Autowired
-	    public CartServiceImpl(CartRepository cartRepository) {
+	    public CartServiceImpl(CartRepositoryImpl cartRepository) {
 	        this.cartRepository = cartRepository;
 	    }
 
 	    @Override
-	    public void addOrUpdateCartItem(Integer userId, CartVO cartItem) {
-	        cartRepository.saveCartItem(userId, cartItem);
+	    public void addOrUpdateCartItem(Integer memberId, CartVO cartItem) {
+	    	 // 查詢購物車內是否已存在該商品
+	        CartVO existingItem = cartRepository.findCartItem(memberId, cartItem.getProdNo());
+
+	        if (existingItem != null) {
+	            // 如果有，更新數量並保存
+	            Integer updatedQuantity = existingItem.getQuantity() + cartItem.getQuantity();
+	            existingItem.setQuantity(updatedQuantity);
+	            cartRepository.saveCartItem(memberId, existingItem);
+	        } else {
+	            // 如果不存在，直接保存新商品
+	            cartRepository.saveCartItem(memberId, cartItem);
+	        }
 	    }
 
 	    @Override
-	    public Map<Integer, List<CartVO>> getCartItemsGroupedByFtId(Integer userId) {
-	        List<CartVO> cartItems = cartRepository.findCartByUserId(userId);
+	    public Map<Integer, List<CartVO>> getCartItemsGroupedByFtId(Integer memberId) {
+	        List<CartVO> cartItems = cartRepository.findCartBymemberId(memberId);
 	        if (cartItems == null || cartItems.isEmpty()) {
 	            return new HashMap<>(); // 返回一個空的 Map
 	        }
@@ -36,14 +47,14 @@ public class CartServiceImpl implements CartService {
 	    
 	    
 	    @Override
-	    public void removeCartItem(Integer userId, Integer prodNo) {
-	        cartRepository.deleteCartItem(userId, prodNo);
+	    public void removeCartItem(Integer memberId, Integer prodNo) {
+	        cartRepository.deleteCartItem(memberId, prodNo);
 	    }
 	    
 
 	    @Override
-	    public double calculateTotalAmount(Integer userId) {
-	        List<CartVO> cartItems = cartRepository.findCartByUserId(userId);
+	    public double calculateTotalAmount(Integer memberId) {
+	        List<CartVO> cartItems = cartRepository.findCartBymemberId(memberId);
 
 	  
 	        return cartItems.stream()
@@ -54,8 +65,8 @@ public class CartServiceImpl implements CartService {
 	    
 	        
 	    @Override
-	    public void clearCart(Integer userId) {
-	        cartRepository.clearCart(userId);
+	    public void clearCart(Integer memberId) {
+	        cartRepository.clearCart(memberId);
 	    }
 	
 	    
