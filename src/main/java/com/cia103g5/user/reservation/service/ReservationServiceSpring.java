@@ -288,11 +288,11 @@ public class ReservationServiceSpring {
 				.sum();
 		financialData.put("yearlyEarnings", yearlyEarnings);
 
-		// Get monthly labels and data for chart (last 6 months)
+		// Get monthly labels and data for chart (last 12 months)
 		List<String> monthLabels = new ArrayList<>();
 		List<Double> monthlyEarningsData = new ArrayList<>();
 
-		for (int i = 5; i >= 0; i--) {
+		for (int i = 11; i >= 0; i--) {
 			LocalDateTime month = now.minusMonths(i);
 			monthLabels.add(month.format(DateTimeFormatter.ofPattern("yyyy-MM")));
 
