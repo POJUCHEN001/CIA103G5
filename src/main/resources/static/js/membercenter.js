@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 發送重新寄送驗證碼的請求
 	const email = document.getElementById("email").value;
-  	console.log(email);
+	console.log(email);
 	  async function resendVerificationCode(email) {
 		try {
 		  const response = await fetch(`/membersAPI/resend-verification-code?email=${encodeURIComponent(email)}`, {
@@ -60,16 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		  alert("無法重新寄送驗證碼，請稍後再試！");
 		}
 	  }
-	  
-	// 驗證驗證碼
-	const verifyCode = document.getElementById("verificationCode").value;
-		async function sendVerifyCode(verifyCode){
-			try{
-				const reponse = await fetch(`/membersAPI/validate-verification-code`, {
-					method: "POST",
-				});
-			}catch(error){}
-		}
 
   // 初始化頁面
   fetchMemberInfo();
@@ -300,6 +290,52 @@ editForm.addEventListener('submit', async (e) => {
 		// alert("修改失敗，請稍後再試！");
 	}
 });
+
+// 驗證驗證碼
+document.getElementById("verifyCodeBtn").addEventListener("click", async function () {
+            const verifyCode = document.getElementById("verificationCode").value; // 取得輸入的驗證碼
+            const email = document.getElementById("email").value; // 假設這是當前的使用者 email，你可從前一頁傳入
+
+            // API 的後端路徑
+            const API_VALIDATE_URL = `/user/validate-verification-code`;
+
+            if (!verificationCode) {
+                alert("請輸入驗證碼");
+                return;
+            }
+
+            try {
+                console.log("發送的 Email:", email);
+                console.log("發送的 驗證碼:", verificationCode);
+
+                // 發送 AJAX 請求到後端
+                const response = await fetch(API_VALIDATE_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: `email=${encodeURIComponent(email)}&code=${encodeURIComponent(verificationCode)}`,
+                });
+
+                // 處理回應
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message); // 驗證成功，顯示訊息
+                    // 可選：跳轉登入頁面
+//                    window.location.href = "/login";
+                } else {
+                    alert("驗證失敗：" + (result.message || "驗證碼錯誤"));
+                }
+            } catch (error) {
+                console.error("發生錯誤:", error);
+                alert("系統錯誤，請稍後再試！");
+            }
+        });
+
+
+
+
 
 // 登出功能
 document.querySelectorAll('.logout-link').forEach(logoutLink => {

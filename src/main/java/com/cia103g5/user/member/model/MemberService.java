@@ -88,8 +88,9 @@ public class MemberService {
 	public boolean validateVerificationCode(String email, String code) {
 		validateNotEmpty(email, "Email");
 		validateNotEmpty(code, "Code");
-
+		
 		String storedCode = verificationCodeService.getVerificationCodeFromRedis(email);
+//		System.out.println("傳到service 的code: " + storedCode);
 		return storedCode != null && storedCode.equals(code);
 	}
 	
@@ -98,6 +99,7 @@ public class MemberService {
 		MemberVO member = repository.findByEmail(email)
 				.orElseThrow(() -> new RuntimeException("Email不存在: " + email + "is not found!"));
 		member.setEmailState(1); // 設置為已驗證
+		System.out.println("有進來這裡!");
         repository.save(member);
 	}
 
