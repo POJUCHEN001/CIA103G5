@@ -175,10 +175,19 @@ public class ReservationServiceSpring {
 		List<ReservationVO> reservations = getReservationsForMember(memberId);
 		Map<String, Object> statistics = new HashMap<>();
 
+		LocalDateTime now = LocalDateTime.now();
+
 		statistics.put("totalReservations", reservations.size());
-		statistics.put("completedReservations", reservations.stream().filter(r -> r.getRsvStatus() == 1).count());
+//		statistics.put("completedReservations", reservations.stream().filter(r -> r.getRsvStatus() == 1).count());
+		statistics.put("completedReservations", reservations.stream()
+				.filter(r -> r.getRsvStatus() == 1 && r.getAvailableTimeNo().getEndTime().isBefore(now)).count());
 		statistics.put("cancelledReservations", reservations.stream().filter(r -> r.getRsvStatus() == 2).count());
 		statistics.put("pendingReservations", reservations.stream().filter(r -> r.getRsvStatus() == 0).count());
+
+		statistics.put("pendingComReservations", reservations.stream().filter(
+				r -> r.getRsvStatus() == 1 && r.getPayment() == 1 && r.getAvailableTimeNo().getEndTime().isAfter(now))
+				.count());
+
 		statistics.put("totalSpent", reservations.stream().mapToInt(ReservationVO::getPrice).sum());
 
 		Map<String, Long> reservationsPerSkill = reservations.stream()
@@ -198,10 +207,22 @@ public class ReservationServiceSpring {
 		List<ReservationVO> reservations = getReservationsForFortuneTeller(ftId);
 		Map<String, Object> statistics = new HashMap<>();
 
+		LocalDateTime now = LocalDateTime.now();
+
 		statistics.put("totalReservations", reservations.size());
-		statistics.put("completedReservations", reservations.stream().filter(r -> r.getRsvStatus() == 1).count());
+//		statistics.put("completedReservations", reservations.stream().filter(r -> r.getRsvStatus() == 1).count());
+
+		statistics.put("completedReservations", reservations.stream()
+				.filter(r -> r.getRsvStatus() == 1 && r.getAvailableTimeNo().getEndTime().isBefore(now)).count());
+
 		statistics.put("cancelledReservations", reservations.stream().filter(r -> r.getRsvStatus() == 2).count());
 		statistics.put("pendingReservations", reservations.stream().filter(r -> r.getRsvStatus() == 0).count());
+
+		
+		statistics.put("pendingComReservations", reservations.stream().filter(
+				r -> r.getRsvStatus() == 1 && r.getPayment() == 1 && r.getAvailableTimeNo().getEndTime().isAfter(now))
+				.count());
+		
 		double totalEarnings = reservations.stream().filter(r -> r.getRsvStatus() == 1)
 				.mapToDouble(r -> r.getPrice() - (r.getPrice() * 0.05)).sum();
 		statistics.put("totalEarnings", totalEarnings);
@@ -305,7 +326,6 @@ public class ReservationServiceSpring {
 
 		financialData.put("monthLabels", monthLabels);
 		financialData.put("monthlyEarningsData", monthlyEarningsData);
-
 
 		// Get transaction details (only for paid reservations)
 		List<Map<String, Object>> transactions = paidReservations.stream().map(r -> {

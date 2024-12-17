@@ -89,17 +89,17 @@
 					<li class="nav-item"><a class="nav-link"
 						href="/reservations/member/query">預約查詢</a></li>
 					<li class="nav-item"><a class="nav-link"
-							href="/reservations/member/manage">預約管理</a></li>
-						<li class="nav-item"><a class="nav-link"
-							href="/reservations/member/statistics">預約統計</a></li>
+						href="/reservations/member/manage">預約管理</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/reservations/member/statistics">預約統計</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="/reservations/member/financial">交易紀錄</a></li>
-<!-- 					<li class="nav-item"><a class="nav-link" href="#"> 訂單查詢 </a></li> -->
-<!-- 					<li class="nav-item"><a class="nav-link" href="#"> 收藏 </a></li> -->
-<!-- 					<li class="nav-item"><a class="nav-link" href="resetpassword"> -->
-<!-- 							變更密碼 </a></li> -->
-<!-- 					<li class="nav-item"><a class="nav-link" href="#" id="logout" -->
-<!-- 						name="logout"> 登出 </a></li> -->
+					<!-- 					<li class="nav-item"><a class="nav-link" href="#"> 訂單查詢 </a></li> -->
+					<!-- 					<li class="nav-item"><a class="nav-link" href="#"> 收藏 </a></li> -->
+					<!-- 					<li class="nav-item"><a class="nav-link" href="resetpassword"> -->
+					<!-- 							變更密碼 </a></li> -->
+					<!-- 					<li class="nav-item"><a class="nav-link" href="#" id="logout" -->
+					<!-- 						name="logout"> 登出 </a></li> -->
 				</ul>
 			</div>
 		</nav>
@@ -125,10 +125,12 @@
 							<li class="list-group-item">取消預約：<span
 								th:text="${cancelledReservations}"></span></li>
 							<li class="list-group-item">未完成預約：<span
+								th:text="${pendingComReservations}"></span></li>
+							<li class="list-group-item">未確認預約：<span
 								th:text="${pendingReservations}"></span></li>
-<!-- 							<li class="list-group-item">總消費金額：<span -->
-<!-- 								th:text="${totalSpent}"></span> 元 -->
-<!-- 							</li> -->
+							<!-- 							<li class="list-group-item">總消費金額：<span -->
+							<!-- 								th:text="${totalSpent}"></span> 元 -->
+							<!-- 							</li> -->
 						</ul>
 					</div>
 				</div>
@@ -148,14 +150,15 @@
 	document.getElementById('reservationStatusChart').width = 400;
 	document.getElementById('reservationStatusChart').height = 400;
 	var statusData = {
-		labels : [ '已完成', '已取消', '待進行' ],
+		labels : [ '已完成', '已取消', '未確認', '未進行' ],
 		datasets : [ {
 			data : [
 			/*[[${completedReservations}]]*/,
 			/*[[${cancelledReservations}]]*/,
-			/*[[${pendingReservations}]]*/
+			/*[[${pendingReservations}]]*/,
+			/*[[${pendingComReservations}]]*/
 			],
-			backgroundColor : [ '#36A2EB', '#FF6384', '#FFCE56' ]
+			backgroundColor : [ '#36A2EB', '#FF6384', '#FFCE56', '#4CAF50' ]
 		} ]
 	};
 	new Chart(statusCtx, {
