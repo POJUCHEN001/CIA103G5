@@ -15,16 +15,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cia103g5.user.ftgrade.model.FtGrade;
 import com.cia103g5.user.ftgrade.model.FtGradeService;
 import com.cia103g5.user.ftlist.model.FtDTO;
-import com.cia103g5.user.ftlist.model.FtsListService;
+import com.cia103g5.user.ftlist.model.FtListService;
 import com.cia103g5.user.ftskill.model.FtSkillService;
 import com.cia103g5.user.ftskill.model.FtSkillVO;
+import com.cia103g5.user.member.dto.SessionMemberDTO;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/ftslist")
-public class FtsListController {
+public class FtListController {
 
 	@Autowired
-	private FtsListService ftsListService;
+	private FtListService ftListService;
 
 	@Autowired
 	private FtSkillService ftSkillService;
@@ -39,8 +42,15 @@ public class FtsListController {
 			@RequestParam(value = "minPrice", required = false) String minPriceParam,
 			@RequestParam(value = "maxPrice", required = false) String maxPriceParam,
 			@RequestParam(value = "startDate", required = false) String startDateParam,
-			@RequestParam(value = "ftRank", required = false) String ftRankParam, Model model) {
-
+			@RequestParam(value = "ftRank", required = false) String ftRankParam, Model model, HttpSession session) {
+		
+		// 檢查 session 是否有會員資訊，非會員也可以使用
+	    Integer memberId = null;
+	    SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
+	    if (sessionMember != null) {
+	        memberId = sessionMember.getMemberId();
+	    }
+		
 		// 初始化查詢條件變數
 		String keyword = null;
 		String nickname = null;
@@ -87,7 +97,7 @@ public class FtsListController {
 		model.addAttribute("ftSkillOptions", ftSkills);
 
 		// 根據查詢條件呼叫 Service 查詢符合的占卜師列表
-		List<FtDTO> fts = ftsListService.getAllFtsByUser(keyword, nickname, skillNo, startDate, minPrice, maxPrice, ftRank);
+		List<FtDTO> fts = ftListService.getAllFts(memberId, keyword, nickname, skillNo, startDate, minPrice, maxPrice, ftRank);
 		model.addAttribute("fts", fts);
 
 		return "ftslist";
@@ -95,10 +105,17 @@ public class FtsListController {
 	}
 
 	@GetMapping("/{ftId}")
-	public String getFtById(@PathVariable Integer ftId, Model model) {
+	public String getFtById(@PathVariable Integer ftId, Model model, HttpSession session) {
+		
+		// 檢查 session 是否有會員資訊，非會員也可以使用
+	    Integer memberId = null;
+	    SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
+	    if (sessionMember != null) {
+	        memberId = sessionMember.getMemberId();
+	    }
 
 		// 根據占卜師 ID 查詢詳細資訊
-		FtDTO ft = ftsListService.getFtByIdByUser(ftId);
+		FtDTO ft = ftListService.getFtById(memberId, ftId);
 		model.addAttribute("ft", ft);
 		return "ftpage";
 

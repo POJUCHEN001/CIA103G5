@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import com.cia103g5.user.member.dto.MemberManageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +29,9 @@ public class MemberService {
 
 	@Autowired
 	private VerificationCodeService verificationCodeService;
+	
+	@Autowired
+	private MemberPasswordTokenService saveTokenService; 
 	
 //	@Value("${mail.verification.subject}")
 //    private String verificationSubject;
@@ -157,6 +161,14 @@ public class MemberService {
 
 		return repository.save(member);
 	}
+	
+	// 根據會員ID 修改密碼
+	public void resetPassword(Integer memberId, String password) {
+		MemberVO member = repository.findById(memberId)
+				.orElseThrow(() -> new MemberNotFoundException("會員帳號不存在"));
+		member.setPassword(password);
+		repository.save(member);
+	}
 
 	// 查詢所有會員
 	public List<MemberVO> getAllMembers() {
@@ -185,11 +197,15 @@ public class MemberService {
 	}
 	
 	// 查詢Email是否存在
-//	public MemberVO isEmailExists(String email) {	
-//		MemberVO member = repository.findByEmail(email)
-//				.orElseThrow(() -> new RuntimeException("Email不存在: " + email + "is not found!"));
-//		return repository.findByEmail(email);
-//	}
+	public boolean isEmailExists(String email) {	
+		return repository.findByEmail(email).isPresent();
+	}
+	
+	// 查詢Email並回傳
+	public MemberVO findMemberByEmail(String email) {
+        return repository.findByEmail(email)
+        		.orElseThrow(() -> new RuntimeException("Email不存在: " + email + "is not found!"));
+    }
 
 	// 查詢會員（依 ID）
 	public MemberVO findMemberById(Integer memberId) {
@@ -292,5 +308,10 @@ public class MemberService {
 	  repository.save(member);
 	 }
 	
+	//get by PK (added by 52)
+	public MemberVO getById(Integer memberId) {
+		return repository.findById(memberId)
+             .orElseThrow(() -> new RuntimeException("會員 ID " + memberId + " 不存在"));
+	}
 
 }

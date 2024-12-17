@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>個人專長管理</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.6/dist/sweetalert2.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <style>
+    /* 自定義的淡紫色背景 */
+    .bg-purple {
+      background-color: #9b59b6 !important; /* 較淡的紫色 */
+    }
+    .navbar-brand, .nav-link {
+      color: #fff !important;
+    }
+    .navbar-nav .nav-item .nav-link:hover {
+      color: #dcd0ff !important; /* 當滑鼠懸停時顏色 */
+    }
+    .container {
+      background-color: #f4f0f9; /* 淡紫色背景 */
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .form-control, .form-select {
+      border-radius: 0.375rem; /* 圓角 */
+    }
+    .btn-primary {
+      background-color: #9b59b6;
+      border-color: #9b59b6;
+    }
+    .btn-primary:hover {
+      background-color: #8e44ad;
+      border-color: #8e44ad;
+    }
+    body {
+      background-color: #f3f0fc; /* 淡紫背景 */
+    }
+    .header {
+      background-color: #6f42c1; /* 紫色背景 */
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .btn-primary {
+      background-color: #6f42c1;
+      border-color: #6f42c1;
+    }
+    .btn-primary:hover {
+      background-color: #5a369e;
+      border-color: #5a369e;
+    }
+    .info-container {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+    table th, table td {
+      vertical-align: middle; /* 垂直置中 */
+    }
+
+	#ftSkillTable td {
+	  font-size: 20px; /* 字體變大 */
+	}
+    
+  </style>
+</head>
+<body>
+<!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-purple">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/ftcenter">占卜師中心</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="/ft-end/personalskills">個人專長</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/ft-end/availabletimes">可預約時段</a>
+          </li>
+         </ul>
+      </div>
+    </div>
+  </nav>  
+<div class="container py-4">
+  <!-- 頁面標題 -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="header">個人專長</h1>
+    <button class="btn btn-success btn-lg" onclick="handleAdd()">新增</button>
+  </div>
+
+  <!-- 表格區塊 -->
+  <div class="info-container">
+    <div class="table-responsive">
+      <table id="ftSkillTable" class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>編號</th>
+            <th>名稱</th>
+            <th>刪除</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="ftSkill : ${ftSkills}">
+          	<td th:text="${ftSkillStat.count}"></td>
+            <td th:text="${ftSkill.skillNo}"></td>
+            <td th:text="${ftSkill.skillName}"></td>
+            <td>
+              <button class="btn btn-danger btn" 
+                      th:data-skill-no="${ftSkill.skillNo}" 
+                      th:data-skill-name="${ftSkill.skillName}" 
+                      onclick="handleDelete(this)">刪除</button>
+            </td>
+          </tr>         
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+  
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.6/dist/sweetalert2.min.js"></script>  
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  // 動態生成技能選項
+  var ftSkillOptions = /*[[${ftSkillOptions}]]*/ [];
+  var options = {};
+
+  ftSkillOptions.forEach(function(ftSkill) {
+    options[ftSkill.skillNo] = ftSkill.skillName;
+  }); 
+  /*]]>*/
+</script>
+<script>
+  // 初始化 DataTable
+  $(document).ready(function () {
+    $('#ftSkillTable').DataTable({
+      paging: true,
+      searching: true,
+      info: true,
+      lengthChange: true,
+      pageLength: 10,
+      language: {
+        paginate: {
+          previous: '上一頁',
+          next: '下一頁',
+        },
+        search: '搜尋：',
+        lengthMenu: '每頁顯示 _MENU_ 筆',
+        info: '顯示 _START_ 到 _END_ 筆，共 _TOTAL_ 筆',
+        infoEmpty: '沒有可顯示的資料',
+        zeroRecords: '找不到符合的資料',
+      }
+    });
+  });
+
+  function handleAdd() {
+    Swal.fire({
+        title: '新增專長',
+        input: 'select', // 使用下拉選單
+        inputOptions: options,
+        inputPlaceholder: '請選擇您的專長',
+        showCancelButton: true,
+        confirmButtonText: '儲存',
+        cancelButtonText: '取消',
+        html: '<br><p style="font-size: 14px; color: orangered; margin-bottom: 0px;">如選項無您的占卜專長，請聯絡客服信箱。</p>', // 新增說明文字
+        inputValidator: (value) => {
+          if (!value) {
+            return '您尚未選擇任何專長！';
+          }
+        }
+      }).then((result) => {
+      if (result.isConfirmed) {
+        const skillNo = result.value;
+        $.post('/ft-end/personalskills/add', { skillNo }, () => {
+          Swal.fire('成功', `專長已新增：${options[skillNo]}`, 'success').then(() => location.reload());
+        }).fail(() => {
+          Swal.fire('錯誤', '新增失敗，請稍後再試！', 'error');
+        });
+      }
+    });
+  }
+
+  function handleDelete(btn) {
+      const skillNo = $(btn).data('skill-no');
+      const skillName = $(btn).data('skill-name');
+      Swal.fire({
+        title: `確定要刪除技能 『${skillName}』嗎？`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '刪除',
+        cancelButtonText: '取消'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: `/ft-end/personalskills/delete/${skillNo}`,
+            type: 'DELETE',
+            success: () => {
+              Swal.fire('已刪除！', `技能 『${skillName}』 已被刪除。`, 'success').then(() => location.reload());
+            },
+            error: () => {
+              Swal.fire('錯誤', '刪除失敗，請稍後再試！', 'error');
+            }
+          });
+        }
+      });
+    }
+</script>
+</body>
+</html>

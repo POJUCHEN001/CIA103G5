@@ -33,11 +33,11 @@ public class BackFtSkillController {
 	// 新增專長
 	@PostMapping("/add")
 	public ResponseEntity<Map<String, String>> addFtSkill(@RequestParam String skillName) {
-		
+
 		if (ftSkillService.isSkillNameExists(skillName)) {
-	        return ResponseEntity.ok(Map.of("status", "error", "message", "專長名稱已存在，請重新輸入。"));
-	    }
-		
+			return ResponseEntity.ok(Map.of("status", "error", "message", "專長名稱已存在，請重新輸入。"));
+		}
+
 		ftSkillService.addFtSkill(skillName);
 		return ResponseEntity.ok(Map.of("status", "success"));
 	}

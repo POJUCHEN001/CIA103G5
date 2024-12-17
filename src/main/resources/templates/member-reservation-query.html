@@ -19,46 +19,48 @@
 	rel="stylesheet">
 </head>
 <body>
-	<header class="p-3 mb-3 border-bottom">
-		<div class="container">
-			<div
-				class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-				<a href="/"
-					class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-					<h1>修卜人生</h1>
-				</a>
-				<ul
-					class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-					<li><a href="#" class="nav-link px-2 link-secondary">想找占卜師</a></li>
-					<li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li>
-					<li><a href="#" class="nav-link px-2 link-dark">占卜論壇</a></li>
-					<li><a href="#" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li>
-				</ul>
-				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-					<input type="search" class="form-control" placeholder="Search..."
-						aria-label="Search">
-				</form>
-				<div class="dropdown text-end">
-					<a href="#"
-						class="d-block link-dark text-decoration-none dropdown-toggle"
-						id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-						<img id="photo-icon" src="/svg/user-solid.svg" alt="mdo"
-						width="32" height="32" class="rounded-circle">
-					</a>
-					<ul class="dropdown-menu text-small"
-						aria-labelledby="dropdownUser1">
-						<li><a class="dropdown-item" href="/membercenter">會員中心</a></li>
-						<li><a class="dropdown-item" href="/ftcenter">占卜師中心</a></li>
-						<li><a class="dropdown-item" href="#">購物車</a></li>
-						<li><a class="dropdown-item" href="#">客服中心</a></li>
-						<li><hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item logout-link" href="#" id="logout"
-							name="logout">登出</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</header>
+
+<div th:replace="~{fragments/header :: header}"></div>
+<!-- 	<header class="p-3 mb-3 border-bottom"> -->
+<!-- 		<div class="container"> -->
+<!-- 			<div -->
+<!-- 				class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"> -->
+<!-- 				<a href="/" -->
+<!-- 					class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"> -->
+<!-- 					<h1>修卜人生</h1> -->
+<!-- 				</a> -->
+<!-- 				<ul -->
+<!-- 					class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"> -->
+<!-- 					<li><a href="#" class="nav-link px-2 link-secondary">想找占卜師</a></li> -->
+<!-- 					<li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li> -->
+<!-- 					<li><a href="#" class="nav-link px-2 link-dark">占卜論壇</a></li> -->
+<!-- 					<li><a href="#" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li> -->
+<!-- 				</ul> -->
+<!-- 				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"> -->
+<!-- 					<input type="search" class="form-control" placeholder="Search..." -->
+<!-- 						aria-label="Search"> -->
+<!-- 				</form> -->
+<!-- 				<div class="dropdown text-end"> -->
+<!-- 					<a href="#" -->
+<!-- 						class="d-block link-dark text-decoration-none dropdown-toggle" -->
+<!-- 						id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"> -->
+<!-- 						<img id="photo-icon" src="/svg/user-solid.svg" alt="mdo" -->
+<!-- 						width="32" height="32" class="rounded-circle"> -->
+<!-- 					</a> -->
+<!-- 					<ul class="dropdown-menu text-small" -->
+<!-- 						aria-labelledby="dropdownUser1"> -->
+<!-- 						<li><a class="dropdown-item" href="/membercenter">會員中心</a></li> -->
+<!-- 						<li><a class="dropdown-item" href="/ftcenter">占卜師中心</a></li> -->
+<!-- 						<li><a class="dropdown-item" href="#">購物車</a></li> -->
+<!-- 						<li><a class="dropdown-item" href="#">客服中心</a></li> -->
+<!-- 						<li><hr class="dropdown-divider"></li> -->
+<!-- 						<li><a class="dropdown-item logout-link" href="#" id="logout" -->
+<!-- 							name="logout">登出</a></li> -->
+<!-- 					</ul> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</header> -->
 
 	<div class="container-fluid">
 		<div class="row">
@@ -71,18 +73,18 @@
 						<li class="nav-item"><a class="nav-link"
 							href="/reservations/member/query">預約查詢</a></li>
 						<li class="nav-item"><a class="nav-link"
-							href="/reservations/member/manage">預約評價</a></li>
+							href="/reservations/member/manage">預約管理</a></li>
 						<li class="nav-item"><a class="nav-link"
-							href="/reservations/member/statistics">預約管理</a></li>
+							href="/reservations/member/statistics">預約統計</a></li>
 						<li class="nav-item"><a class="nav-link"
 							href="/reservations/member/financial">交易紀錄</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> 訂單查詢 </a>
-						</li>
-						<li class="nav-item"><a class="nav-link" href="#"> 收藏 </a></li>
-						<li class="nav-item"><a class="nav-link" href="resetpassword">
-								變更密碼 </a></li>
-						<li class="nav-item"><a class="nav-link" href="#" id="logout"
-							name="logout"> 登出 </a></li>
+<!-- 						<li class="nav-item"><a class="nav-link" href="#"> 訂單查詢 </a> -->
+<!-- 						</li> -->
+<!-- 						<li class="nav-item"><a class="nav-link" href="#"> 收藏 </a></li> -->
+<!-- 						<li class="nav-item"><a class="nav-link" href="resetpassword"> -->
+<!-- 								變更密碼 </a></li> -->
+<!-- 						<li class="nav-item"><a class="nav-link" href="#" id="logout" -->
+<!-- 							name="logout"> 登出 </a></li> -->
 					</ul>
 				</div>
 			</nav>
@@ -158,9 +160,10 @@
 		</div>
 	</div>
 
-	<script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="/js/sidebars.js"></script>
-	<script src="/js/membercenter.js"></script>
+<!-- 	<script src="/assets/dist/js/bootstrap.bundle.min.js"></script> -->
+<!-- 	<script src="/js/sidebars.js"></script> -->
+<!-- 	<script src="/js/membercenter.js"></script> -->
+	<script src="/js/header.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

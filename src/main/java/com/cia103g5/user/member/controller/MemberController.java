@@ -34,7 +34,7 @@ public class MemberController {
 
 	@Autowired
 	private MemberService service;
-	
+
 	@Autowired
 	private FtService ftService;
 
@@ -45,15 +45,15 @@ public class MemberController {
 			session.invalidate(); // 清除 Session
 		}
 		// 動態取得 context path 並拼接首頁路徑
-		String baseURL = request.getScheme() + "://" +    // 協議 (http 或 https)
-                request.getServerName() +       // 主機名 ( localhost 或域名)
-                ":" + request.getServerPort() + // 埠號 (8080)
-                request.getContextPath();       // Context Path (/專案名稱)
-		
+		String baseURL = request.getScheme() + "://" + // 協議 (http 或 https)
+				request.getServerName() + // 主機名 ( localhost 或域名)
+				":" + request.getServerPort() + // 埠號 (8080)
+				request.getContextPath(); // Context Path (/專案名稱)
+
 		System.out.println("動態路徑" + baseURL);
-	    String redirectURL = baseURL + "/";
-	    System.out.println("動態路徑" + redirectURL);
-		
+		String redirectURL = baseURL + "/";
+		System.out.println("動態路徑" + redirectURL);
+
 		return ResponseEntity.ok(Map.of("message", "登出成功", "redirectURL", redirectURL));
 	}
 
@@ -93,22 +93,26 @@ public class MemberController {
 	// 在 header 顯示會員或占卜師照片
 	@GetMapping("/info-photo")
 	public ResponseEntity<Map<String, Object>> gePhotoIcon(HttpSession session) {
-		// 從sessionMemberDTO裡面取得存入的
-		SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
-		Integer ftId = (Integer)session.getAttribute("ftId");
-		Integer memberId = sessionMember.getMemberId();
-		
-		byte[] photo = null;
-		if(ftId>0) {
-			photo = ftService.findFtByFtId(ftId).getPhoto();
-		} else {
-			photo = service.findMemberById(memberId).getPhoto();			
-		}
-		String encodedPhoto = Base64.getEncoder().encodeToString(photo);
-		
 		Map<String, Object> memberInfo = new HashMap<>();
-		memberInfo.put("photo", encodedPhoto);
+		try {
+			// 從sessionMemberDTO裡面取得存入的
+			SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
+			Integer ftId = (Integer) session.getAttribute("ftId");
+			Integer memberId = sessionMember.getMemberId();
 
+			byte[] photo = null;
+			if (ftId > 0) {
+				photo = ftService.findFtByFtId(ftId).getPhoto();
+			} else {
+				photo = service.findMemberById(memberId).getPhoto();
+			}
+			String encodedPhoto = Base64.getEncoder().encodeToString(photo);
+
+			
+			memberInfo.put("photo", encodedPhoto);
+		} catch (Exception e) {
+//			System.out.println(e + "尚未登入故沒有會員照片");
+		}
 		return ResponseEntity.ok(memberInfo);
 	}
 
