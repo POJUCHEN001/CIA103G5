@@ -306,23 +306,6 @@ public class ReservationServiceSpring {
 		financialData.put("monthLabels", monthLabels);
 		financialData.put("monthlyEarningsData", monthlyEarningsData);
 
-		// Get monthly labels and data for chart (last 6 months)
-//		List<String> monthLabels = new ArrayList<>();
-//		List<Double> monthlyEarningsData = new ArrayList<>();
-//
-//		for (int i = 5; i >= 0; i--) {
-//			LocalDateTime month = now.minusMonths(i);
-//			monthLabels.add(month.format(DateTimeFormatter.ofPattern("yyyy-MM")));
-//
-//			double monthEarnings = reservations.stream()
-//					.filter(r -> r.getPaymentTime().getMonth() == month.getMonth()
-//							&& r.getPaymentTime().getYear() == month.getYear())
-//					.mapToDouble(r -> r.getPrice() * 0.95).sum();
-//			monthlyEarningsData.add(monthEarnings);
-//		}
-//
-//		financialData.put("monthLabels", monthLabels);
-//		financialData.put("monthlyEarningsData", monthlyEarningsData);
 
 		// Get transaction details (only for paid reservations)
 		List<Map<String, Object>> transactions = paidReservations.stream().map(r -> {
@@ -331,7 +314,7 @@ public class ReservationServiceSpring {
 			transaction.put("type", "收入");
 			double actualEarning = r.getPrice() * 0.95;
 			transaction.put("amount", actualEarning);
-			transaction.put("note", "來自會員 " + r.getMemberId().getNickname() + " 的預約");
+			transaction.put("note", "來自會員 " + r.getMemberId().getName() + " 的預約");
 			return transaction;
 		}).collect(Collectors.toList());
 		financialData.put("transactions", transactions);
