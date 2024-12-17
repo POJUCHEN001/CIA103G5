@@ -49,4 +49,12 @@ public class MemReservationService {
                 .orElse(-1); // 當值不存在時返回 -1 作為預設值
     }
 	
+	@Transactional
+    public void updatePaymentToOneByAvailableTimeNo(Integer availableTimeNo) {
+        if (availableTimeNo == null) {
+            throw new IllegalArgumentException("availableTimeNo 不能為空");
+        }
+        reservationRepository.updatePaymentByAvailableTimeNo(availableTimeNo);
+    }
+	
 }

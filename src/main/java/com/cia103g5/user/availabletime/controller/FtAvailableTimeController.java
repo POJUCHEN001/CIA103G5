@@ -134,18 +134,37 @@ public class FtAvailableTimeController {
 		return ResponseEntity.ok(Map.of("status", "success"));
 	}
 
+	@PutMapping("/notyet")
+	public ResponseEntity<Map<String, String>> notyet(@RequestParam Integer availableTimeNo,
+			@RequestParam(required = false) Integer skillNo, @RequestParam Integer status, HttpSession session,
+			Model model) {
+		
+		Object isLogin = session.getAttribute("isLogin");
+		SessionMemberDTO loggedInMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
+		
+		// 取得會員和占卜師 ID（從 session 或其他數據源獲取）
+		Integer ftId = loggedInMember.getFtId();
+		Integer memId = memReservationService.getSingleMemIdByAvailableTimeNo(availableTimeNo);
+		
+		// 更新 availableTime 狀態為 4（時間內未付款）
+				availableTimeService.updateStatusByMem(availableTimeNo, 4);
+				
+		return ResponseEntity.ok(Map.of("status", "success"));
+		
+	}
+	
+	
 	@PutMapping("/paid")
 	public ResponseEntity<Map<String, String>> paid(@RequestParam Integer availableTimeNo,
 			@RequestParam(required = false) Integer skillNo, @RequestParam Integer status, HttpSession session,
 			Model model) {
 		Object isLogin = session.getAttribute("isLogin");
 		SessionMemberDTO loggedInMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
-
+		
 		// 取得會員和占卜師 ID（從 session 或其他數據源獲取）
 		Integer ftId = loggedInMember.getFtId();
 		Integer memId = memReservationService.getSingleMemIdByAvailableTimeNo(availableTimeNo);
 		
-
 		// 1. 獲取會員資訊
 		MemberVO member = memberService.getById(memId);
 		String name = member != null ? member.getName() : "會員";
@@ -173,8 +192,11 @@ public class FtAvailableTimeController {
 
 		// 6. 更新 availableTime 狀態為 1（已預約）
 		availableTimeService.updateStatusByMem(availableTimeNo, 1);
+		
+		// 7. 更新 reservation table payment 狀態為 1（已付款）
+		memReservationService.updatePaymentToOneByAvailableTimeNo(availableTimeNo);
 
-		// 7. 發送通知信
+		// 8. 發送通知信
 
 		// 會員的郵件內容
 		String to = "cia103.g5@gmail.com"; // cia103.g5@gmail.com
