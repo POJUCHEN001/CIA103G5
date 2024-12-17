@@ -138,7 +138,7 @@ public class StoreController {
     @ResponseBody
     public ResponseEntity<String> addProductToCollection(@PathVariable Integer prodNo,
                                                          HttpSession session) {
-        Integer memId = (Integer) session.getAttribute("userId");
+        Integer memId = (Integer) session.getAttribute("memberId");
         if (memId == null) {
             return ResponseEntity.status(401).body("未登入，請先登入！");
         }
@@ -153,7 +153,7 @@ public class StoreController {
     @ResponseBody
     public ResponseEntity<String> removeProductFromCollection(@PathVariable Integer prodNo,
                                                               HttpSession session) {
-        Integer memId = (Integer) session.getAttribute("userId");
+        Integer memId = (Integer) session.getAttribute("memberId");
         if (memId == null) {
             return ResponseEntity.status(401).body("未登入，請先登入！");
         }
@@ -166,8 +166,8 @@ public class StoreController {
 	
 	
 	
-
-	// 獲取購物車商品
+//
+//	 獲取購物車商品
 //    @GetMapping("/{userId}")
 //    public List<CartVO> getCartItems(@PathVariable Integer userId) {
 //        return cartService.getCartItemsByUserId(userId);
