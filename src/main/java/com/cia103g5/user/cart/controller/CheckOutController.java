@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cia103g5.user.cart.model.CartServiceImpl;
 import com.cia103g5.user.cart.model.CartVO;
+import com.cia103g5.user.ft.model.FtVO;
 import com.cia103g5.user.member.model.MemberService;
 import com.cia103g5.user.member.model.MemberVO;
 import com.cia103g5.user.order.model.OrdersRepository;
@@ -23,6 +24,8 @@ import com.cia103g5.user.order.model.OrdersService;
 import com.cia103g5.user.order.model.OrdersVO;
 import com.cia103g5.user.orderDetails.model.OrderDetailService;
 import com.cia103g5.user.orderDetails.model.OrderDetailVO;
+import com.cia103g5.user.product.model.ProductService;
+import com.cia103g5.user.product.model.ProductVO;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -34,16 +37,18 @@ public class CheckOutController {
     private final OrdersService ordersService;
     private final OrderDetailService orderDetailService;
     private final MemberService memberService;
+    private final ProductService productService;
     
     @Autowired
     private OrdersRepository ordersRepository;
     @Autowired
     public CheckOutController(CartServiceImpl cartService, OrdersService ordersService,
-                              OrderDetailService orderDetailService, MemberService memberService) {
+                              OrderDetailService orderDetailService, MemberService memberService,ProductService productService) {
         this.cartService = cartService;
         this.ordersService = ordersService;
         this.orderDetailService = orderDetailService;
         this.memberService = memberService;
+		this.productService =  productService;
     }
 
     // 結帳頁面
@@ -99,9 +104,13 @@ public class CheckOutController {
                 int realAmount = orderAmount - pointsUsed;
 
                 // 創建訂單
+
                 OrdersVO order = new OrdersVO();
                 order.setMemId(member);
-                order.setFtId(null); 
+                
+                FtVO ftVO =order.getFtId();
+                ftVO.setFtId(ftId);
+                order.setFtId(ftVO); 
                 order.setOrderAmount(orderAmount);
                 order.setRealAmount(realAmount);
                 order.setPointUse(pointsUsed);
@@ -112,10 +121,22 @@ public class CheckOutController {
 
                 OrdersVO savedOrder = ordersRepository.save(order); 
                 createdOrders.add(savedOrder);
+                
+                
+                
 
-                // 創建訂單詳情
+                // 創建訂單詳情並扣除庫存量
                 for (CartVO item : cartItems) {
-                    OrderDetailVO.CompositeDetail compositeKey = new OrderDetailVO.CompositeDetail(savedOrder, null); // 需補充商品信息
+                    // 更新商品庫存量
+                    ProductVO product = productService.getOneProduct(item.getProdNo());
+                    if (product != null) {
+                        int newQuantity = product.getAvailableQuantity() - item.getQuantity();
+                        product.setAvailableQuantity(newQuantity > 0 ? newQuantity : 0);
+                        productService.updateProduct(product);
+                    }
+
+                    // 創建訂單詳情
+                    OrderDetailVO.CompositeDetail compositeKey = new OrderDetailVO.CompositeDetail(savedOrder, null);
                     OrderDetailVO detail = new OrderDetailVO(compositeKey, item.getPrice().intValue(),
                             item.getQuantity(), null, null, (byte) 0, null, null);
                     orderDetailService.addOrder_detail(detail);
