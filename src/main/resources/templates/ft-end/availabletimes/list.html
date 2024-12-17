@@ -160,12 +160,11 @@ table th, table td {
 								<!-- 顯示星期 -->
 								<td th:text="${availableTime.startTime}"></td>
 								<td th:text="${availableTime.endTime}"></td>
-								<td><span th:if="${availableTime.status == 0}">可預約</span> <span
-									th:if="${availableTime.status == 1}" class="badge bg-primary"
-									style="font-size: 1rem;">已預約</span> <span
-									th:if="${availableTime.status == 2}">暫停預約</span> <span
-									th:if="${availableTime.status == 3}" class="badge bg-warning"
-									style="font-size: 1rem;">保留中</span></td>
+								<td><span th:if="${availableTime.status == 0}">有空</span> <span
+									th:if="${availableTime.status == 1}">已預約</span> <span
+									th:if="${availableTime.status == 2}">暫停</span> <span
+									th:if="${availableTime.status == 3}">保留中</span> <span
+									th:if="${availableTime.status == 4}">保留中</span></td>
 								<td>
 									<button class="btn" th:if="${availableTime.status == 0}"
 										th:classappend="${availableTime.status == 0 ? ' btn-danger' : ''}"
@@ -185,7 +184,13 @@ table th, table td {
 									<button class="btn btn-yellow" style="font-size: 1.1rem;"
 										th:if="${availableTime.status == 3}"
 										th:classappend="${availableTime.status == 3 ? ' btn' : ''}"
-										th:text="${availableTime.status == 3 ? '是' : ''}"
+										th:text="${availableTime.status == 3 ? '期限內' : ''}"
+										th:data-available-time-no="${availableTime['availableTimeNo']}"
+										onclick="handleNotyet(this)"></button>
+									<button class="btn btn-yellow" style="font-size: 1.1rem;"
+										th:if="${availableTime.status == 4}"
+										th:classappend="${availableTime.status == 4 ? ' btn' : ''}"
+										th:text="${availableTime.status == 4 ? '是' : ''}"
 										th:data-available-time-no="${availableTime['availableTimeNo']}"
 										onclick="handlePay(this)"></button>
 								</td>
@@ -346,6 +351,51 @@ table th, table td {
 	      }
 	    });
 	  }
+  
+  
+  function handleNotyet(btn, status) {
+	    const availableTimeNo = btn.getAttribute('data-available-time-no'); // 從按鈕屬性獲取時段編號
+	    if (!availableTimeNo) {
+	        console.error('availableTimeNo is missing or empty');
+	        Swal.fire('錯誤', '未選擇可用時段', 'error');
+	        return;
+	    }
+
+	    
+	    // 顯示確認框
+	    Swal.fire({
+	        title: `期限內`,
+	        icon: 'success',
+	        showCancelButton: false,
+	        confirmButtonText: '確定',
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	            // 發送 AJAX 請求到後端進行預約
+	            $.ajax({
+	                url: '/ft-end/availabletimes/notyet', // 後端 API 路徑
+	                type: 'PUT',
+	                data: { 
+	                    availableTimeNo: availableTimeNo, status: 4
+	                },
+	                success: (response) => {
+	                    // 成功後提示
+	                    Swal.fire('成功！', ` 會員將於 4 小時內付款。`, 'success').then(() => {
+	                        location.reload(); // 刷新頁面以更新狀態
+	                    });
+	                },
+	                error: () => {
+	                    // 錯誤處理
+	                    Swal.fire('錯誤', '請稍後再試！', 'error');
+	                }
+	            });
+	        }
+	    });
+	}
+  
+  
+  
+  
+  
   
   
   
