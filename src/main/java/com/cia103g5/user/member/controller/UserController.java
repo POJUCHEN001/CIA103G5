@@ -85,6 +85,7 @@ public class UserController {
                                                                         @RequestParam String code) {
         try {
             boolean isValid = service.validateVerificationCode(email, code);
+//            System.out.println("這裡要是 true: " + isValid);
             if (isValid) {
                 // 驗證碼正確，更新會員信箱狀態
                 service.updateEmailState(email);

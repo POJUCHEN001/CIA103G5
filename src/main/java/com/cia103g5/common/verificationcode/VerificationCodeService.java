@@ -44,9 +44,13 @@ public class VerificationCodeService {
 
 	// 根據用戶的 mail 從 Redis 中獲取驗證碼
 	public String getVerificationCodeFromRedis(String email) {
+		
 		String redisKey = "app_name:auth:verification:code:" + email;
+//		System.out.println("取得Redis Key: " + redisKey);
 		try {
+//			System.out.println("取得Redis: " + redisTemplate.opsForValue().get(redisKey));
 			return redisTemplate.opsForValue().get(redisKey);
+			
 		} catch (Exception e) {
 			System.err.println("Failed to retrieve verification code from Redis for email: " + email);
 			e.printStackTrace();

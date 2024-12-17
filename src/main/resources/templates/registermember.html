@@ -229,7 +229,8 @@
           verifyCodeBtn.addEventListener("click", async function () {
             const verificationCode = document.getElementById("verificationCode").value.trim();
             const email = document.getElementById("email").value.trim();
-            const API_VALIDATE_URL = "/user/validate-verification-code";
+            console.log(email);
+            const API_VALIDATE_URL = '/user/validate-verification-code';
 
             try {
               // 發送驗證碼驗證請求
