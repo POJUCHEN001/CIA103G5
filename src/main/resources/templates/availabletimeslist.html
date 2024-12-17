@@ -88,48 +88,7 @@ table th, table td {
 </style>
 </head>
 <body>
-	<header class="p-3 mb-3 border-bottom">
-		<div class="container">
-			<div
-				class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-				<a href="/"
-					class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-					<h1>修卜人生</h1>
-				</a>
-
-				<ul
-					class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-					<li><a href="/ftslist" class="nav-link px-2 link-secondary">想找占卜師</a></li>
-					<li><a href="#" class="nav-link px-2 link-secondary">購物商城</a></li>
-					<li><a href="/forum" class="nav-link px-2 link-secondary">占卜論壇</a></li>
-					<li><a href="#" class="nav-link px-2 link-secondary">線上塔羅小遊戲</a></li>
-					<li><a href='/register' class="nav-link px-2 link-secondary">會員註冊</a></li>
-					<li><a href="/login" class="nav-link px-2 link-secondary">會員登入</a></li>
-					<li><a href="/back-end/ftskills"
-						class="nav-link px-2 link-secondary">後台專長管理</a></li>
-				</ul>
-
-				<div class="dropdown text-end">
-					<a href="#"
-						class="d-block link-dark text-decoration-none dropdown-toggle"
-						id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-						<img id="userAvatar" src="/svg/user-solid.svg" alt="mdo" width="32"
-						height="32" class="rounded-circle">
-					</a>
-					<ul class="dropdown-menu text-small"
-						aria-labelledby="dropdownUser1">
-						<li><a class="dropdown-item" href="/membercenter">會員中心</a></li>
-						<li><a class="dropdown-item" href="/ftcenter"
-							id="dropdown-ftcenter">占卜師中心</a></li>
-						<li><a class="dropdown-item" href="#">購物車</a></li>
-						<li><a class="dropdown-item" href="#">客服中心</a></li>
-						<li><hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item logout-link" href="#">登出 </a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</header>
+	<div th:replace="~{fragments/header :: header}"></div>
 
 	<div class="container py-4">
 		<!-- 頁面標題 -->
@@ -189,7 +148,7 @@ table th, table td {
 		src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 	<script
 		src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-	<script src="js/header.js"></script>
+	<script th:src="@{/js/header.js}"></script>
 	<script>
     window.onload = function() {
       const today = new Date();
@@ -297,9 +256,8 @@ table th, table td {
                             success: (response) => {
                                 if (response.status === 'success') {
                                     // 獲取選擇的技能名稱
-                                    const selectedSkillText = document.getElementById('skillSelect').options[
-                                        document.getElementById('skillSelect').selectedIndex
-                                    ].text || '無專長';
+                                    const skillNo = +selectedSkill;
+                                    const selectedSkillText = skills.find(skill => skill.skillNo === skillNo).skillName || '無專長';
                                     Swal.fire('成功', `您已預約時段：${timeSlot}<p></p>
                                             <p>價格：${price} 元</p>
                                             專長：${selectedSkillText}<p></p>
