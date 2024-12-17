@@ -12,22 +12,22 @@ import com.cia103g5.user.ft.model.FtVO;
 public class FavFtService {
 
 	@Autowired
-	private FavFtRepository repository;
+	private FavFtRepository favFtrepository;
 
 	// 取得會員收藏的占卜師編號
 	public List<Integer> getFavFtsByMemId(Integer memId) {
-		return repository.findByMemId(memId).stream().map(FavFtVO::getFtVO).map(FtVO::getFtId)
+		return favFtrepository.findByMemId(memId).stream().map(FavFtVO::getFtVO).map(FtVO::getFtId)
 				.collect(Collectors.toList());
 	}
 
 	// 加入收藏
 	public void addFavoriteFt(Integer memId, Integer ftId) {
-		repository.insert(memId, ftId);
+		favFtrepository.insert(memId, ftId);
 	}
 
 	// 取消收藏
 	public void deleteFavoriteFt(Integer memId, Integer ftId) {
-		repository.delete(memId, ftId);
+		favFtrepository.delete(memId, ftId);
 	}
 
 }
