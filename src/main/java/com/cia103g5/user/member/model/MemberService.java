@@ -268,5 +268,11 @@ public class MemberService {
 			throw new IllegalArgumentException(fieldName + " cannot be null or empty.");
 		}
 	}
+	
+	// get by PK (added by 52)
+	public MemberVO getById(Integer memberId) {
+        return repository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("會員 ID " + memberId + " 不存在"));
+    }
 
 }
