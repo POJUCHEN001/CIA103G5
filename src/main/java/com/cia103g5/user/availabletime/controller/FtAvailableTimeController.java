@@ -59,6 +59,8 @@ public class FtAvailableTimeController {
 		Object isLogin = session.getAttribute("isLogin");
 		SessionMemberDTO loggedInMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
 		Integer ftId = loggedInMember.getFtId();
+		String nickname = ftListService.getNicknameByFtId(ftId); // 透過 Service 取得 nickname
+		model.addAttribute("nickname", nickname);
 
 		// 查詢所有未過期的時段
 		List<AvailableTimeVO> availableTimes = availableTimeService.getAvailableTimesByFtIdAndAfterDateTime(ftId);

@@ -34,6 +34,13 @@ public class MemFavFtController {
 		SessionMemberDTO sessionMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
 		Integer memberId = sessionMember.getMemberId();
 
+		// 驗證會員是否存在
+		if (sessionMember != null) {
+			String memberName = sessionMember.getName();
+
+			model.addAttribute("memberName", memberName);
+		}
+
 		List<FtDTO> fts = ftListService.getFtByFavFts(memberId);
 		model.addAttribute("fts", fts);
 

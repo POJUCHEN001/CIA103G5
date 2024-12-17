@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cia103g5.user.ftlist.model.FtListService;
 import com.cia103g5.user.ftskill.model.FtSkillService;
 import com.cia103g5.user.ftskill.model.FtSkillVO;
 import com.cia103g5.user.member.dto.SessionMemberDTO;
@@ -37,6 +38,9 @@ public class FtPersonalSkillController {
 	private FtSkillService ftSkillService;
 	
 	@Autowired
+	private FtListService ftListService;
+	
+	@Autowired
     private PersonalSkillRepository personalSkillRepository;
 
 	// 顯示該占卜師所有 FtSkillVO 資料
@@ -45,7 +49,10 @@ public class FtPersonalSkillController {
 		
 		Object isLogin = session.getAttribute("isLogin");
 		SessionMemberDTO loggedInMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
-		
+		Integer ftId = loggedInMember.getFtId();
+		String nickname = ftListService.getNicknameByFtId(ftId);
+        model.addAttribute("nickname", nickname);
+        
 		// 獲取該占卜師已有的技能
 		List<FtSkillVO> existingFtSkills = personalSkillService.getFtSkillsByFtId(loggedInMember.getFtId());
 		List<Integer> existingSkillNos = existingFtSkills.stream()
