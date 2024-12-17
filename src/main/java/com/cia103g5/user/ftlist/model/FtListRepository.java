@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.cia103g5.user.ft.model.FtVO;
 
-public interface FtsListRepository extends JpaRepository<FtVO, Integer> {
+public interface FtListRepository extends JpaRepository<FtVO, Integer> {
 
 	// 根據(公司、暱稱、專長、時間、價格、等級)查詢占卜師列表
 	@Query(value = "SELECT DISTINCT ft.* " +
@@ -29,8 +29,8 @@ public interface FtsListRepository extends JpaRepository<FtVO, Integer> {
 					String nickname,
 					Integer skillNo,
 					Date startTime,
-					Integer minPrice, // 最小價格
-					Integer maxPrice, // 最大價格
+					Integer minPrice,
+					Integer maxPrice,
 					Integer ftRank
 	);
 	

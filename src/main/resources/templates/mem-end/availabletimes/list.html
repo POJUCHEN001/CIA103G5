@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>可預約時段</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.6/dist/sweetalert2.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet"> 
+  <style>
+    /* 自定義的淡紫色背景 */
+    .bg-purple {
+      background-color: #9b59b6 !important; /* 較淡的紫色 */
+    }
+    .navbar-brand, .nav-link {
+      color: #fff !important;
+    }
+    .navbar-nav .nav-item .nav-link:hover {
+      color: #dcd0ff !important; /* 當滑鼠懸停時顏色 */
+    }
+    .container {
+      background-color: #f4f0f9; /* 淡紫色背景 */
+      padding: 30px;
+      border-radius: 8px;
+    }
+    .form-control, .form-select {
+      border-radius: 0.375rem; /* 圓角 */
+    }
+    .btn-primary {
+      background-color: #9b59b6;
+      border-color: #9b59b6;
+    }
+    .btn-primary:hover {
+      background-color: #8e44ad;
+      border-color: #8e44ad;
+    }
+    body {
+      background-color: #f3f0fc; /* 淡紫背景 */
+    }
+    .header {
+      background-color: #6f42c1; /* 紫色背景 */
+      color: white;
+      padding: 25px;
+      text-align: center;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .btn-primary {
+      background-color: #6f42c1;
+      border-color: #6f42c1;
+    }
+    .btn-primary:hover {
+      background-color: #5a369e;
+      border-color: #5a369e;
+    }
+    .info-container {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+    table th, table td {
+      vertical-align: middle; /* 垂直置中 */
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-purple">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/mem-end/fts">預約占卜師</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="/mem-end/fts">占卜師列表</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/mem-end/favfts">我的收藏</a>
+          </li>
+        </ul>
+		<!-- 回首頁置中 -->
+		<ul class="navbar-nav ms-auto me-auto"> <!-- 使用 ms-auto 和 me-auto 來居中 -->
+	        <li class="nav-item"><a class="nav-link fs-5" href="/">回首頁</a></li>
+			<li class="nav-item"><a class="nav-link active" href="/mem-end/reservations/paylist">付款模擬</a>
+          </li>
+		</ul>
+      </div>
+    </div>
+  </nav>  
+
+  <div class="container py-4">
+    <!-- 頁面標題 -->
+    <div class="header">
+      <h1 th:text="${ft.companyName} + ' - 可預約時段'"></h1>
+    </div>
+
+     <!-- 搜尋條件區塊 -->
+    <div class="card-body">
+
+    </div>
+
+    <!-- 表格區塊 -->
+    <div class="info-container">
+      <div class="table-responsive">
+        <table id="availableTable" class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>日期</th>
+              <th>星期</th>
+              <th>開始時間</th>
+              <th>結束時間</th>
+              <th>預約</th>
+            </tr>
+          </thead>
+		    <tr th:each="availableTime, stat : ${availableTimes}" style="font-size: 1.2rem;">
+		        <th scope="row" th:text="${stat.index + 1}"></th>
+		      <td th:text="${availableTime.startDate}"></td>
+		      <td th:text="${availableTime.dayOfWeek}"></td> <!-- 顯示星期 -->
+              <td th:text="${availableTime.startTime}"></td>
+              <td th:text="${availableTime.endTime}"></td>
+		        <td>
+		            <button class="btn btn-primary" style="font-size: 1.1rem;"
+		            	th:if="${availableTime.status == 0}"
+		                th:data-available-time-no="${availableTime.availableTimeNo}" 
+						th:data-start-date="${availableTime.startDate}"
+			            th:data-start-time="${availableTime.startTime}"
+			            th:data-end-time="${availableTime.endTime}"
+			            th:data-price="${ft.price}"
+			            th:data-ft-id="${ft.ftId}"
+			            th:data-skill-name="${ft.skillNo.skillName}"
+		                onclick="handleReservation(this)">預約</button>
+		        </td>
+		    </tr>
+		  </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.6/dist/sweetalert2.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  <script>
+    window.onload = function() {
+      const today = new Date();
+      const startDate = new Date();
+      const endDate = new Date(today.setDate(today.getDate() + 31));
+      const resvDateInput = document.getElementById("resvDate");
+
+//       // 日期的 bootstrap-datepicker 設定
+      $(resvDateInput).datepicker({
+        startDate,
+        endDate,
+        format: 'yyyy-mm-dd',  // 日期格式設置
+        autoclose: true,
+      });
+    };
+
+    // 初始化 DataTable
+    $(document).ready(function () {
+      $('#availableTable').DataTable({
+    	lengthMenu: [10, 20, 50, 100],
+        paging: true,
+        searching: true,
+        info: true,
+        lengthChange: true,
+        pageLength: 20,
+        language: {
+          paginate: {
+            previous: '上一頁',
+            next: '下一頁',
+          },
+          search: '搜尋：',
+          lengthMenu: '每頁顯示 _MENU_ 筆',
+          info: '顯示 _START_ 到 _END_ 筆，共 _TOTAL_ 筆',
+          infoEmpty: '沒有可顯示的資料',
+          zeroRecords: '找不到符合的資料',
+        }
+      });
+    });
+    
+ // 點擊預約按鈕時觸發
+    function handleReservation(btn) {
+        // 獲取按鈕上的屬性
+        const availableTimeNo = btn.getAttribute("data-available-time-no");
+        const startDate = btn.getAttribute("data-start-date");
+        const startTime = btn.getAttribute("data-start-time");
+        const endTime = btn.getAttribute("data-end-time");
+        const price = btn.getAttribute("data-price");
+        const ftId = btn.getAttribute("data-ft-id");
+        const skillName = btn.getAttribute("data-skill-name");
+
+
+// 發送請求抓取占卜師的技能列表
+        fetch(`/ft-end/personalskills/${ftId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('無法取得技能列表');
+                }
+                return response.json();
+            })
+            .then(skills => {
+            	
+                // 動態生成技能下拉選單
+                const skillOptions = skills.map(skill =>
+                    `<option value="${skill.skillNo}">${skill.skillName}</option>`
+                ).join('');
+                const skillDropdown = `
+                    <label for="skillSelect">請選擇想使用的占卜服務：</label>
+                    <select id="skillSelect" class="swal2-select" style="width: 80%; font-size: 16px; padding: 4px; border-radius: 8px;">
+                        ${skillOptions}
+                    </select>
+                `;
+
+                // 組合時間段描述
+                const timeSlot = `${startDate}&#160;&#160;${startTime} ~ ${endTime}`;
+                Swal.fire({
+                    title: '確認預約？',
+                    html: `
+                        您正在預約 ${timeSlot} 時段<p></p>
+                        <p>價格：${price} 元</p>
+                        ${skillDropdown}<p></p>
+                    `,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: '送出',
+                    cancelButtonText: '取消',
+                    preConfirm: () => {
+                        const selectedSkill = document.getElementById('skillSelect').value;
+                        if (!selectedSkill) {
+                            Swal.showValidationMessage('請選擇一項技能');
+                            return false;
+                        }
+                        return { selectedSkill };
+                    },
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const selectedSkill = result.value.selectedSkill;
+
+                        // 如果點擊送出
+                        $.ajax({
+                            url: `/mem-end/reservations/add`,
+                            type: 'POST',
+                            data: { availableTimeNo, price, skillNo: selectedSkill || null, // 確保未選擇技能時傳遞 null
+							},
+                            success: (response) => {
+                                if (response.status === 'success') {
+                                    // 獲取選擇的技能名稱
+                                    const selectedSkillText = document.getElementById('skillSelect').options[
+                                        document.getElementById('skillSelect').selectedIndex
+                                    ].text || '無專長';
+                                    Swal.fire('成功', `您已預約時段：${timeSlot}<p></p>
+                                            <p>價格：${price} 元</p>
+                                            專長：${selectedSkillText}<p></p>
+                                            <span style="color: orangered;">請於指定期限內完成付款，以確保您的預約有效。</span><p></p>
+                                            `, 'success').then(() => location.reload());
+                                } else {
+                                    Swal.fire('錯誤', response.message, 'error');
+                                }
+                            },
+                            error: () => {
+                                Swal.fire('錯誤', '預約失敗，請稍後再試！', 'error');
+                            }
+                        });
+                    }
+                });
+            })
+            .catch(error => {
+                // 無法獲取技能時，提供靜態文本顯示
+                const skillInfo = `
+                    <p style="color: orangered;">占卜師尚未設置專長，確認要預約嗎？</p>
+                `;
+
+                const timeSlot = `${startDate}&#160;&#160;${startTime} ~ ${endTime}`;
+                Swal.fire({
+                    title: '確認預約？',
+                    html: `
+                        您正在預約 ${timeSlot} 時段<p></p>
+                        <p>價格：${price} 元</p>
+                        ${skillInfo}<p></p>
+                    `,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: '送出',
+                    cancelButtonText: '取消',
+                    preConfirm: () => {
+                        // 無需處理技能，直接返回 null 作為 skillNo
+                        return { selectedSkill: null };
+                    },
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const selectedSkill = result.value.selectedSkill;
+
+                        console.log("發送的數據:", { availableTimeNo, price, skillNo: selectedSkill });
+
+                        // 發送請求
+                        $.ajax({
+                            url: `/mem-end/reservations/add`,
+                            type: 'POST',
+                            data: {
+                                availableTimeNo,
+                                price,
+                                skillNo: selectedSkill || null, // 確保未選擇技能時傳遞 null
+                            },
+                            success: (response) => {
+                                Swal.fire('成功', `您已預約時段：${timeSlot}<p></p>
+                                        <p>價格：${price} 元</p><p></p>
+                                        <span style="color: orangered;">請於指定期限內完成付款，以確保您的預約有效。</span><p></p>
+                                        `, 'success').then(() => location.reload());
+                            },
+                            error: () => {
+                                Swal.fire('錯誤', '預約失敗，請稍後再試！', 'error');
+                            }
+                        });
+                    }
+                });
+            });
+
+    }
+        
+        
+
+  </script>  
+</body>
+</html>

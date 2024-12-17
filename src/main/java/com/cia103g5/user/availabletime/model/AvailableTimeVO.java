@@ -2,6 +2,7 @@ package com.cia103g5.user.availabletime.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,6 +15,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Future;
@@ -48,8 +51,21 @@ public class AvailableTimeVO implements Serializable {
 	private LocalDateTime endTime;
 
 	@Column(name = "status", columnDefinition = "TINYINT")
-	private Integer status = 0; // 0:可預約 1:已預約 2:暫停預約
+	private Integer status = 0; // 0:可預約 1:已預約 2:暫停預約 3:保留中
+	
+	@Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+	
+	@PrePersist
+    public void prePersist() {
+        this.updatedAt = LocalDateTime.now();
+    }
 
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+	
 	public AvailableTimeVO() {
 	}
 
@@ -60,7 +76,7 @@ public class AvailableTimeVO implements Serializable {
 		this.startTime = startTime;
 		this.endTime = startTime.plusHours(1);
 	}
-
+	
 	public Integer getAvailableTimeNo() {
 		return availableTimeNo;
 	}
@@ -104,10 +120,18 @@ public class AvailableTimeVO implements Serializable {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+	
+	public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+	
 	@Override
 	public int hashCode() {
-		return java.util.Objects.hash(availableTimeNo, endTime, startTime, status);
+		return Objects.hash(availableTimeNo, startTime, endTime, status);
 	}
 
 	@Override
@@ -119,10 +143,8 @@ public class AvailableTimeVO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		AvailableTimeVO other = (AvailableTimeVO) obj;
-		return java.util.Objects.equals(availableTimeNo, other.availableTimeNo)
-				&& java.util.Objects.equals(endTime, other.endTime)
-				&& java.util.Objects.equals(startTime, other.startTime)
-				&& java.util.Objects.equals(status, other.status);
+		return Objects.equals(availableTimeNo, other.availableTimeNo) && Objects.equals(startTime, other.startTime)
+				&& Objects.equals(endTime, other.endTime) && Objects.equals(status, other.status);
 	}
 
 	@Override
