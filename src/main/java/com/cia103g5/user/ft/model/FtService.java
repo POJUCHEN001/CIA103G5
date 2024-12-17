@@ -6,6 +6,7 @@ import com.cia103g5.user.member.model.MemberRepository;
 import com.cia103g5.user.member.model.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -99,19 +100,58 @@ public class FtService {
     }
 
 
-    // 啟用占卜師
-    public void updateFortuneTellerState(Integer ftId) {
+    // 啟用占卜師 (審核通過)
+    public void turnOnFortuneTeller(Integer ftId) {
         Date approvedDate = new Date();
         FtVO fortuneTeller = findFtOrThrow(ftId);
-        fortuneTeller.setStatus((byte) 1);
+        fortuneTeller.setStatus((byte) 1); // 0待審核 1啟用占卜師 2停權三日 3永久停權
+        fortuneTeller.setCanRev((byte) 1);
+        fortuneTeller.setCanSell((byte) 1);
+        fortuneTeller.setCanPost((byte) 1);
         fortuneTeller.setApprovedTime(approvedDate);
         ftRepository.save(fortuneTeller);
     }
 
-    // 占卜師權限關閉
-    public void updateFortuneTellerState (Integer ftId, byte state){
+    // 占卜師停權設置
+    public void suspendFortuneTeller (Integer ftId){
         FtVO fortuneTeller = findFtOrThrow(ftId);
-        fortuneTeller.setStatus(state);
+        fortuneTeller.setStatus((byte) 2); // 0待審核 1啟用占卜師 2停權三日 3永久停權
+        fortuneTeller.setActionStartedDay(new Date()); // 停權開始時間為當前時間
+        fortuneTeller.setActionEndedDay(new Date(System.currentTimeMillis() +  3 * 24 * 60 * 60 * 1000L));
+        ftRepository.save(fortuneTeller);
+    }
+
+    // 移除停權狀態
+    @Transactional
+    public void reactivateSuspendedRecords() {
+        List<FtVO> suspendedRecords = ftRepository.findAllSuspendedRecordsToReactivate();
+
+        for (FtVO record : suspendedRecords) {
+            record.setStatus((byte) 1); // 將狀態設置為 1 (啟用)
+            record.setActionStartedDay(null); // 清空行動開始日
+            record.setActionEndedDay(null); // 清空行動結束日
+            ftRepository.save(record); // 儲存更新
+        }
+    }
+
+    // 變更發文權限
+    public void updatePostState (Integer ftId){
+        FtVO fortuneTeller = findFtOrThrow(ftId);
+        fortuneTeller.setCanPost((byte) 0);
+        ftRepository.save(fortuneTeller);
+    }
+
+    // 變更預約權限
+    public void updateRevState (Integer ftId){
+        FtVO fortuneTeller = findFtOrThrow(ftId);
+        fortuneTeller.setCanRev((byte) 0);
+        ftRepository.save(fortuneTeller);
+    }
+
+    // 變更商品上架權限
+    public void updateSellState (Integer ftId){
+        FtVO fortuneTeller = findFtOrThrow(ftId);
+        fortuneTeller.setCanSell((byte) 0);
         ftRepository.save(fortuneTeller);
     }
 

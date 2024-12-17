@@ -446,7 +446,15 @@ public class OrdersService {
 			return repository.findFirstOrderYearByFtId(ftId);
 		}
 
-
+		//訂單完成時更新訂單的結束時間
+		@Transactional
+		public void updateEndedTimeForFinishedOrder(Integer orderNo) {
+			 LocalDate currentDate = LocalDate.now();
+		     LocalDateTime localDateTime = currentDate.atStartOfDay(); 
+		     Timestamp timestamp = Timestamp.valueOf(localDateTime);
+			 repository.updateEndedTimeForFinishedOrder(orderNo, timestamp);
+			
+		}
 		
 		
 		

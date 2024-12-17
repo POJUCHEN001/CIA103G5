@@ -47,7 +47,7 @@ public class FtVO implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date approvedTime;
 
-	@Column(name = "status") // 0待審核或停用 1啟用占卜師 2永久停權
+	@Column(name = "status") // 0待審核 1啟用占卜師 2停權三日 3永久停權
 	private Byte status;
 
 	@Column(name = "business_photo", columnDefinition = "LONGBLOB")

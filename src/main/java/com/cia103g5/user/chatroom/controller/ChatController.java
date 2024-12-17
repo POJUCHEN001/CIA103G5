@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cia103g5.user.chatroom.model.ChatMessage;
 import com.cia103g5.user.chatroom.model.ChatService;
 import com.cia103g5.user.chatroom.model.Member;
+import com.cia103g5.user.ft.model.FtService;
+import com.cia103g5.user.ft.model.FtVO;
 import com.cia103g5.user.member.dto.SessionMemberDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -35,6 +37,9 @@ public class ChatController {
 	 
 	 @Autowired
 	 private SimpMessagingTemplate messagingTemplate;
+	 
+	 @Autowired
+	 private FtService ftService;
 	 
 	 //接收前端訊息->存儲到redis->回傳原訊息到指定通道
 	 @MessageMapping("/chat")
@@ -186,6 +191,22 @@ public class ChatController {
                     .body("User not logged in");
 		}		
 		
+	}
+	
+	@ResponseBody
+	@GetMapping("/getMemIdOfFt/{ftId}")
+	public String getMemIdOfFt(@RequestParam String ftId) {
+		Integer id =null;
+		if(ftId.trim()!=null && !ftId.trim().isEmpty()) {
+			id =Integer.valueOf(ftId);
+			
+			FtVO ftVO =ftService.findFtByFtId(id);
+			String memIdOfFt =String.valueOf(ftVO.getMember().getMemberId());
+			
+			return memIdOfFt;
+		}else {
+			return "not found";
+		}
 	}
 	
 	

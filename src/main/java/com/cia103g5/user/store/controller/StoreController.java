@@ -11,13 +11,18 @@ import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cia103g5.user.ft.model.FtService;
+import com.cia103g5.user.ft.model.FtVO;
 import com.cia103g5.user.product.model.ProductVO;
 import com.cia103g5.user.product.model.StoreServiceImpl;
 import com.cia103g5.user.productCollection.model.ProductCollectionServiceImpl;
@@ -27,6 +32,7 @@ import com.cia103g5.user.productImage.model.ProductImageVO;
 
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/store") // 前綴路徑 /store
@@ -38,6 +44,8 @@ public class StoreController {
 	ProductImageService prodimgSvc;
 	@Autowired
 	ProductCollectionServiceImpl productCollectionService;
+	@Autowired
+	private FtService ftService;
 	
 //	@GetMapping("/")
 //	public String toIndex() {
@@ -58,15 +66,17 @@ public class StoreController {
 	        model.addAttribute("products", productPage.getContent());
 	    }
 
+	
+
+	    model.addAttribute("totalPages", productPage.getTotalPages());
+	    model.addAttribute("currentPage", page);
+	    model.addAttribute("pageSize", pageSize);
+	    
 	    // 如果有傳遞用戶 ID，獲取用戶的收藏記錄
 	    if (memId != null) {
 	        List<ProductCollectionVO> collections = productCollectionService.findByMemId(memId);
 	        model.addAttribute("collections", collections);
 	    }
-
-	    model.addAttribute("totalPages", productPage.getTotalPages());
-	    model.addAttribute("currentPage", page);
-	    model.addAttribute("pageSize", pageSize);
 
 	    return "store"; 
 	}
@@ -82,7 +92,7 @@ public class StoreController {
             response.setContentType("image/jpeg");
             out.write(imageBytes);
         } else {
-            // 如果沒有主圖片，顯示默認圖片
+            // 沒有主圖片，顯示默認圖片
             Resource defaultImage = new ClassPathResource("static/img/default.png");
             InputStream inputStream = defaultImage.getInputStream();
             BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
@@ -114,9 +124,48 @@ public class StoreController {
 	@GetMapping("/productdetail/{id}")
 	public String productDetail(@PathVariable("id") Integer id, Model model) {
 		ProductVO product = storeServiceImpl.getProductById(id);
+		
+		//取得該商品的占卜師的memId
+		FtVO ftVO =product.getFtId();
+		String memIdOfFt =String.valueOf(ftVO.getMember().getMemberId());
+		model.addAttribute("memIdOfFt",memIdOfFt);
+		
 		model.addAttribute("product", product);
 		return "productdetail";
 	}
+	
+    @PostMapping("/productcollection/add/{prodNo}")
+    @ResponseBody
+    public ResponseEntity<String> addProductToCollection(@PathVariable Integer prodNo,
+                                                         HttpSession session) {
+        Integer memId = (Integer) session.getAttribute("userId");
+        if (memId == null) {
+            return ResponseEntity.status(401).body("未登入，請先登入！");
+        }
+        if (productCollectionService.existsByProdNoAndMemId(prodNo, memId)) {
+            return ResponseEntity.badRequest().body("商品已在收藏中！");
+        }
+        productCollectionService.addCollection(memId, prodNo);
+        return ResponseEntity.ok("商品已加入收藏！");
+    }
+
+    @PostMapping("/productcollection/remove/{prodNo}")
+    @ResponseBody
+    public ResponseEntity<String> removeProductFromCollection(@PathVariable Integer prodNo,
+                                                              HttpSession session) {
+        Integer memId = (Integer) session.getAttribute("userId");
+        if (memId == null) {
+            return ResponseEntity.status(401).body("未登入，請先登入！");
+        }
+        if (!productCollectionService.existsByProdNoAndMemId(prodNo, memId)) {
+            return ResponseEntity.badRequest().body("商品不在收藏中！");
+        }
+        productCollectionService.removeCollection(memId, prodNo);
+        return ResponseEntity.ok("商品已取消收藏！");
+    }
+	
+	
+	
 
 	// 獲取購物車商品
 //    @GetMapping("/{userId}")

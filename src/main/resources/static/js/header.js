@@ -66,8 +66,8 @@
 				// 清空 sessionStorage 的所有資料
 				// sessionStorage.clear();
 
-				// 跳轉到登入頁面
-				window.location.href = "/login";
+				// 使用後端返回的 redirectURL 進行跳轉
+				window.location.href = result.redirectURL;
 			} else {
 				const result = await response.json();
 				// alert(result.message || "登出失敗，請稍後再試");

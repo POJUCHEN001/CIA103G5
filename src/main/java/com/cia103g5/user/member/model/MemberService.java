@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
+import com.cia103g5.user.member.dto.MemberManageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +29,9 @@ public class MemberService {
 
 	@Autowired
 	private VerificationCodeService verificationCodeService;
+	
+	@Autowired
+	private MemberPasswordTokenService saveTokenService; 
 	
 //	@Value("${mail.verification.subject}")
 //    private String verificationSubject;
@@ -155,10 +161,23 @@ public class MemberService {
 
 		return repository.save(member);
 	}
+	
+	// 根據會員ID 修改密碼
+	public void resetPassword(Integer memberId, String password) {
+		MemberVO member = repository.findById(memberId)
+				.orElseThrow(() -> new MemberNotFoundException("會員帳號不存在"));
+		member.setPassword(password);
+		repository.save(member);
+	}
 
 	// 查詢所有會員
 	public List<MemberVO> getAllMembers() {
 		return repository.findAll();
+	}
+
+	// 查詢所有會員(後台會員管理)
+	public List<MemberManageDTO> getAllMember(Integer status){
+		return repository.findMembersByStatus( status);
 	}
 
 	// 更新會員照片
@@ -170,12 +189,23 @@ public class MemberService {
 	}
 
 	// 變更會員狀態
-	public void updateMemberStatus(Integer memberId, Integer status) {
-		int updateRows = repository.updateMemberStatus(status, memberId);
-		if (updateRows > 0) {
-
-		}
+	public void updateMemberStatus(Integer memberId) {
+		MemberVO member = repository.findById(memberId)
+				.orElseThrow(() -> new MemberNotFoundException("會員帳號不存在"));
+		member.setStatus(0);
+		repository.save(member);
 	}
+	
+	// 查詢Email是否存在
+	public boolean isEmailExists(String email) {	
+		return repository.findByEmail(email).isPresent();
+	}
+	
+	// 查詢Email並回傳
+	public MemberVO findMemberByEmail(String email) {
+        return repository.findByEmail(email)
+        		.orElseThrow(() -> new RuntimeException("Email不存在: " + email + "is not found!"));
+    }
 
 	// 查詢會員（依 ID）
 	public MemberVO findMemberById(Integer memberId) {
@@ -198,6 +228,7 @@ public class MemberService {
 	public boolean doesAccountExist(String account) {
 		return repository.findByAccount(account).isPresent();
 	}
+	
 
 	// 通用方法：處理照片
 	private void processPhoto(MemberVO member, MultipartFile photo) {
@@ -269,10 +300,18 @@ public class MemberService {
 		}
 	}
 	
-	// get by PK (added by 52)
+	// 根據會員編號更新會員點數
+	 public void updateMemberPoints(Integer memberId, Integer points){
+	  MemberVO member = repository.findById(memberId)
+	    .orElseThrow(() -> new MemberNotFoundException("會員帳號不存在"));
+	  member.setPoints(points);
+	  repository.save(member);
+	 }
+	
+	//get by PK (added by 52)
 	public MemberVO getById(Integer memberId) {
-        return repository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("會員 ID " + memberId + " 不存在"));
-    }
+		return repository.findById(memberId)
+             .orElseThrow(() -> new RuntimeException("會員 ID " + memberId + " 不存在"));
+	}
 
 }

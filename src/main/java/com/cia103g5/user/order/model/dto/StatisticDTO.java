@@ -36,16 +36,20 @@ public class StatisticDTO {
 		this.totalAmount = totalAmount;
 	}
 
-	public Double getRevenue() {
-		return revenue;
+	public Integer getRevenue() {
+		Integer transRevenue =revenue.intValue();
+		
+		return transRevenue;
 	}
 
 	public void setRevenue(Double d) {
 		this.revenue = d;
 	}
 
-	public Double getSettlement() {
-		return settlement;
+	public Integer getSettlement() {
+		Integer transSettlement =settlement.intValue();
+		
+		return transSettlement;
 	}
 
 	public void setSettlement(Double settlement) {

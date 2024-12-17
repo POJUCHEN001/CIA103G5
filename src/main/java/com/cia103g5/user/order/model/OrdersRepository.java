@@ -192,7 +192,9 @@ public interface OrdersRepository extends JpaRepository<OrdersVO, Integer> {
 	Integer findFirstOrderYearByFtId(@Param("ftId") Integer ftId);
 
 	
-	
+	@Modifying
+	@Query(value="UPDATE orders SET ended_time =:time WHERE order_no =:orderNo",nativeQuery =true)
+	void updateEndedTimeForFinishedOrder(@Param("orderNo")Integer orderNo,@Param("time") Timestamp time);
 	
 }
 	

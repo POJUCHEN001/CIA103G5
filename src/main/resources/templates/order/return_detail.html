@@ -31,129 +31,134 @@
 </style>
 </head>
 <body>
+			<!-- 引用 header  將header統一管理-->
+	<div th:replace="~{fragments/header :: header}"></div>
+<!-- 	<header class="p-3 mb-3 border-bottom"> -->
+<!-- 		<div class="container"> -->
+<!-- 			<div -->
+<!-- 				class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"> -->
+<!-- 				<a href="/" -->
+<!-- 					class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none"> -->
+<!-- 					<h1>修卜人生</h1> -->
+<!-- 				</a> -->
 
-	<header class="p-3 mb-3 border-bottom">
-		<div class="container">
-			<div
-				class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-				<a href="/"
-					class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-					<h1>修卜人生</h1>
-				</a>
+<!-- 				<ul -->
+<!-- 					class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"> -->
+<!-- 					<li><a href="#" class="nav-link px-2 link-secondary">想找占卜師</a></li> -->
+<!-- 					<li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li> -->
+<!-- 					<li><a href="#" class="nav-link px-2 link-dark">占卜論壇</a></li> -->
+<!-- 					<li><a href="#" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li> -->
+<!-- 					<li><a href="register" class="nav-link px-2 link-dark">會員註冊</a></li> -->
+<!-- 					<li><a href="login" class="nav-link px-2 link-dark">會員登入</a></li> -->
+<!-- 				</ul> -->
 
-				<ul
-					class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-					<li><a href="#" class="nav-link px-2 link-secondary">想找占卜師</a></li>
-					<li><a href="#" class="nav-link px-2 link-dark">購物商城</a></li>
-					<li><a href="#" class="nav-link px-2 link-dark">占卜論壇</a></li>
-					<li><a href="#" class="nav-link px-2 link-dark">線上塔羅小遊戲</a></li>
-					<li><a href="register" class="nav-link px-2 link-dark">會員註冊</a></li>
-					<li><a href="login" class="nav-link px-2 link-dark">會員登入</a></li>
-				</ul>
+<!-- 				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"> -->
+<!-- 					<input type="search" class="form-control" placeholder="Search..." -->
+<!-- 						aria-label="Search"> -->
+<!-- 				</form> -->
 
-				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-					<input type="search" class="form-control" placeholder="Search..."
-						aria-label="Search">
-				</form>
-
-				<div class="dropdown text-end">
-					<a href="#"
-						class="d-block link-dark text-decoration-none dropdown-toggle"
-						id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-						<img id="photo-icon" src="/svg/user-solid.svg" alt="mdo"
-						width="32" height="32" class="rounded-circle">
-					</a>
-					<ul class="dropdown-menu text-small"
-						aria-labelledby="dropdownUser1">
-						<li><a class="dropdown-item" href="membercenter">會員中心</a></li>
-						<li><a class="dropdown-item" href="ftcenter">占卜師中心</a></li>
-						<li><a class="dropdown-item" href="#">購物車</a></li>
-						<li><a class="dropdown-item" href="#">客服中心</a></li>
-						<li><hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item logout-link" href="" id="logout"
-							name="logout">登出 </a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</header>
+<!-- 				<div class="dropdown text-end"> -->
+<!-- 					<a href="#" -->
+<!-- 						class="d-block link-dark text-decoration-none dropdown-toggle" -->
+<!-- 						id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false"> -->
+<!-- 						<img id="photo-icon" src="/svg/user-solid.svg" alt="mdo" -->
+<!-- 						width="32" height="32" class="rounded-circle"> -->
+<!-- 					</a> -->
+<!-- 					<ul class="dropdown-menu text-small" -->
+<!-- 						aria-labelledby="dropdownUser1"> -->
+<!-- 						<li><a class="dropdown-item" href="membercenter">會員中心</a></li> -->
+<!-- 						<li><a class="dropdown-item" href="ftcenter">占卜師中心</a></li> -->
+<!-- 						<li><a class="dropdown-item" href="#">購物車</a></li> -->
+<!-- 						<li><a class="dropdown-item" href="#">客服中心</a></li> -->
+<!-- 						<li><hr class="dropdown-divider"></li> -->
+<!-- 						<li><a class="dropdown-item logout-link" href="" id="logout" -->
+<!-- 							name="logout">登出 </a></li> -->
+<!-- 					</ul> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</header> -->
 
 	<!-- <div class="b-example-divider"></div> -->
 	<div class="container-all">
-		  		<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;margin-right:0 !important;" >
-			    <a href="membercenter" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-			      <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-			      <span class="fs-5 fw-semibold">會員中心</span>
-			    </a>
-			    <ul class="list-unstyled ps-0">
-			      <li class="mb-1">
-			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-			          會員中心
-			        </button>
-			        <div class="collapse show" id="home-collapse">
-			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-			            <li><a href="membercenter" class="link-dark rounded">會員基本資料</a></li>
-			            <!-- <li><a href="#" class="link-dark rounded">修改會員資料</a></li> -->
-			            <!-- <li><a href="#" class="link-dark rounded">預約查詢</a></li> -->
-			          </ul>
-			        </div>
-			      </li>
-			      <li class="mb-1">
-			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-			          預約查詢
-			        </button>
-			        <div class="collapse" id="dashboard-collapse">
-			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-			            <li><a href="#" class="link-dark rounded">預約查詢</a></li>
-			            <li><a href="#" class="link-dark rounded">歷史預約查詢</a></li>
-			            <!-- <li><a href="#" class="link-dark rounded">Monthly</a></li> -->
-			            <!-- <li><a href="#" class="link-dark rounded">Annually</a></li> -->
-			          </ul>
-			        </div>
-			      </li>
-			      <li class="mb-1">
-			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-			          訂單查詢
-			        </button>
-			        <div class="collapse" id="orders-collapse">
-			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-			            <li><a th:href="@{/order/mem_order}" class="link-dark rounded">訂單查詢</a></li>
-			            <!-- <li><a href="#" class="link-dark rounded">訂單狀態查詢</a></li> -->
-			<!--             <li><a href="#" class="link-dark rounded">歷史訂單查詢</a></li> -->
-			          </ul>
-			        </div>
-			      </li>
-			      <li class="mb-1">
-			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-			          收藏
-			        </button>
-			        <div class="collapse" id="orders-collapse">
-			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-			            <li><a href="#" class="link-dark rounded">商品收藏</a></li>
-			            <li><a href="#" class="link-dark rounded">占卜師收藏</a></li>
-			            <li><a href="#" class="link-dark rounded">文章收藏</a></li>
-			          </ul>
-			        </div>
-			      </li>
-			      <li class="border-top my-3"></li>
-			      <li class="mb-1">
-			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-			          Account
-			        </button>
-			        <div class="collapse" id="account-collapse">
-			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-			            <li><a href="resetpassword" class="link-dark rounded">變更密碼</a></li>
-			            <li><a href="#" class="link-dark rounded">刪除帳號</a></li>
-			            <!-- <li><a href="#" class="link-dark rounded">客服中心</a></li> -->
-			            <li><a href="#" class="link-dark rounded logout-link" id="logout" name="logout">登出</a></li>
-			          </ul>
-			        </div>
-			      </li>
-			    </ul>
-			  </div>
+			<div th:replace="membercenter :: sidebar"></div>
+<!-- 		  		<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;margin-right:0 !important;" > -->
+<!-- 			    <a href="membercenter" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom"> -->
+<!-- 			      <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg> -->
+<!-- 			      <span class="fs-5 fw-semibold">會員中心</span> -->
+<!-- 			    </a> -->
+<!-- 			    <ul class="list-unstyled ps-0"> -->
+<!-- 			      <li class="mb-1"> -->
+<!-- 			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true"> -->
+<!-- 			          會員中心 -->
+<!-- 			        </button> -->
+<!-- 			        <div class="collapse show" id="home-collapse"> -->
+<!-- 			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> -->
+<!-- 			            <li><a href="membercenter" class="link-dark rounded">會員基本資料</a></li> -->
+<!-- 			            <li><a href="#" class="link-dark rounded">修改會員資料</a></li> -->
+<!-- 			            <li><a href="#" class="link-dark rounded">預約查詢</a></li> -->
+<!-- 			          </ul> -->
+<!-- 			        </div> -->
+<!-- 			      </li> -->
+<!-- 			      <li class="mb-1"> -->
+<!-- 			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false"> -->
+<!-- 			          預約查詢 -->
+<!-- 			        </button> -->
+<!-- 			        <div class="collapse" id="dashboard-collapse"> -->
+<!-- 			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> -->
+<!-- 			            <li><a href="#" class="link-dark rounded">預約查詢</a></li> -->
+<!-- 			            <li><a href="#" class="link-dark rounded">歷史預約查詢</a></li> -->
+<!-- 			            <li><a href="#" class="link-dark rounded">Monthly</a></li> -->
+<!-- 			            <li><a href="#" class="link-dark rounded">Annually</a></li> -->
+<!-- 			          </ul> -->
+<!-- 			        </div> -->
+<!-- 			      </li> -->
+<!-- 			      <li class="mb-1"> -->
+<!-- 			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false"> -->
+<!-- 			          訂單查詢 -->
+<!-- 			        </button> -->
+<!-- 			        <div class="collapse" id="orders-collapse"> -->
+<!-- 			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> -->
+<!-- 			            <li><a th:href="@{/order/mem_order}" class="link-dark rounded">訂單查詢</a></li> -->
+<!-- 			            <li><a href="#" class="link-dark rounded">訂單狀態查詢</a></li> -->
+<!-- 			<!--             <li><a href="#" class="link-dark rounded">歷史訂單查詢</a></li> --> -->
+<!-- 			          </ul> -->
+<!-- 			        </div> -->
+<!-- 			      </li> -->
+<!-- 			      <li class="mb-1"> -->
+<!-- 			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false"> -->
+<!-- 			          收藏 -->
+<!-- 			        </button> -->
+<!-- 			        <div class="collapse" id="orders-collapse"> -->
+<!-- 			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> -->
+<!-- 			            <li><a href="#" class="link-dark rounded">商品收藏</a></li> -->
+<!-- 			            <li><a href="#" class="link-dark rounded">占卜師收藏</a></li> -->
+<!-- 			            <li><a href="#" class="link-dark rounded">文章收藏</a></li> -->
+<!-- 			          </ul> -->
+<!-- 			        </div> -->
+<!-- 			      </li> -->
+<!-- 			      <li class="border-top my-3"></li> -->
+<!-- 			      <li class="mb-1"> -->
+<!-- 			        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false"> -->
+<!-- 			          Account -->
+<!-- 			        </button> -->
+<!-- 			        <div class="collapse" id="account-collapse"> -->
+<!-- 			          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small"> -->
+<!-- 			            <li><a href="resetpassword" class="link-dark rounded">變更密碼</a></li> -->
+<!-- 			            <li><a href="#" class="link-dark rounded">刪除帳號</a></li> -->
+<!-- 			            <li><a href="#" class="link-dark rounded">客服中心</a></li> -->
+<!-- 			            <li><a href="#" class="link-dark rounded logout-link" id="logout" name="logout">登出</a></li> -->
+<!-- 			          </ul> -->
+<!-- 			        </div> -->
+<!-- 			      </li> -->
+<!-- 			    </ul> -->
+<!-- 			  </div> -->
 
 		<main class="main" style="padding:0 100px 0 10px;">
 			<main class="col-md-9 main-content" style="display:block;margin:0 !important;padding:0 !important;">
+					<form method="get" th:action="@{/order/mem_order}">
+						<button class="btn" style="background-color:#1e6bd5;color:white;">返回我的訂單</button>
+					</form>
 					<div class="return-details">
 				        <h1>退貨明細</h1>
 				
@@ -207,5 +212,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>    
  	<script th:src="@{/js/product.js}"></script>
+ 	 <script src="/js/header.js"></script>
 </body>
 </html>

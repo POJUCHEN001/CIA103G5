@@ -24,8 +24,11 @@ public interface FtRepository extends JpaRepository<FtVO, Integer>{
 //    Optional<FtVO> findByMemberAndFtId(MemberVO member, Integer ftId);
 
 //    List<FtVO> findAll();
-    
-    // 
+
 //    List<FtVO> findByStatus();
+
+    // 查詢需要解除停權的記錄
+    @Query("SELECT f FROM FtVO f WHERE f.status = 2 AND f.actionEndedDay <= CURRENT_TIMESTAMP")
+    List<FtVO> findAllSuspendedRecordsToReactivate();
 
 }
