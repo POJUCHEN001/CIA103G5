@@ -47,6 +47,13 @@ public class UserController {
                     Map.of("message", "此帳號已有人使用，請使用其他帳號進行註冊", "error", "此帳號已有人使用，請使用其他帳號進行註冊")
             );
         }
+        // 檢查Email是否已使用
+        if(service.isEmailExists(request.getEmail())) {
+        	return ResponseEntity.badRequest().body(
+                    Map.of("message", "此信箱已註冊，請使用其他信箱進行註冊", "error", "此信箱已註冊，請使用其他信箱進行註冊")
+            );
+        }
+        
         Integer memberId = service.addMember(
                 request.getAccount(),
                 request.getPassword(),
