@@ -94,11 +94,11 @@ public class StoreController {
             out.write(imageBytes);
         } else {
             // 沒有主圖片，顯示默認圖片
-            Resource defaultImage = new ClassPathResource("static/img/default.png");
+            Resource defaultImage = new ClassPathResource("static/img/default.jpg");
             InputStream inputStream = defaultImage.getInputStream();
             BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
             byte[] defaultImageBytes = bufferedInputStream.readAllBytes();
-            response.setContentType("image/png");
+            response.setContentType("image/jpg");
             out.write(defaultImageBytes);
         }
         out.close();

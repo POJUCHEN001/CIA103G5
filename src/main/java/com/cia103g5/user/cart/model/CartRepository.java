@@ -12,5 +12,7 @@ public interface CartRepository {
     
     void deleteCartItem(Integer memberId, Integer prodNo);
     
+    void updateCart(Integer memberId, List<CartVO> cartItems);
+    
     void clearCart(Integer memberId);
 }

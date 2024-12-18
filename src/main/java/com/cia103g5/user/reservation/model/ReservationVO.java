@@ -220,7 +220,7 @@ public class ReservationVO {
 
 	public String getRsvStatusInfo() {
 		if (this.rsvStatus == null) {
-			return "Unknown"; // Handle null values
+			return "審核中"; // Handle null values
 		}
 		if (this.rsvStatus == 2) {
 			return "預約取消";
@@ -229,7 +229,7 @@ public class ReservationVO {
 		} else if (this.payment == 0) {
 			return "審核中";
 		} else {
-			return "Unknown";
+			return "審核中";
 		}
 	}
 	
