@@ -201,7 +201,7 @@ public class FtAvailableTimeController {
 		// 8. 發送通知信
 
 		// 會員的郵件內容
-//		String to = member.getEmail(); // 動態抓取
+//		String to = member.getEmail(); // 動態抓取會員信箱
 //		String subject = "預約成功通知";
 //		String messageText = String.format(
 //				"\n親愛的 %s ，您好：\n\n" + "感謝使用我們的預約服務。您已成功預約！\n\n" + "預約資訊如下：\n\n" + "- 公司名稱：%s\n" + "- 占卜師：%s\n"
