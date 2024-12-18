@@ -50,6 +50,7 @@ public class FtService {
         fortuneTeller.setCanPost((byte) 0);
         fortuneTeller.setCanSell((byte) 0);
         fortuneTeller.setCanRev((byte) 0);
+        fortuneTeller.setStatus((byte) 0);
 
 
         processPhotos(fortuneTeller, new MultipartFile[]{photo, businessPhoto});
