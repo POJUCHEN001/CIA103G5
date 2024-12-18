@@ -201,7 +201,7 @@ public class FtAvailableTimeController {
 		// 8. 發送通知信
 
 		// 會員的郵件內容
-		String to = "cia103.g5@gmail.com"; // cia103.g5@gmail.com
+		String to = "mp20136@gmail.com";
 		String subject = "預約成功通知";
 		String messageText = String.format(
 				"\n親愛的 %s ，您好：\n\n" + "感謝使用我們的預約服務。您已成功預約！\n\n" + "預約資訊如下：\n\n" + "- 公司名稱：%s\n" + "- 占卜師：%s\n"
@@ -212,7 +212,7 @@ public class FtAvailableTimeController {
 		mailService.sendSimpleEmail(to, subject, messageText);
 
 		// 占卜師的郵件內容
-		String ftmail = "cia103.g5@gmail.com"; // cia103.g5@gmail.com // 實際上從占卜師資料中獲取郵件地址
+		String ftmail = "mp20136@gmail.com"; // 實際上從占卜師資料中獲取郵件地址
 		String ftSubject = "預約成立通知";
 		String ftMessageText = String.format(
 				"\n親愛的 %s / %s ，您好：\n\n" + "您有一筆新的預約。\n\n" + "詳細資訊如下：\n\n" + "- 預約會員：%s\n" + "- 占卜日期：%s\n"

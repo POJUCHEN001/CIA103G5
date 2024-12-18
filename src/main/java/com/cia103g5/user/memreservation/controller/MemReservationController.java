@@ -104,7 +104,7 @@ public class MemReservationController {
 			availableTimeService.updateStatusByMem(availableTimeNo, 3);
 
 			// 8. 發送通知信
-			String to = "cia103.g5@gmail.com"; // cia103.g5@gmail.com
+			String to = "mp20136@gmail.com"; // cia103.g5@gmail.com
 			String subject = "付款通知";
 			String messageText = String.format(
 					"\n親愛的 %s ，您好：\n\n" + "感謝您使用我們的占卜服務。\n\n" + "付款資訊如下：\n\n" + "- 公司名稱：%s\n" + "- 占卜師：%s\n"
