@@ -55,42 +55,55 @@
     <div class="container cart-container">
         <h2>您的購物車</h2>
 
-        <!-- 判斷購物車是否為空 -->
-        <div th:if="${cartItemsByFtId == null or cartItemsByFtId.isEmpty()}">
-            <p>您的購物車目前是空的！</p>
+<!-- 判斷購物車是否為空 -->
+<div th:if="${cartItemsByFtId == null or cartItemsByFtId.isEmpty()}">
+    <p>您的購物車目前是空的！</p>
+</div>
+
+<!-- 根據商家分組顯示購物車商品 -->
+<div th:if="${cartItemsByFtId != null and not cartItemsByFtId.isEmpty()}">
+    <div th:each="entry : ${cartItemsByFtId}">
+        <!-- 商家名稱 -->
+        <div class="merchant-header">
+            <span th:text="'商家名稱: ' + ${#lists.size(entry.value) > 0 ? entry.value[0].nickname : '未知商家'}">商家名稱</span>
         </div>
 
-        <!-- 根據商家分組顯示購物車商品 -->
-        <div th:if="${cartItemsByFtId != null and not cartItemsByFtId.isEmpty()}">
-            <div th:each="entry : ${cartItemsByFtId}">
-                <!-- 商家標題 -->
-                <div class="merchant-header">
-                    <span th:text="'商家 ID: ' + ${entry.key}">商家ID</span>
-                </div>
+        <!-- 商品列表 -->
+        <div th:each="item : ${entry.value}" class="cart-item">
+            <!-- 商品圖片 -->
+            <img th:src="@{'/image/' + ${item.prodNo}}"
+                 onerror="this.onerror=null; this.src='/static/img/default.jpg';"
+                 alt="商品圖片" style="width: 80px; height: 80px;">
 
-                <!-- 商品列表 -->
-                <div th:each="item : ${entry.value}" class="cart-item">
-                    <img th:src="@{/image/{prodNo}(prodNo=${item.prodNo})}" alt="商品圖片" style="width: 80px; height: 80px; object-fit: cover;">
-                    <span th:text="${item.prodName}">商品名稱</span>
-                    <span th:text="'NT$' + ${item.price}">商品價格</span>
-                    <div class="input-group" style="width: 120px;">
-                        <!-- 減少數量 -->
-                        <form th:action="@{/cart/decrement/{userId}/{prodNo}(userId=${userId}, prodNo=${item.prodNo})}" method="post" style="display:inline;">
-                            <button type="submit" class="btn btn-outline-secondary btn-sm">-</button>
-                        </form>
-                        <!-- 數量顯示 -->
-                        <input type="text" class="form-control text-center" th:value="${item.quantity}" readonly>
-                        <!-- 增加數量 -->
-                        <form th:action="@{/cart/increment/{userId}/{prodNo}(userId=${userId}, prodNo=${item.prodNo})}" method="post" style="display:inline;">
-                            <button type="submit" class="btn btn-outline-secondary btn-sm">+</button>
-                        </form>
-                    </div>
-                    <!-- 刪除商品 -->
-                    <form th:action="@{/cart/remove/{userId}/{prodNo}(userId=${userId}, prodNo=${item.prodNo})}" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger btn-sm">🗑</button>
-                    </form>
-                </div>
+            <!-- 商品名稱與價格 -->
+            <span th:text="${item.prodName}">商品名稱</span>
+            <span th:text="'NT$' + ${item.price}">商品價格</span>
+
+            <!-- 數量 -->
+            <div>
+                數量: <span th:text="${item.quantity}"></span>
             </div>
+        </div>
+    </div>
+</div>
+    <!-- 數量操作 -->
+    <div class="input-group" style="width: 120px;">
+        <!-- 減少數量 -->
+        <form th:action="@{/cart/decrement/{memberId}/{prodNo}(memberId=${memberId}, prodNo=${item.prodNo})}" method="post">
+            <button type="submit" class="btn btn-outline-secondary btn-sm">-</button>
+        </form>
+        <input type="text" class="form-control text-center" th:value="${item.quantity}" readonly>
+        <!-- 增加數量 -->
+        <form th:action="@{/cart/increment/{memberId}/{prodNo}(memberId=${memberId}, prodNo=${item.prodNo})}" method="post">
+            <button type="submit" class="btn btn-outline-secondary btn-sm">+</button>
+        </form>
+    </div>
+    
+    <!-- 刪除商品 -->
+    <form th:action="@{/cart/remove/{memberId}/{prodNo}(memberId=${memberId}, prodNo=${item.prodNo})}" method="post">
+        <button type="submit" class="btn btn-danger btn-sm">🗑</button>
+    </form>
+</div>
 
             <!-- 總結區域 -->
             <div class="cart-summary mt-4">

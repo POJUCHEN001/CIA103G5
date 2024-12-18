@@ -20,33 +20,7 @@
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 
-      <div id="carouselExampleIndicators" class="carousel slide mb-4" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
 
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://placehold.co/1200x400" class="d-block w-100" alt="輪播圖1">
-            </div>
-            <div class="carousel-item">
-                <img src="https://placehold.co/1200x400" class="d-block w-100" alt="輪播圖2">
-            </div>
-            <div class="carousel-item">
-                <img src="https://placehold.co/1200x400" class="d-block w-100" alt="輪播圖3">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">上一張</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">下一張</span>
-        </button>
-    </div>
 
 
     <main>
@@ -56,13 +30,19 @@
         <p th:text="${message ?: '目前沒有商品上架。'}">目前沒有商品上架。</p>
     </div>
 
+   <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <span th:text="${successMessage}">成功加入購物車！</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+
     <!-- 商品列表 -->
     <a th:each="product : ${products}" 
        th:href="@{/store/productdetail/{id}(id=${product.prodNo})}" 
        class="product-card">
         <!-- 商品圖片 -->
         <div class="product-image" 
-             th:style="${product.prodNo != null ? 'background-image: url(/store/image/' + product.prodNo + ');' : 'background-image: url(/static/img/default.png);'}">
+             th:style="${product.prodNo != null ? 'background-image: url(/store/image/' + product.prodNo + ');' : 'background-image: url(/static/img/default.jpg);'}">
              
     
 <!-- 收藏按鈕 -->
