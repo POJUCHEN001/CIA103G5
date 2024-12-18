@@ -245,17 +245,18 @@ public class ReservationServiceSpring {
 	public Map<String, Object> getMemberFinancialData(Integer memberId) {
 		List<ReservationVO> reservations = getReservationsForMember(memberId);
 		Map<String, Object> financialData = new HashMap<>();
+		LocalDateTime now = LocalDateTime.now();
 
 		// Get bank account (assuming it's stored in the member information)
 		MemberVO member = getMemberVO(memberId);
 		financialData.put("bankAccount", member.getBankAccount());
 
 		// Filter paid reservations
-		List<ReservationVO> paidReservations = reservations.stream().filter(r -> r.getPayment() == 1)
+		List<ReservationVO> paidReservations = reservations.stream().filter(r -> r.getPayment() == 1 && r.getRsvStatus() == 1 && r.getAvailableTimeNo().getEndTime().isBefore(now))
 				.collect(Collectors.toList());
 
 		// Calculate monthly spending
-		LocalDateTime now = LocalDateTime.now();
+		
 		int monthlySpending = paidReservations.stream().filter(
 				r -> r.getPaymentTime().getMonth() == now.getMonth() && r.getPaymentTime().getYear() == now.getYear())
 				.mapToInt(ReservationVO::getPrice).sum();
@@ -283,6 +284,7 @@ public class ReservationServiceSpring {
 	public Map<String, Object> getFtFinancialData(Integer ftId) {
 		List<ReservationVO> reservations = getReservationsForFortuneTeller(ftId);
 		Map<String, Object> financialData = new HashMap<>();
+		LocalDateTime now = LocalDateTime.now();
 
 		// Get fortune teller information
 		FtVO fortuneTeller = ftRepository.findById(ftId)
@@ -290,11 +292,11 @@ public class ReservationServiceSpring {
 		financialData.put("bankAccount", fortuneTeller.getBankAccount());
 
 		// Filter paid reservations
-		List<ReservationVO> paidReservations = reservations.stream().filter(r -> r.getPayment() == 1)
+		List<ReservationVO> paidReservations = reservations.stream().filter(r -> r.getPayment() == 1 && r.getRsvStatus() == 1 && r.getAvailableTimeNo().getEndTime().isBefore(now))
 				.collect(Collectors.toList());
 
 		// Calculate monthly earnings with 5% platform fee
-		LocalDateTime now = LocalDateTime.now();
+		
 		double monthlyEarnings = paidReservations.stream()
 				.filter(r -> r.getPaymentTime().getMonth() == now.getMonth()
 						&& r.getPaymentTime().getYear() == now.getYear())
