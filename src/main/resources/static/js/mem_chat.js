@@ -173,6 +173,8 @@ let list = document.getElementById("user-list");
 		//(3)fetch API雙方都加入好友(redis型別為set，不可重複，已加入則不會新增)
 
 let chat_btn = document.getElementById("chat_with_ft");
+let selfnickname = getSelfNickName(); //取得會員名字
+
 chat_btn.addEventListener("click", function() {
 	const userId = getSelfId();
 	if(userId==null){
@@ -212,7 +214,40 @@ chat_btn.addEventListener("click", function() {
 	} else {
 		alert("Please enter a valid fortuneteller ID.");
 	}
-
+	
+	
+		
+	//將新的會員的資料查出來，送到redis，讓ft取得列表時可以查到會員資料
+	let selfmemberId =getSelfId();
+	console.log("自己的會員id"+selfmemberId);
+	console.log("自己的nickname"+selfnickname);
+	
+		fetch("/addNewMemberInfo", {
+			method: "POST",
+			    headers: {
+			        "Content-Type": "application/x-www-form-urlencoded" // 改為 URL 編碼格式
+			    },
+			    body: `memberId=${encodeURIComponent(selfmemberId)}&nickname=${encodeURIComponent(selfnickname)}` // 使用 URL 編碼
+			})
+			.then(response => {
+				if (response.ok) {
+					return response.text(); // 獲取響應文字
+				} else {
+					return response.text().then(error => {
+						throw new Error(error);
+					});
+				}
+			})
+			.then(data => {
+				console.log("已將該會員資訊加入redis");
+				alert(data); // 提示用戶成功
+			})
+			.catch(error => {
+				console.error("會員資訊未加入", error);
+				alert(error.message); // 提示用戶錯誤
+			});
+	
+	
 
 	//fetch API 將ftId 加入個人好友(後端service雙方都互相加入好友)
 	fetch("/chat/add/friend", {
