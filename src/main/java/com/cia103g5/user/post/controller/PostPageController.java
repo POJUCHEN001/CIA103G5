@@ -84,6 +84,8 @@ public class PostPageController {
 	public String popularPage(Model model) {
 		// 查詢所有文章，按 totalLikes 降冪排序，若讚數相同則按創建時間降冪排序
 		List<Post> posts = postRepository.findAll(Sort.by(Sort.Order.desc("totalLikes"), Sort.Order.desc("postTime")));
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        posts.forEach(post -> post.setFormattedPostTime(post.getPostTime().format(formatter)));
 
 		// 將排序後的文章列表傳遞到模板
 		model.addAttribute("posts", posts); // 將文章列表傳遞到模板
@@ -177,8 +179,8 @@ public class PostPageController {
 			post.setPostCategory(postCategory); // 設置文章的分類
 			post.setModTime(LocalDateTime.now()); // 設定文章最後修改時間
 			post.setPostTime(LocalDateTime.now()); // 設定文章發布時間
-			post.setUserType((byte) 1); // 假設 user_type 為 1
-			post.setMemId(6); // 假設 mem_id 為 6
+			//post.setUserType((byte) 1); // 假設 user_type 為 1
+			//post.setMemId(6); // 假設 mem_id 為 6
 
 			// 儲存文章至資料庫
 			postRepository.save(post);
