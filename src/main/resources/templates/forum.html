@@ -6,6 +6,9 @@
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- 引入 FontAwesome -->
 </head>
 <body>
+	<div th:replace="~{fragments/header :: header}"></div>
+
+<script th:src="@{/js/header.js}"></script>
 <div th:fragment="content"> <!-- 定義 content 片段 -->
     <div class="forum-content">
         <div class="post-list">
