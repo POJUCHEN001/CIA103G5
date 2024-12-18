@@ -27,83 +27,118 @@
             padding: 0;
             background-color: #f9f9f9;
         }
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 10px;
-        }
-        .product-image-main {
-            width: 100%;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .product-image-thumbnails {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .product-thumbnail {
-            width: 80px;
-            height: 80px;
-            cursor: pointer;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid transparent;
-        }
-        .product-thumbnail:hover,
-        .product-thumbnail.active {
-            border-color: #ff5722;
-        }
-        .product-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-        .product-price {
-            font-size: 28px;
-            font-weight: bold;
-            color: rgb(244, 77, 111);
-            margin: 20px 0;
-        }
- .quantity-control {
-            display: flex;
-            align-items: center;
-        }
-        .quantity-btn {
-            width: 30px;
-            height: 30px;
-            text-align: center;
-            border: none;
-            background-color: #e0e0e0;
-            cursor: pointer;
-        }
-        .quantity-input {
-            width: 50px;
-            text-align: center;
-        }
-        .product-actions {
-            margin-top: 20px;
-            display: flex;
-            gap: 20px;
-        }
-        .btn-add-cart,
-        .btn-buy-now {
-            padding: 15px 30px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-        }
-        .btn-add-cart {
-            background-color: #ff5722;
-            color: #fff;
-        }
-        .btn-buy-now {
-            background-color: #e020b0;
-            color: #fff;
-        }
-        
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 10px;
+}
+
+.product-image-main {
+    width: 450px;
+    height: 450px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f1f1f1;
+}
+
+.product-image-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* 保持圖片比例，完全顯示在框內 */
+}
+
+.product-image-thumbnails {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.product-thumbnail {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid transparent;
+}
+
+.product-thumbnail:hover,
+.product-thumbnail.active {
+    border-color: #ff5722;
+}
+
+.product-details {
+    margin-left: 20px;
+}
+
+.product-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.product-price {
+    font-size: 28px;
+    font-weight: bold;
+    color: rgb(244, 77, 111);
+    margin: 20px 0;
+}
+
+.product-stock {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #28a745;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.quantity-btn {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border: none;
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+.quantity-input {
+    width: 50px;
+    text-align: center;
+    margin: 0 5px;
+}
+
+.product-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.btn-add-cart,
+.btn-buy-now {
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+.btn-add-cart {
+    background-color: #ff5722;
+    color: #fff;
+}
+
+.btn-buy-now {
+    background-color: #e020b0;
+    color: #fff;
+}
         .product-stock {
     margin-top: 10px;
     font-weight: bold;
@@ -125,59 +160,59 @@
 <body>
   	<div th:replace="~{fragments/header :: header}"></div>
 
-
-    <!-- 商品詳情部分 -->
-    <main>
 <div class="container">
-        <div class="row">
-            <!-- 商品圖片區 -->
-<div class="product-image-main">
-    <img id="mainImage" th:src="@{/store/image/{id}(id=${product.prodNo})}" class="img-fluid" alt="商品圖片">
-</div>
-<div class="product-image-thumbnails">
-    <img class="product-thumbnail" th:each="i : ${#numbers.sequence(1, 5)}" 
-         th:src="@{/store/image/{id}(id=${product.prodNo})}" 
-         alt="商品縮略圖" onclick="changeImage(this)">
-</div>
+    <div class="row">
+        <!-- 商品圖片區 -->
+        <div class="col-md-6">
+            <div class="product-image-main">
+                <img id="mainImage" th:src="@{/store/image/{id}(id=${product.prodNo})}" class="img-fluid" alt="商品圖片">
+            </div>
+            <div class="product-image-thumbnails">
+                <img th:each="i : ${#numbers.sequence(1, 5)}"
+                     th:src="@{/store/image/{id}(id=${product.prodNo})}" 
+                     class="product-thumbnail" 
+                     alt="商品縮略圖" 
+                     onclick="changeImage(this)">
+            </div>
+        </div>
+        
+        <!-- 商品詳情區 -->
+        <div class="col-md-6 product-details">
+            <h2 class="product-title" th:text="${product.prodName}">商品名稱</h2>
+            <div class="d-flex align-items-center">
+                <span class="text-warning fs-4">&#9733; <span th:text="${product.rating}">5.0</span></span>
+                <span class="ms-2">(<span th:text="${product.ratingCount}">0</span> 評價)</span>
+            </div>
+            <h3 class="product-price" th:text="'$' + ${product.price}">商品價格</h3>
+            <p class="product-stock" th:text="'剩餘庫存：' + ${product.availableQuantity} + ' 件'">庫存</p>
 
+            <!-- 購買數量控制 -->
+            <div class="quantity-control">
+                <button class="quantity-btn" type="button" onclick="changeQuantity(-1)">-</button>
+                <input type="number" id="quantity" class="quantity-input" value="1" min="1">
+                <button class="quantity-btn" type="button" onclick="changeQuantity(1)">+</button>
+            </div>
 
-            <!-- 商品詳情區 -->
-            <div class="col-md-6">
-                <h2 class="product-title" th:text="${product.prodName}">商品名稱</h2>
-                <div class="d-flex align-items-center">
-                    <span class="text-warning fs-4">&#9733; <span th:text="${product.rating}">5.0</span></span>
-                    <span class="ms-2">(<span th:text="${product.ratingCount}">0</span> 評價)</span>
-                </div>
-                <h3 class="product-price" th:text="'$' + ${product.price}">商品價格</h3>
-                
-                <!-- 顯示庫存 -->
-                <p class="product-stock" style="color: #28a745; font-size: 18px;">
-                    剩餘庫存：<span th:text="${product.availableQuantity}">0</span> 件
-                </p>
-
-                <!-- 購買數量控制 -->
-                <div class="quantity-control">
-                    <button class="quantity-btn" type="button" onclick="changeQuantity(-1)">-</button>
-                    <input type="number" id="quantity" class="quantity-input" name="quantity" value="1" min="1">
-                    <button class="quantity-btn" type="button" onclick="changeQuantity(1)">+</button>
-                </div>
-
-                <!-- 加入購物車表單 -->
-                <form th:action="@{/cart/add/{memberId}/{prodNo}(memberId=${session.memberId}, prodNo=${product.prodNo})}" method="post" style="margin-top: 15px;">
+            <!-- 功能按鈕 -->
+            <div class="product-actions">
+                <form th:action="@{/cart/add/{memberId}/{prodNo}(memberId=${session.memberId}, prodNo=${product.prodNo})}" method="post">
                     <input type="hidden" id="hiddenQuantity" name="quantity" value="1">
-                    <button type="submit" class="btn btn-primary">加入購物車</button>
+                    <button type="submit" class="btn-add-cart">加入購物車</button>
                 </form>
-
-                <!-- 直接購買表單 -->
-                <form th:action="@{/cart/buynow/{memberId}/{prodNo}(memberId=${session.memberId}, prodNo=${product.prodNo})}" method="post" style="margin-top: 10px;">
+                <form th:action="@{/cart/buynow/{memberId}/{prodNo}(memberId=${session.memberId}, prodNo=${product.prodNo})}" method="post">
                     <input type="hidden" id="hiddenQuantityBuy" name="quantity" value="1">
-                    <button type="submit" class="btn btn-danger">直接購買</button>
+                    <button type="submit" class="btn-buy-now">直接購買</button>
                 </form>
                 <!-- 聊聊按鈕 -->
-                <button  type="button" class="btn-buy-now chat_btn" id="chat_with_ft" style="background-color:#c65adc;">聊聊</button>
+                <div>
+                 <input type="hidden"  class="ft" name="ftId" th:value="${memIdOfFt}">
+                 <button  type="button" class="btn chat_btn" id="chat_with_ft" style="background-color:#c65adc;color:white;">聊聊</button>
+             </div>
             </div>
         </div>
     </div>
+</div>
+
                      
                     <!--聊天室結構-->
                      <div id="chat-widget" th:fragment="chatroom" style="height:45px;">
@@ -279,7 +314,6 @@ function buyNow() {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/vendors/jquery/jquery-3.7.1.min.js"></script>
-    <script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script th:src="@{/js/header.js}"></script>
     <!--聊天室-->
