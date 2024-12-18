@@ -201,25 +201,25 @@ public class FtAvailableTimeController {
 		// 8. 發送通知信
 
 		// 會員的郵件內容
-		String to = "mp20136@gmail.com";
-		String subject = "預約成功通知";
-		String messageText = String.format(
-				"\n親愛的 %s ，您好：\n\n" + "感謝使用我們的預約服務。您已成功預約！\n\n" + "預約資訊如下：\n\n" + "- 公司名稱：%s\n" + "- 占卜師：%s\n"
-						+ "- 占卜日期：%s\n" + "- 占卜時間：%s - %s\n" + "- 預約項目：%s\n" + "- 價格：NT$ %d\n\n" + "期待為您提供專業的占卜服務！\n"
-						+ "如有任何問題，請聯絡我們的客服團隊。\n\n" + "敬祝順心\n			-修卜人生媒合平台\n",
-				name, companyName, nickname, formattedStartDate, formattedStartTime, formattedEndTime, skillName,
-				price);
-		mailService.sendSimpleEmail(to, subject, messageText);
-
-		// 占卜師的郵件內容
-		String ftmail = "mp20136@gmail.com"; // 實際上從占卜師資料中獲取郵件地址
-		String ftSubject = "預約成立通知";
-		String ftMessageText = String.format(
-				"\n親愛的 %s / %s ，您好：\n\n" + "您有一筆新的預約。\n\n" + "詳細資訊如下：\n\n" + "- 預約會員：%s\n" + "- 占卜日期：%s\n"
-						+ "- 占卜時間：%s - %s\n" + "- 預約項目：%s\n" + "- 價格：NT$ %d\n\n" + "請準時為會員提供專業服務。\n"
-						+ "如有任何問題，請聯絡平台客服。\n\n" + "敬祝順心\n			-修卜人生媒合平台\n",
-				memberName, nickname, name, formattedStartDate, formattedStartTime, formattedEndTime, skillName, price);
-		mailService.sendSimpleEmail(ftmail, ftSubject, ftMessageText);
+//		String to = member.getEmail(); // 動態抓取會員信箱
+//		String subject = "預約成功通知";
+//		String messageText = String.format(
+//				"\n親愛的 %s ，您好：\n\n" + "感謝使用我們的預約服務。您已成功預約！\n\n" + "預約資訊如下：\n\n" + "- 公司名稱：%s\n" + "- 占卜師：%s\n"
+//						+ "- 占卜日期：%s\n" + "- 占卜時間：%s - %s\n" + "- 預約項目：%s\n" + "- 價格：NT$ %d\n\n" + "期待為您提供專業的占卜服務！\n"
+//						+ "如有任何問題，請聯絡我們的客服團隊。\n\n" + "敬祝順心\n			-修卜人生媒合平台\n",
+//				name, companyName, nickname, formattedStartDate, formattedStartTime, formattedEndTime, skillName,
+//				price);
+//		mailService.sendSimpleEmail(to, subject, messageText);
+//
+//		// 占卜師的郵件內容
+//		String ftmail = ft.getMember().getEmail(); // 實際上從占卜師資料中獲取郵件地址
+//		String ftSubject = "預約成立通知";
+//		String ftMessageText = String.format(
+//				"\n親愛的 %s / %s ，您好：\n\n" + "您有一筆新的預約。\n\n" + "詳細資訊如下：\n\n" + "- 預約會員：%s\n" + "- 占卜日期：%s\n"
+//						+ "- 占卜時間：%s - %s\n" + "- 預約項目：%s\n" + "- 價格：NT$ %d\n\n" + "請準時為會員提供專業服務。\n"
+//						+ "如有任何問題，請聯絡平台客服。\n\n" + "敬祝順心\n			-修卜人生媒合平台\n",
+//				memberName, nickname, name, formattedStartDate, formattedStartTime, formattedEndTime, skillName, price);
+//		mailService.sendSimpleEmail(ftmail, ftSubject, ftMessageText);
 
 		return ResponseEntity.ok(Map.of("status", "success"));
 
