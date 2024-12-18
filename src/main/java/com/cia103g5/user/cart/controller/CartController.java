@@ -38,15 +38,11 @@ public class CartController {
     @GetMapping("/{memberId}")
     public String getCartItems(@PathVariable Integer memberId, Model model) {
         Map<Integer, List<CartVO>> cartItemsByFtId = cartService.getCartItemsGroupedByFtId(memberId);
-
-        if (cartItemsByFtId == null || cartItemsByFtId.isEmpty()) {
-            model.addAttribute("cartItemsByFtId", new HashMap<>()); // 確保模板不拋出 NullPointer
-        } else {
-            model.addAttribute("cartItemsByFtId", cartItemsByFtId);
-        }
+        model.addAttribute("cartItemsByFtId", cartItemsByFtId == null ? new HashMap<>() : cartItemsByFtId);
         model.addAttribute("memberId", memberId);
-        return "cart";
+        return "/cart";
     }
+
     // 加入購物車
     @PostMapping("/add/{memberId}/{prodNo}")
     public String addToCart(@PathVariable Integer memberId, @PathVariable Integer prodNo,
@@ -59,35 +55,43 @@ public class CartController {
             cartItem.setProdName(product.getProdName());
             cartItem.setQuantity(quantity);
             cartItem.setPrice(product.getPrice());
-            ProductVO productVO =productService.getOneProduct(prodNo);
-            Integer ftId =productVO.getFtId().getFtId();  
-            String nickname =productVO.getFtId().getNickname();
+            ProductVO productVO = productService.getOneProduct(prodNo);
+            Integer ftId = productVO.getFtId().getFtId();
+            String nickname = productVO.getFtId().getNickname();
             System.out.println(nickname);
             cartItem.setFtId(ftId);
             cartItem.setNickname(nickname);
-            
+
             cartService.addOrUpdateCartItem(memberId, cartItem);
             System.out.println("cartItem: " + cartItem);
-           
+
             redirectAttributes.addFlashAttribute("successMessage", "成功加入購物車！");
         }
         return "redirect:/store/products";
     }
-    
+
+    // 移除購物車商品，並重新加載購物車頁面
+    @GetMapping("/remove/{memberId}/{prodNo}")
+    public String removeCartItems(@PathVariable Integer memberId, @PathVariable Integer prodNo, Model model) {
+        cartService.removeCartItem(memberId, prodNo);
+        Map<Integer, List<CartVO>> cartItemsByFtId = cartService.getCartItemsGroupedByFtId(memberId);
+        model.addAttribute("cartItemsByFtId", cartItemsByFtId == null ? new HashMap<>() : cartItemsByFtId);
+        model.addAttribute("memberId", memberId);
+        return "/cart";
+    }
+
     @PostMapping("/cart/decrement/{memberId}/{prodNo}")
     public String decrementCartItem(@PathVariable Integer memberId, @PathVariable Integer prodNo) {
         cartService.decrementCartItem(memberId, prodNo);
         return "redirect:/cart/" + memberId; // 返回購物車頁面
     }
-    
+
     @PostMapping("/cart/increment/{memberId}/{prodNo}")
     public String incrementCartItem(@PathVariable Integer memberId, @PathVariable Integer prodNo) {
         cartService.incrementCartItem(memberId, prodNo);
         return "redirect:/cart/" + memberId; // 返回購物車頁面
     }
 
-    
-    
 
     // 直接購買，將商品數據傳遞到結帳頁面
     @PostMapping("/buynow/{memberId}/{prodNo}")
@@ -101,13 +105,12 @@ public class CartController {
             cartItem.setProdName(product.getProdName());
             cartItem.setQuantity(quantity);
             cartItem.setPrice(product.getPrice());
-            ProductVO productVO =productService.getOneProduct(prodNo);
-            Integer ftId =productVO.getFtId().getFtId();           
-            String nickname =productVO.getFtId().getNickname();           
+            ProductVO productVO = productService.getOneProduct(prodNo);
+            Integer ftId = productVO.getFtId().getFtId();
+            String nickname = productVO.getFtId().getNickname();
             cartItem.setFtId(ftId);
             cartItem.setNickname(nickname);
-            
-            
+
 
             session.setAttribute("buyNowItem", cartItem);
             model.addAttribute("buyNowItem", cartItem);

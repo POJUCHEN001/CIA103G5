@@ -1,7 +1,10 @@
 package com.cia103g5.user.cart.model;
 
+import lombok.ToString;
+
 import java.io.Serializable;
 
+@ToString
 public class CartVO implements Serializable {
 
     private Integer prodNo; // 商品 ID
@@ -10,7 +13,7 @@ public class CartVO implements Serializable {
     private Integer price; // 商品價格
     private Integer ftId;
     private String nickname;
-   
+
 
 
 

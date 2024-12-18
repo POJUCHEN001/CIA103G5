@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CartRepositoryImpl implements CartRepository{
+public class CartRepositoryImpl implements CartRepository {
     private final RedisTemplate<String, Object> redisTemplate;
     private final HashOperations<String, String, CartVO> hashOperations;
 
@@ -30,7 +30,7 @@ public class CartRepositoryImpl implements CartRepository{
     @Override
     public List<CartVO> findCartBymemberId(Integer memberId) {
         String redisKey = "cart:" + memberId;
-        return new ArrayList<>(hashOperations.values(redisKey));
+        return hashOperations.values(redisKey);
     }
 
     @Override
@@ -58,5 +58,5 @@ public class CartRepositoryImpl implements CartRepository{
     }
 
  
-    
+
 }
