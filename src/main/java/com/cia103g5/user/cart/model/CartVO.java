@@ -9,19 +9,26 @@ public class CartVO implements Serializable {
     private Integer quantity; // 購買數量
     private Integer price; // 商品價格
     private Integer ftId;
+    private String nickname;
    
 
-    public CartVO() {}
 
-    public CartVO(Integer prodNo, String prodName, Integer quantity, Integer price,Integer ftId) {
-        this.prodNo = prodNo;
-        this.prodName = prodName;
-        this.quantity = quantity;
-        this.price = price;
-        this.ftId = ftId;
-    }
 
-    // Getters and Setters
+    public CartVO() {
+		super();
+	}
+
+	public CartVO(Integer prodNo, String prodName, Integer quantity, Integer price, Integer ftId, String nickname) {
+		super();
+		this.prodNo = prodNo;
+		this.prodName = prodName;
+		this.quantity = quantity;
+		this.price = price;
+		this.ftId = ftId;
+		this.nickname = nickname;
+	}
+
+	// Getters and Setters
     public Integer getProdNo() {
         return prodNo;
     }
@@ -61,4 +68,14 @@ public class CartVO implements Serializable {
     public void setFtId(Integer ftId) {
         this.ftId = ftId;
     }
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+    
+    
 }

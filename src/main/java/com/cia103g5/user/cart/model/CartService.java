@@ -13,8 +13,11 @@ public interface CartService {
 
     
     void removeCartItem(Integer userId, Integer prodNo);
+    
+    void incrementCartItem(Integer memberId, Integer prodNo);
 
-   
+    void decrementCartItem(Integer memberId, Integer prodNo);
+    
     void clearCart(Integer userId);
     
     double calculateTotalAmount(Integer userId);

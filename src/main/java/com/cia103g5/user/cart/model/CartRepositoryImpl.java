@@ -44,11 +44,19 @@ public class CartRepositoryImpl implements CartRepository{
         String redisKey = "cart:" + memberId;
         hashOperations.delete(redisKey, String.valueOf(prodNo));
     }
+    
+    @Override
+   public void updateCart(Integer memberId, List<CartVO> cartItems) {
+        
+        redisTemplate.opsForValue().set(memberId.toString(), cartItems);
+    }
 
     @Override
     public void clearCart(Integer memberId) {
         String redisKey = "cart:" + memberId;
         redisTemplate.delete(redisKey);
     }
+
+ 
     
 }
