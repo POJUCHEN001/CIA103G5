@@ -77,19 +77,19 @@ public class CartController {
         Map<Integer, List<CartVO>> cartItemsByFtId = cartService.getCartItemsGroupedByFtId(memberId);
         model.addAttribute("cartItemsByFtId", cartItemsByFtId == null ? new HashMap<>() : cartItemsByFtId);
         model.addAttribute("memberId", memberId);
-        return "/cart";
+        return "cart";
     }
 
-    @PostMapping("/cart/decrement/{memberId}/{prodNo}")
+    @PostMapping("/decrement/{memberId}/{prodNo}")
     public String decrementCartItem(@PathVariable Integer memberId, @PathVariable Integer prodNo) {
         cartService.decrementCartItem(memberId, prodNo);
         return "redirect:/cart/" + memberId; // 返回購物車頁面
     }
 
-    @PostMapping("/cart/increment/{memberId}/{prodNo}")
+    @PostMapping("/increment/{memberId}/{prodNo}")
     public String incrementCartItem(@PathVariable Integer memberId, @PathVariable Integer prodNo) {
         cartService.incrementCartItem(memberId, prodNo);
-        return "redirect:/cart/" + memberId; // 返回購物車頁面
+        return "redirect:/cart/" + memberId ; // 返回購物車頁面
     }
 
 
