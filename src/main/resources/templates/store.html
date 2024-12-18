@@ -132,7 +132,15 @@
         })
         .catch(() => alert("發生錯誤，請稍後再試！"));
     }
-
+    document.addEventListener("DOMContentLoaded", function () {
+        const alert = document.querySelector(".alert-success");
+        if (alert) {
+            setTimeout(() => {
+                alert.classList.remove("show");
+                alert.classList.add("fade");
+            }, 2000); // 2秒後自動消失
+        }
+    });
 </script>
 <script th:src="@{/js/header.js}"></script>
 
