@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("memberId", memberId);
 
         try {
-            const response = await fetch("/user/ft-register", {
+            const response = await fetch(`/user/ft-register`, {
                 method: "POST",
                 body: formData,
             });
