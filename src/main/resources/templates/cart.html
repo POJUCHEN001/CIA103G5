@@ -51,6 +51,13 @@
             border-radius: 5px;
             margin-top: 20px;
         }
+                .item-image img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
     </style>
 </head>
 <body>
@@ -75,10 +82,10 @@
 
             <!-- 商品列表 -->
             <div th:each="item : ${entry.value}" class="cart-item">
-                <!-- 商品圖片 -->
-                <img th:src="@{'/image/' + ${item.prodNo}}"
-                     onerror="this.onerror=null; this.src='/static/img/default.jpg';"
-                     alt="商品圖片" style="width: 80px; height: 80px;">
+           <!-- 商品圖片 -->
+                    <div class="item-image">
+                        <img th:src="@{'/store/image/' + ${item.prodNo}}" alt="商品圖片">
+                    </div>
 
                 <!-- 商品名稱與價格 -->
                 <span th:text="${item.prodName}">商品名稱</span>
@@ -86,40 +93,37 @@
 
                 <!-- 數量 -->
                 <div>
-                    數量: <span th:text="${item.quantity}" class="am"></span>
+                    數量: <!-- <span th:text="${item.quantity}" class="am"></span> -->
                 </div>
 
-                <!-- 數量操作 -->
-                <div class="input-group" style="width: 120px;">
-                    <!-- 減少數量 -->
-                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="decrementQuantity()">-</button>
-                    <input type="text" class="form-control text-center" th:value="${item.quantity}" readonly>
-                    <!-- 增加數量 -->
-                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="incrementQuantity()">+</button>
-                </div>
+              <div class="input-group" style="width: 120px;">
+    <!-- 減少數量 -->
+    <form th:action="@{/cart/decrement/{memberId}/{prodNo}(memberId=${memberId}, prodNo=${item.prodNo})}" method="post" style="display: inline;">
+        <button type="submit" class="btn btn-outline-secondary btn-sm">-</button>
+    </form>
+    <!-- 顯示數量 -->
+    <input type="text" class="form-control text-center" th:value="${item.quantity}" readonly>
+    <!-- 增加數量 -->
+    <form th:action="@{/cart/increment/{memberId}/{prodNo}(memberId=${memberId}, prodNo=${item.prodNo})}" method="post" style="display: inline;">
+        <button type="submit" class="btn btn-outline-secondary btn-sm">+</button>
+    </form>
+</div>
 
                 <!-- 刪除商品 -->
                 <form th:action="@{/cart/remove/{memberId}/{prodNo}(memberId=${memberId}, prodNo=${item.prodNo})}" method="get">
-                    <button type="submit" class="btn btn-danger btn-sm">🗑</button>
+                    <button type="submit" class="btn btn-danger btn-sm">移除</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- 總結區域 -->
-<!--    <div class="cart-summary mt-4">-->
-<!--        <div>總共：(<span th:text="${cartItemsByFtId.values().stream().flatMap(list -> list.stream()).count()}">0</span>) 件商品</div>-->
-<!--        <div>-->
-<!--            NT$<span th:text="${cartItemsByFtId.values().stream()-->
-<!--                .flatMap(list -> list.stream())-->
-<!--                .mapToInt(item -> item.quantity * item.price)-->
-<!--                .sum()}">0</span>-->
-<!--        </div>-->
-<!--        <form th:action="@{/cart/checkout/{memberId}(memberId=${memberId})}" method="post">-->
-<!--            <button type="submit" class="btn btn-primary w-100 mt-2">去結帳</button>-->
-<!--        </form>-->
-<!--    </div>-->
+<!-- 結帳按鈕 -->
+<div class="d-flex justify-content-end mt-4">
+    <form th:action="@{/checkout/{memberId}(memberId=${memberId})}" method="get">
+        <button type="submit" class="btn btn-success btn-lg">結帳</button>
+    </form>
 </div>
+
 
 <script src="js/header.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

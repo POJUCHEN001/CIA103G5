@@ -66,27 +66,15 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void decrementCartItem(Integer memberId, Integer prodNo) {
-        // 從 Redis 取得購物車數據
-        List<CartVO> cartItems = cartRepository.findCartBymemberId(memberId);
-
-        if (cartItems != null) {
-            // 查找指定商品
-            for (CartVO item : cartItems) {
-                if (item.getProdNo().equals(prodNo)) {
-                    // 減少數量，但不低於 1
-                    int newQuantity = item.getQuantity() - 1;
-                    if (newQuantity > 0) {
-                        item.setQuantity(newQuantity);
-                    } else {
-                        // 如果數量小於等於 0，則移除該商品
-                        cartItems.remove(item);
-                    }
-                    break;
-                }
+        CartVO existingItem = cartRepository.findCartItem(memberId, prodNo);
+        if (existingItem != null) {
+            int newQuantity = existingItem.getQuantity() - 1;
+            if (newQuantity > 0) {
+                existingItem.setQuantity(newQuantity);
+                cartRepository.saveCartItem(memberId, existingItem);
+            } else {
+                cartRepository.deleteCartItem(memberId, prodNo);
             }
-
-            // 更新購物車數據回 Redis
-            cartRepository.updateCart(memberId, cartItems);
         }
     }
 
@@ -95,21 +83,10 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void incrementCartItem(Integer memberId, Integer prodNo) {
-        // 從 Redis 取得購物車數據
-        List<CartVO> cartItems = cartRepository.findCartBymemberId(memberId);
-
-        if (cartItems != null) {
-            // 查找指定商品
-            for (CartVO item : cartItems) {
-                if (item.getProdNo().equals(prodNo)) {
-                    // 增加數量
-                    item.setQuantity(item.getQuantity() + 1);
-                    break;
-                }
-            }
-
-            // 更新購物車數據回 Redis
-            cartRepository.updateCart(memberId, cartItems);
+        CartVO existingItem = cartRepository.findCartItem(memberId, prodNo);
+        if (existingItem != null) {
+            existingItem.setQuantity(existingItem.getQuantity() + 1);
+            cartRepository.saveCartItem(memberId, existingItem);
         }
     }
 
