@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cia103g5.user.availabletime.controller.SseController;
+import com.cia103g5.user.memreservation.model.MemReservationRepository;
 
 @Service
 public class StatusScheduler {
@@ -17,10 +18,13 @@ public class StatusScheduler {
 	private AvailableTimeRepository availableTimeRepository;
 
 	@Autowired
+	private MemReservationRepository memReservationRepository;
+
+	@Autowired
 	private SseController sseController;
 	
-	// 每隔 15 秒檢查一次狀態 = 3 且超過 5 秒的記錄 (實際上可設為每 30 分鐘檢查超過 4 小時的紀錄)
-	@Scheduled(fixedRate = 15000)
+	// 每隔 20 秒檢查一次狀態 = 3 且超過 5 秒的記錄 (實際上可設為每 30 分鐘檢查超過 4 小時的紀錄)
+	@Scheduled(fixedRate = 20000)
 	@Transactional
 	public void checkAndUpdateStatus() {
 		// 當前時間減 20 秒
@@ -30,6 +34,7 @@ public class StatusScheduler {
 		for (AvailableTimeVO record : records) {
 			record.setStatus(0); // status 3 -> 0
 			availableTimeRepository.save(record);
+			memReservationRepository.deleteByAvailableTimeVO(record);
 		}
 		
 		// 通知前端刷新

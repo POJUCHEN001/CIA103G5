@@ -156,4 +156,12 @@ public class FtListService {
             }
         }
     }
+
+    public String getNicknameByFtId(Integer ftId) {
+        // 從 Repository 查詢 FtVO，然後取得 nickname
+        return ftListRepository.findById(ftId)
+                .map(FtVO::getNickname) // 如果找到 FtVO，返回 nickname
+                .orElse("未找到占卜師暱稱"); // 若找不到則返回預設值
+    }
+    
 }

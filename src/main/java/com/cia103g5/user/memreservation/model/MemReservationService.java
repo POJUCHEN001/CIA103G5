@@ -15,14 +15,14 @@ import com.cia103g5.user.ftlist.model.FtListService;
 public class MemReservationService {
 
 	@Autowired
-	MemReservationRepository reservationRepository;
+	MemReservationRepository memReservationRepository;
 
 	@Autowired
 	FtListService ftListService;
 
 	@Autowired
 	AvailableTimeService availableTimeService;
-
+	
 	@Transactional
 	public void insert(int memId, int availableTimeNo) {
 		AvailableTimeVO availableTimeVO = availableTimeService.getAvailableTimeById(availableTimeNo);
@@ -35,17 +35,17 @@ public class MemReservationService {
 		Timestamp createdTime = new Timestamp(System.currentTimeMillis());
 		Integer payment = 0;
 		Integer rsvStatus = 0;
-		reservationRepository.insert(memId, ftId, availableTimeNo, price, createdTime, payment, rsvStatus);
+		memReservationRepository.insert(memId, ftId, availableTimeNo, price, createdTime, payment, rsvStatus);
 		availableTimeService.updateStatus(ftId, availableTimeNo, 1);
 	}
 	
 	@Transactional
 	public void addReservation(Integer memId, Integer ftId, Integer availableTimeNo, Integer price, Integer skillNo) {
-		reservationRepository.insert(memId, ftId, availableTimeNo, price, skillNo);
+		memReservationRepository.insert(memId, ftId, availableTimeNo, price, skillNo);
 	}
 	
 	public Integer getSingleMemIdByAvailableTimeNo(Integer availableTimeNo) {
-        return reservationRepository.findSingleMemIdByAvailableTimeNo(availableTimeNo)
+        return memReservationRepository.findSingleMemIdByAvailableTimeNo(availableTimeNo)
                 .orElse(-1); // 當值不存在時返回 -1 作為預設值
     }
 	
@@ -54,7 +54,7 @@ public class MemReservationService {
         if (availableTimeNo == null) {
             throw new IllegalArgumentException("availableTimeNo 不能為空");
         }
-        reservationRepository.updatePaymentByAvailableTimeNo(availableTimeNo);
+        memReservationRepository.updatePaymentByAvailableTimeNo(availableTimeNo);
     }
 	
 }

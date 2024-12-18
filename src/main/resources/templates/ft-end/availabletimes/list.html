@@ -130,7 +130,7 @@ table th, table td {
 	<div class="container py-4">
 		<!-- 頁面標題 -->
 		<div class="d-flex justify-content-between align-items-center mb-3">
-			<h1 class="header">可預約時段</h1>
+			<h1 class="header" th:text="${nickname} + '的可預約時段'"></h1>
 			<button class="btn btn-success btn-lg" onclick="handleAdd()">新增</button>
 		</div>
 

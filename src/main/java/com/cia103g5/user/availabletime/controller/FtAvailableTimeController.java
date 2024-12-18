@@ -59,6 +59,8 @@ public class FtAvailableTimeController {
 		Object isLogin = session.getAttribute("isLogin");
 		SessionMemberDTO loggedInMember = (SessionMemberDTO) session.getAttribute("loggedInMember");
 		Integer ftId = loggedInMember.getFtId();
+		String nickname = ftListService.getNicknameByFtId(ftId); // 透過 Service 取得 nickname
+		model.addAttribute("nickname", nickname);
 
 		// 查詢所有未過期的時段
 		List<AvailableTimeVO> availableTimes = availableTimeService.getAvailableTimesByFtIdAndAfterDateTime(ftId);
@@ -146,8 +148,8 @@ public class FtAvailableTimeController {
 		Integer ftId = loggedInMember.getFtId();
 		Integer memId = memReservationService.getSingleMemIdByAvailableTimeNo(availableTimeNo);
 		
-		// 更新 availableTime 狀態為 4（時間內未付款）
-				availableTimeService.updateStatusByMem(availableTimeNo, 4);
+		// 更新 availableTime 狀態為 4（時間內未付款，避開排程器檢查）
+		availableTimeService.updateStatusByMem(availableTimeNo, 4);
 				
 		return ResponseEntity.ok(Map.of("status", "success"));
 		
