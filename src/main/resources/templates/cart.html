@@ -58,11 +58,11 @@
 <div th:replace="~{fragments/header :: header}"></div>
 
 <div class="container cart-container">
-    <h2>您的購物車</h2>
+    <h2>購物車</h2>
 
     <!-- 判斷購物車是否為空 -->
     <div th:if="${cartItemsByFtId == null or cartItemsByFtId.isEmpty()}">
-        <p>您的購物車目前��空的！</p>
+        <p>您的購物車目前是空的！</p>
     </div>
 
     <!-- 根據商家分組顯示購物車商品 -->

@@ -55,9 +55,9 @@ public class StoreController {
 	
 	@GetMapping("/products")
 	public String showAvailableProducts(@RequestParam(defaultValue = "0") int page, 
-	                                    @RequestParam(required = false) Integer memId, 
+	                                    @RequestParam(required = false) Integer memberId, 
 	                                    Model model) {
-	    int pageSize = 10; // 每頁顯示的商品數量
+	    int pageSize = 20; // 每頁顯示的商品數量
 	    Pageable pageable = PageRequest.of(page, pageSize);
 	    Page<ProductVO> productPage = storeServiceImpl.getAllAvailableProducts(pageable);
 
@@ -74,8 +74,9 @@ public class StoreController {
 	    model.addAttribute("pageSize", pageSize);
 	    
 	    // 如果有傳遞用戶 ID，獲取用戶的收藏記錄
-	    if (memId != null) {
-	        List<ProductCollectionVO> collections = productCollectionService.findByMemId(memId);
+	    if (memberId != null) {
+	    
+	        List<ProductCollectionVO> collections = productCollectionService.findByMemId(memberId);
 	        model.addAttribute("collections", collections);
 	    }
 

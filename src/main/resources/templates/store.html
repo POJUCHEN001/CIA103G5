@@ -13,6 +13,21 @@
     <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/store.css" rel="stylesheet">
     <style>
+.alert-success {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1050;
+    width: 90%; /* 可根據需要調整寬度 */
+    max-width: 600px; /* 限制最大寬度 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #c3e6cb;
+}
+
+.alert-dismissible .btn-close {
+    color: #155724;
+}
 
 
     </style>
@@ -107,9 +122,9 @@
         .then(response => {
             if (response.status === 401) {
                 alert("請先登入才能收藏商品！");
-                window.location.href = "/login"; // 導向登入頁面
+                window.location.href = "/login";
             } else if (response.ok) {
-                button.classList.toggle("active"); // 切換按鈕樣式
+                button.classList.toggle("active");
                 alert(isActive ? "已取消收藏" : "已加入收藏");
             } else {
                 alert("操作失敗，請稍後再試！");
@@ -117,6 +132,7 @@
         })
         .catch(() => alert("發生錯誤，請稍後再試！"));
     }
+
 </script>
 <script th:src="@{/js/header.js}"></script>
 
