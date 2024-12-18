@@ -3,7 +3,9 @@ package com.cia103g5.user.chatroom.model;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,6 +141,23 @@ public class ChatService {
 		
 	}
 	
+	
+	//將新加入的會員存入redis
+	public void addNewMemberToMemberInfo(String memId,String nickname) {
+		  Map<String, String> hashData = new HashMap<>();
+
+		  hashData.put("id",memId);
+          hashData.put("nickname", nickname);
+          hashData.put("role", "會員");
+          
+          String key ="member:"+memId;
+          System.out.println("key"+key);
+          System.out.println("hashData"+hashData);
+          
+          redisTemplate.opsForHash().putAll(key, hashData);
+          
+
+	}
 	
 	
 }

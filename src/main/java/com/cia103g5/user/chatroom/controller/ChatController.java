@@ -209,6 +209,16 @@ public class ChatController {
 		}
 	}
 	
-	
+	//將新註冊的會員的資訊加到redis
+	@ResponseBody
+	@PostMapping("/addNewMemberInfo")
+	public String addNewMemberInfo(@RequestParam("memberId") String memberId,@RequestParam("nickname") String nickname) {
+		if(memberId.trim()!=null && nickname.trim()!=null) {
+			chatService.addNewMemberToMemberInfo(memberId, nickname);
+			return "add sucessfully";
+		}else {
+			return "failed to add new member information";
+		}
+	}
 	
 }
