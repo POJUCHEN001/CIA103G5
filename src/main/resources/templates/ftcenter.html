@@ -31,7 +31,7 @@
 	
 	<!-- <div class="b-example-divider"></div> -->
 	<div class="container-all">
-		<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;" th:fragment="sidebar">
+		<div class="flex-shrink-0 p-3 bg-white" style="width: 210px;" th:fragment="sidebar">
 			<a href="/ftcenter"
 				class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
 				<svg class="bi me-2" width="30" height="24">
@@ -47,7 +47,6 @@
 							<li><a href="/ftcenter" class="link-dark rounded">基本資料</a></li>
 							<li><a href="/ft-end/personalskills" class="link-dark rounded">專長設置</a></li>
 							<li><a href="/ft-end/availabletimes" class="link-dark rounded">時段設置</a></li>
-							<!-- <li><a href="#" class="link-dark rounded">預約查詢</a></li> -->
 						</ul>
 					</div>
 				</li>
@@ -72,7 +71,6 @@
 						<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
 							<li><a th:href="@{/order/ft_order}"  class="link-dark rounded">訂單管理</a></li>
 							<li><a th:href="@{/order/ft_order/statistics}" class="link-dark rounded">訂單統計</a></li>
-<!-- 							<li><a href="#" class="link-dark rounded">歷史訂單查詢</a></li> -->
 						</ul>
 					</div>
 				</li>
@@ -156,9 +154,6 @@
 						<ul>
 							<li><label for="edit-nickname">占卜師用名：</label> <input
 								type="text" id="edit-nickname" placeholder="請輸入占卜師用名" required></li>
-							<!--<li><label for="edit-bankAccount">轉帳帳號：</label> <input
-								type="text" id="edit-bankAccount" placeholder="請輸入轉帳帳號">
-							</li> -->
 							<li><label for="edit-price">占卜服務價格：</label> <input
 								type="text" id="edit-price" placeholder="請輸入服務價格" min="0"
 								step="1" required></li>
