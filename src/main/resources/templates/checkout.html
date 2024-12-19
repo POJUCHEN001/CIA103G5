@@ -83,29 +83,30 @@
             <!-- 實際應付金額 (總金額 + 運費) -->
             <div class="mt-3">
                 實際應付金額 (含運費): NT$ 
-                <span class="total-amount" th:text="${finalAmount}">0</span>
+                <span th:text="${totalAmount + 60}">0</span>
             </div>
 
-            <!-- 支付方式選單 -->
-            <form method="post" th:action="@{/checkout/confirm/{userId}(userId=${userId})}">
-                <div class="mb-3">
-                    <label for="paymentMethod" class="form-label">選擇支付方式:</label>
-                    <select name="paymentMethod" id="paymentMethod" class="form-select">
-                        <option value="0">信用卡</option>
-                        <option value="1">ATM轉帳</option>
-                        <option value="2">超商代碼</option>
-                        <option value="3">貨到付款</option>
-                    </select>
-                </div>
-
-                <!-- 會員點數折抵 -->
-                <label>使用會員點數: </label>
-                <input type="number" name="pointsUsed" min="0" th:max="${member.points}" value="0" class="form-control mb-2" style="width: 200px;">
-                <div class="text-muted">您目前有 <span th:text="${member.points}">0</span> 點，可折抵 1 點 = 1 元</div>
-
-                <!-- 提交按鈕 -->
-                <button type="submit" class="btn btn-danger w-100 mt-3">下訂單</button>
-            </form>
+			            <!-- 支付方式選單 -->
+			<form method="post" th:action="@{/checkout/confirm/{memberId}(memberId=${memberId})}">
+			    <!-- 支付方式選單 -->
+			    <div class="mb-3">
+			        <label for="paymentMethod" class="form-label">選擇支付方式:</label>
+			        <select name="paymentMethod" id="paymentMethod" class="form-select">
+			            <option value="0">信用卡</option>
+			            <option value="1">ATM轉帳</option>
+			            <option value="2">超商代碼</option>
+			            <option value="3">貨到付款</option>
+			        </select>
+			    </div>
+			
+			    <!-- 會員點數折抵 -->
+			    <label>使用會員點數: </label>
+			    <input type="number" name="pointsUsed" min="0" th:max="${member.points}" value="0" class="form-control mb-2" style="width: 200px;">
+			    <div class="text-muted">您目前有 <span th:text="${member.points}">0</span> 點，可折抵 1 點 = 1 元</div>
+			
+			    <!-- 提交按鈕 -->
+			    <button type="submit" class="btn btn-danger w-100 mt-3">下訂單</button>
+			</form>
         </div>
     </div>
     <script src="js/header.js"></script>

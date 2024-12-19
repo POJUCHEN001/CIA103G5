@@ -7,9 +7,9 @@
             background-color: #f9f9f9;
         }
         .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 10px;
+            max-width: auto;
+            margin: 0 auto;
+            padding: 20px auto;
         }
         .product-grid {
             display: grid;

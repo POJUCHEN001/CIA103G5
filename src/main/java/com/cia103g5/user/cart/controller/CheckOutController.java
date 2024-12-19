@@ -66,7 +66,6 @@ public class CheckOutController {
         model.addAttribute("cartItemsByFtId", cartItemsByFtId);
         model.addAttribute("totalAmount", totalAmount);
         model.addAttribute("member", member);
-
         return "checkout";
     }
 
@@ -157,6 +156,8 @@ public class CheckOutController {
 
         } catch (Exception e) {
             model.addAttribute("error", "結帳失敗：" + e.getMessage());
+            model.addAttribute("member", memberService.findMemberById(memberId)); // 確保返回頁面有 member
+            model.addAttribute("memberId", memberId); // 確保返回頁面有 memberId
             return "checkout";
         }
     }
